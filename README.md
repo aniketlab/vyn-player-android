@@ -1,18 +1,32 @@
 # VYN Player
 
-A modern Android music player built using Jetpack Compose and Media3.
+A modern Android music player built with clean architecture, MediaStore integration, and ExoPlayer.
 
 ## Features
-- Media3 playback engine
-- Queue-based playback system
-- Local songs via MediaStore
-- Runtime permission handling
-- Mini player + full player UI (in progress)
+- 🎵 Local music playback from device storage
+- 📂 MediaStore-based audio loading
+- 🔁 Queue-based playback system
+- ⏯ Play / Pause / Next / Previous controls
+- ⚡ Fast and lightweight architecture
 
 ## Tech Stack
 - Kotlin
 - Jetpack Compose
-- Media3 (ExoPlayer)
+- Android MediaStore API
+- ExoPlayer (Media3)
+- MVVM + Clean Architecture
 
-## Status
-🚧 Under Development
+## Current Status
+🚧 Under Development (v1.2)
+
+Core engine and playback system are implemented. UI improvements coming next.
+
+## Roadmap (v2.0)
+- 🎨 Full UI redesign
+- 🖼 Album art support
+- 🔍 Search and filtering
+- 🎶 Playlist support
+- 🔊 Background playback improvements
+
+## Developer Notes
+This project focuses on building a scalable and future-proof music player with proper architecture.

@@ -1,0 +1,3 @@
+<resources>
+    <style name="Theme.VYNPlayer" parent="android:Theme.Light.NoTitleBar" />
+</resources>

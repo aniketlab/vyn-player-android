@@ -15,6 +15,7 @@ class HomeViewModel(
 ) : ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state.asStateFlow()
+    private var isReloading = false
 
     fun loadSongsIfNeeded() {
         Log.d("HOME_FLOW", "loadSongsIfNeeded called")
@@ -38,7 +39,12 @@ class HomeViewModel(
     }
 
     fun reloadSongs() {
+        if (isReloading) return
+        isReloading = true
+
+        Log.d("HOME_FLOW", "Manual reload triggered")
         repository.clearCache()
         loadSongs()
+        isReloading = false
     }
 }

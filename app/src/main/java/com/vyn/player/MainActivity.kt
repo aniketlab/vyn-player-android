@@ -1,9 +1,11 @@
 package com.vyn.player
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -23,6 +25,7 @@ import com.vyn.player.domain.usecase.GetSongsUseCase
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.navigation.Destinations
 import com.vyn.player.ui.navigation.VynNavGraph
+import com.vyn.player.ui.onboarding.OnboardingViewModel
 import com.vyn.player.ui.screens.home.HomeViewModel
 import com.vyn.player.ui.screens.player.PlayerViewModel
 import com.vyn.player.ui.theme.VynPlayerTheme
@@ -81,6 +84,29 @@ class MainActivity : ComponentActivity() {
                         },
                     )[HomeViewModel::class.java]
 
+                    val onboardingViewModel = ViewModelProvider(
+                        this,
+                        object : ViewModelProvider.Factory {
+                            @Suppress("UNCHECKED_CAST")
+                            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                                return OnboardingViewModel(
+                                    sharedPreferences = applicationContext.getSharedPreferences(
+                                        ONBOARDING_PREFS,
+                                        Context.MODE_PRIVATE,
+                                    ),
+                                ) as T
+                            }
+                        },
+                    )[OnboardingViewModel::class.java]
+
+                    val startDestination = if (onboardingViewModel.state.value.isCompleted) {
+                        Destinations.HOME
+                    } else {
+                        Destinations.ONBOARDING
+                    }
+
+                    Log.d("ONBOARDING_FLOW", "Start destination=$startDestination")
+
                     Column(
                         modifier = Modifier.fillMaxSize(),
                     ) {
@@ -88,8 +114,10 @@ class MainActivity : ComponentActivity() {
                             VynNavGraph(
                                 modifier = Modifier.fillMaxSize(),
                                 navController = navController,
+                                onboardingViewModel = onboardingViewModel,
                                 homeViewModel = homeViewModel,
                                 playerViewModel = playerViewModel,
+                                startDestination = startDestination,
                             )
                         }
 
@@ -119,5 +147,9 @@ class MainActivity : ComponentActivity() {
         ) {
             // trigger song loading
         }
+    }
+
+    companion object {
+        private const val ONBOARDING_PREFS = "onboarding_prefs"
     }
 }

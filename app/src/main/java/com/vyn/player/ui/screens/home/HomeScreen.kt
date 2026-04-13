@@ -21,11 +21,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.screens.player.PlayerUiEvent
@@ -38,15 +37,14 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    val permission = remember {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Manifest.permission.READ_MEDIA_AUDIO
-        } else {
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        }
+    val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        Manifest.permission.READ_MEDIA_AUDIO
+    } else {
+        Manifest.permission.READ_EXTERNAL_STORAGE
     }
+
     val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
+        ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) {
             viewModel.loadSongs()
@@ -57,8 +55,10 @@ fun HomeScreen(
         permission,
     ) == PackageManager.PERMISSION_GRANTED
 
-    LaunchedEffect(hasPermission) {
-        if (hasPermission) {
+    LaunchedEffect(Unit) {
+        if (!hasPermission) {
+            launcher.launch(permission)
+        } else {
             viewModel.loadSongs()
         }
     }
@@ -73,7 +73,9 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Text(text = "Permission required to load songs")
-                Button(onClick = { launcher.launch(permission) }) {
+                Button(onClick = {
+                    launcher.launch(permission)
+                }) {
                     Text(text = "Grant Permission")
                 }
                 Button(onClick = { viewModel.loadSongs() }) {

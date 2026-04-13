@@ -18,12 +18,17 @@ class HomeViewModel(
 
     fun loadSongsIfNeeded() {
         Log.d("HOME_FLOW", "loadSongsIfNeeded called")
-        Log.d("HOME_FLOW", "Songs size: ${_state.value.songs.size}")
-        if (_state.value.songs.isNotEmpty()) return
+        if (_state.value.songs.isNotEmpty()) {
+            Log.d("HOME_FLOW", "Songs already present: ${_state.value.songs.size}")
+            return
+        }
+
         loadSongs()
     }
 
     fun loadSongs() {
+        Log.d("HOME_FLOW", "loadSongs() CALLED")
+
         viewModelScope.launch(Dispatchers.IO) {
             val songs = repository.getSongs()
             Log.d("HOME_FLOW", "Loaded songs: ${songs.size}")

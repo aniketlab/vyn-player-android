@@ -12,10 +12,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.vyn.player.ui.screens.home.HomeScreen
 import com.vyn.player.ui.screens.home.HomeViewModel
+import com.vyn.player.ui.onboarding.OnboardingScreen
+import com.vyn.player.ui.onboarding.OnboardingViewModel
 import com.vyn.player.ui.screens.player.PlayerViewModel
 import com.vyn.player.ui.screens.player.PlayerScreen
 
 object Destinations {
+    const val ONBOARDING = "onboarding"
     const val HOME = "home"
     const val PLAYER = "player"
 }
@@ -24,14 +27,27 @@ object Destinations {
 fun VynNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,
+    onboardingViewModel: OnboardingViewModel,
     homeViewModel: HomeViewModel,
     playerViewModel: PlayerViewModel,
+    startDestination: String,
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Destinations.HOME,
+        startDestination = startDestination,
     ) {
+        composable(Destinations.ONBOARDING) {
+            OnboardingScreen(
+                viewModel = onboardingViewModel,
+                onCompleted = {
+                    navController.navigate(Destinations.HOME) {
+                        popUpTo(Destinations.ONBOARDING) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                },
+            )
+        }
         composable(Destinations.HOME) {
             HomeScreen(
                 viewModel = homeViewModel,

@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.vyn.player.core.player.PlayerController
 import com.vyn.player.data.local.MediaStoreDataSource
 import com.vyn.player.data.repository.MusicRepository
+import com.vyn.player.data.repository.SongRepository
 import com.vyn.player.domain.usecase.GetSongsUseCase
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.navigation.Destinations
@@ -37,6 +38,12 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val playerController = remember(applicationContext) {
                         PlayerController(applicationContext)
+                    }
+                    val mediaStoreDataSource = remember(applicationContext) {
+                        MediaStoreDataSource(applicationContext)
+                    }
+                    val songRepository = remember(applicationContext) {
+                        SongRepository(mediaStoreDataSource)
                     }
 
                     DisposableEffect(Unit) {
@@ -62,10 +69,7 @@ class MainActivity : ComponentActivity() {
                         object : ViewModelProvider.Factory {
                             @Suppress("UNCHECKED_CAST")
                             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                                val mediaStoreDataSource = MediaStoreDataSource(applicationContext)
-                                val musicRepository = MusicRepository(mediaStoreDataSource)
-                                val getSongsUseCase = GetSongsUseCase(musicRepository)
-                                return HomeViewModel(getSongsUseCase) as T
+                                return HomeViewModel(songRepository) as T
                             }
                         },
                     )[HomeViewModel::class.java]

@@ -3,7 +3,7 @@ package com.vyn.player.ui.screens.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vyn.player.domain.usecase.GetSongsUseCase
+import com.vyn.player.data.repository.SongRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val getSongsUseCase: GetSongsUseCase,
+    private val repository: SongRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state.asStateFlow()
@@ -25,14 +25,15 @@ class HomeViewModel(
 
     fun loadSongs() {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("DEBUG", "HomeViewModel.loadSongs() called")
-            val songs = getSongsUseCase()
+            val songs = repository.getSongs()
+            Log.d("HOME_FLOW", "Loaded songs: ${songs.size}")
             Log.d("CHECK_FLOW", "Songs in ViewModel: ${songs.size}")
-            Log.d("DEBUG", "HomeViewModel.loadSongs() result count=${songs.size}")
-            _state.value = HomeState(
-                songs = songs,
-                hasPermission = true,
-            )
+            _state.value = _state.value.copy(songs = songs)
         }
+    }
+
+    fun reloadSongs() {
+        repository.clearCache()
+        loadSongs()
     }
 }

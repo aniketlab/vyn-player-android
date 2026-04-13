@@ -50,7 +50,7 @@ fun HomeScreen(
             .padding(top = 12.dp),
     ) {
         Button(
-            onClick = { viewModel.loadSongs() },
+            onClick = { viewModel.reloadSongs() },
             modifier = Modifier.padding(horizontal = 16.dp),
         ) {
             Text(text = "Reload Songs")

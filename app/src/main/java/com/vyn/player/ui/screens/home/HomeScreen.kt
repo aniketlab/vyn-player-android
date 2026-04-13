@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -119,6 +120,8 @@ fun HomeScreen(
                 items = songs,
                 key = { _, song -> song.id },
             ) { index, song ->
+                val cleanTitle = song.title.replace(Regex("^\\d+\\s*"), "")
+
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -132,8 +135,13 @@ fun HomeScreen(
                         }
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                 ) {
-                    Text(text = song.title)
-                    Text(text = song.artistName)
+                    Text(text = cleanTitle)
+                    if (song.artistName.isNotBlank() && song.artistName != song.title) {
+                        Text(
+                            text = song.artistName,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
                 }
             }
         }

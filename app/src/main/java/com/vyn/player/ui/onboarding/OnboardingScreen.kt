@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -45,10 +44,8 @@ fun OnboardingScreen(
         }
     }
 
-    LaunchedEffect(state.isCompleted) {
-        if (state.isCompleted) {
-            onCompleted()
-        }
+    if (state.isCompleted) {
+        onCompleted()
     }
 
     Column(
@@ -71,12 +68,14 @@ fun OnboardingScreen(
                 stepLabel = "Step 2 of 3",
                 permissionName = permission,
                 onRequestPermission = {
+                    Log.d("ONBOARDING_FLOW", "Permission button clicked")
                     val isGranted = ContextCompat.checkSelfPermission(
                         context,
                         permission,
                     ) == PackageManager.PERMISSION_GRANTED
 
                     if (isGranted) {
+                        Log.d("ONBOARDING_FLOW", "Permission granted")
                         viewModel.onEvent(OnboardingEvent.PermissionGranted)
                         viewModel.onEvent(OnboardingEvent.NextClicked)
                     } else {

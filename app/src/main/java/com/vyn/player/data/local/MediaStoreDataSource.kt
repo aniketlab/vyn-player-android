@@ -2,7 +2,6 @@ package com.vyn.player.data.local
 
 import android.content.ContentUris
 import android.content.Context
-import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import com.vyn.player.data.model.Song
@@ -13,21 +12,19 @@ class MediaStoreDataSource(
     private val context: Context,
 ) {
     suspend fun getSongs(): List<Song> = withContext(Dispatchers.IO) {
-        val collection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
-        } else {
-            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        }
+        val collection = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,
             MediaStore.Audio.Media.TITLE,
             MediaStore.Audio.Media.ARTIST,
             MediaStore.Audio.Media.DURATION,
         )
-        val selection = "${MediaStore.Audio.Media.SIZE} > 0 AND ${MediaStore.Audio.Media.DURATION} > 10000"
+        val selection = "${MediaStore.Audio.Media.SIZE} > 0"
         val sortOrder = "${MediaStore.Audio.Media.TITLE} ASC"
 
         val songs = mutableListOf<Song>()
+
+        Log.d("CHECK_FLOW", "MediaStore query started")
 
         context.contentResolver.query(
             collection,
@@ -36,6 +33,7 @@ class MediaStoreDataSource(
             null,
             sortOrder,
         )?.use { cursor ->
+            Log.d("CHECK_FLOW", "Cursor count: ${cursor.count}")
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
             val titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
             val artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
@@ -59,15 +57,14 @@ class MediaStoreDataSource(
                     uri = contentUri.toString(),
                     durationMillis = durationMillis,
                 )
-            }
-        }
 
-        Log.d("MediaStoreDebug", "Songs found: ${songs.size}")
-        songs.take(5).forEachIndexed { index, song ->
-            Log.d(
-                "MediaStoreDebug",
-                "Song ${index + 1}: title=${song.title}, uri=${song.uri}",
-            )
+                if (songs.size <= 5) {
+                    Log.d(
+                        "CHECK_FLOW",
+                        "Song: ${title} | ${contentUri}",
+                    )
+                }
+            }
         }
 
         songs

@@ -1,5 +1,8 @@
 package com.vyn.player
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,15 +17,30 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import com.vyn.player.core.player.PlayerController
+import com.vyn.player.data.local.MediaStoreDataSource
+import com.vyn.player.data.repository.MusicRepository
+import com.vyn.player.domain.usecase.GetSongsUseCase
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.navigation.Destinations
 import com.vyn.player.ui.navigation.VynNavGraph
+import com.vyn.player.ui.screens.home.HomeViewModel
 import com.vyn.player.ui.screens.player.PlayerViewModel
 import com.vyn.player.ui.theme.VynPlayerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    1001,
+                )
+            }
+        }
 
         setContent {
             VynPlayerTheme {
@@ -50,6 +68,19 @@ class MainActivity : ComponentActivity() {
                         },
                     )[PlayerViewModel::class.java]
 
+                    val homeViewModel = ViewModelProvider(
+                        this,
+                        object : ViewModelProvider.Factory {
+                            @Suppress("UNCHECKED_CAST")
+                            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                                val mediaStoreDataSource = MediaStoreDataSource(applicationContext)
+                                val musicRepository = MusicRepository(mediaStoreDataSource)
+                                val getSongsUseCase = GetSongsUseCase(musicRepository)
+                                return HomeViewModel(getSongsUseCase) as T
+                            }
+                        },
+                    )[HomeViewModel::class.java]
+
                     Column(
                         modifier = Modifier.fillMaxSize(),
                     ) {
@@ -57,6 +88,7 @@ class MainActivity : ComponentActivity() {
                             VynNavGraph(
                                 modifier = Modifier.fillMaxSize(),
                                 navController = navController,
+                                homeViewModel = homeViewModel,
                                 playerViewModel = playerViewModel,
                             )
                         }
@@ -72,6 +104,20 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == 1001 && grantResults.isNotEmpty()
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            // trigger song loading
         }
     }
 }

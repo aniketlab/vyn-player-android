@@ -15,12 +15,15 @@ class HomeViewModel(
 ) : ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state.asStateFlow()
-    private var isLoaded = false
+
+    fun loadSongsIfNeeded() {
+        Log.d("HOME_FLOW", "loadSongsIfNeeded called")
+        Log.d("HOME_FLOW", "Songs size: ${_state.value.songs.size}")
+        if (_state.value.songs.isNotEmpty()) return
+        loadSongs()
+    }
 
     fun loadSongs() {
-        if (isLoaded) return
-        isLoaded = true
-
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("DEBUG", "HomeViewModel.loadSongs() called")
             val songs = getSongsUseCase()

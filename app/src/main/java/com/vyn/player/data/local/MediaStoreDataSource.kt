@@ -22,7 +22,7 @@ class MediaStoreDataSource(
         val selection = "${MediaStore.Audio.Media.SIZE} > 0"
         val sortOrder = "${MediaStore.Audio.Media.TITLE} ASC"
 
-        val songs = mutableListOf<Song>()
+        val uniqueSongs = LinkedHashMap<String, Song>()
 
         Log.d("CHECK_FLOW", "MediaStore query started")
 
@@ -49,7 +49,7 @@ class MediaStoreDataSource(
                     id,
                 )
 
-                songs += Song(
+                val song = Song(
                     id = id,
                     title = title,
                     artistName = artist,
@@ -57,8 +57,9 @@ class MediaStoreDataSource(
                     uri = contentUri.toString(),
                     durationMillis = durationMillis,
                 )
+                uniqueSongs.putIfAbsent(song.uri, song)
 
-                if (songs.size <= 5) {
+                if (uniqueSongs.size <= 5) {
                     Log.d(
                         "CHECK_FLOW",
                         "Song: ${title} | ${contentUri}",
@@ -67,6 +68,6 @@ class MediaStoreDataSource(
             }
         }
 
-        songs
+        uniqueSongs.values.toList()
     }
 }

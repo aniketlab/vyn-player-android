@@ -36,6 +36,7 @@ fun HomeScreen(
     playerViewModel: PlayerViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val songs = state.songs.distinctBy { it.uri }
     val context = LocalContext.current
     val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         Manifest.permission.READ_MEDIA_AUDIO
@@ -100,7 +101,7 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        if (state.songs.isEmpty()) {
+        if (songs.isEmpty()) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
@@ -115,7 +116,7 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             itemsIndexed(
-                items = state.songs,
+                items = songs,
                 key = { _, song -> song.id },
             ) { index, song ->
                 Column(
@@ -124,7 +125,7 @@ fun HomeScreen(
                         .clickable {
                             playerViewModel.onEvent(
                                 PlayerUiEvent.PlaySongs(
-                                    songs = state.songs,
+                                    songs = songs,
                                     startIndex = index,
                                 ),
                             )

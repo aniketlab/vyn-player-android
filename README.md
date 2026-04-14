@@ -1,6 +1,15 @@
 # 🎧 VYN Player
 
-A modern Android music player focused on local playback, performance, and clean architecture.
+A modern Android music player built with a focus on performance, clean architecture, and real-device reliability.
+
+## 💡 Why VYN Player?
+
+This project is focused on building a music player with:
+
+- predictable behavior
+- clean architecture
+- real-device tested features
+- scalable design for future expansion
 
 ## 🚧 Status
 
@@ -21,17 +30,12 @@ This project is currently under active development.
 
 ## 📸 Screenshots
 
-### Screenshot 1
-![Screenshot 1](screenshots/1.png)
-
-### Screenshot 2
-![Screenshot 2](screenshots/2.png)
-
-### Screenshot 3
-![Screenshot 3](screenshots/3.png)
-
-### Screenshot 4
-![Screenshot 4](screenshots/4.png)
+<p align="center">
+  <img src="screenshots/1.png" width="22%"/>
+  <img src="screenshots/2.png" width="22%"/>
+  <img src="screenshots/3.png" width="22%"/>
+  <img src="screenshots/4.png" width="22%"/>
+</p>
 
 ## 🧠 Architecture
 

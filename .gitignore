@@ -1,13 +1,30 @@
+# Build files
 .gradle/
 build/
 */build/
-.idea/
-local.properties
-*.log
-*.bak
-*.zip
+app/build/
+
+# APK / Generated outputs
 *.apk
 *.ap_
+*.aab
+
+# Local configuration
+local.properties
+
+# IDE files
+.idea/
 *.iml
+
+# Logs / temp
+*.log
+*.bak
+
+# Archives
+*.zip
+
+# Android captures
 captures/
+
+# macOS junk
 .DS_Store

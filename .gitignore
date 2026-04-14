@@ -7,6 +7,7 @@ local.properties
 *.bak
 *.zip
 *.apk
+*.ap_
 *.iml
 captures/
 .DS_Store

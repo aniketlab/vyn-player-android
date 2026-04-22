@@ -197,7 +197,7 @@ fun NavItem(
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
-                    modifier = Modifier.widthIn(max = 72.dp),
+                    modifier = Modifier.padding(end = 4.dp),
                 )
             }
         }

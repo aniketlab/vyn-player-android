@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.vyn.player.core.player.PlayerController
 import com.vyn.player.data.model.Song
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
@@ -12,6 +13,22 @@ import kotlinx.coroutines.flow.stateIn
 class PlayerViewModel(
     private val playerController: PlayerController,
 ) : ViewModel() {
+    val currentSong: StateFlow<Song?> = playerController.state
+        .map { playerState -> playerState.currentSong }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
+            initialValue = null,
+        )
+
+    val isPlaying: StateFlow<Boolean> = playerController.state
+        .map { playerState -> playerState.isPlaying }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
+            initialValue = false,
+        )
+
     val uiState: StateFlow<PlayerUiState> = combine(
         playerController.state,
         playerController.position,
@@ -51,6 +68,10 @@ class PlayerViewModel(
     }
 
     fun onTogglePlayPause() {
+        playerController.togglePlayPause()
+    }
+
+    fun togglePlayPause() {
         playerController.togglePlayPause()
     }
 

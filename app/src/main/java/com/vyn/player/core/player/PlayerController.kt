@@ -107,6 +107,14 @@ class PlayerController(
         playSong(song)
     }
 
+    fun next() {
+        playNext()
+    }
+
+    fun previous() {
+        playPrevious()
+    }
+
     fun playSongs(songs: List<Song>, startIndex: Int) {
         if (isReleased.get()) return
 
@@ -149,35 +157,19 @@ class PlayerController(
     fun playNext() {
         if (isReleased.get()) return
 
-        val alignedIndex = player.currentMediaItemIndex.takeIf { it != C.INDEX_UNSET } ?: currentIndex
-        if (alignedIndex >= queue.lastIndex) {
-            player.pause()
-            player.seekTo(alignedIndex.coerceAtLeast(0), player.duration.takeIf { it > 0L } ?: 0L)
-            syncStateFromPlayer()
-            syncPositionFromPlayer(force = true)
-            return
+        if (currentIndex < queue.lastIndex) {
+            currentIndex += 1
+            playCurrent()
         }
-
-        player.seekToNextMediaItem()
-        player.play()
-        syncStateFromPlayer()
-        syncPositionFromPlayer(force = true)
     }
 
     fun playPrevious() {
         if (isReleased.get()) return
 
-        val alignedIndex = player.currentMediaItemIndex.takeIf { it != C.INDEX_UNSET } ?: currentIndex
-        if (alignedIndex <= 0 || queue.isEmpty()) {
-            syncStateFromPlayer()
-            syncPositionFromPlayer(force = true)
-            return
+        if (currentIndex > 0) {
+            currentIndex -= 1
+            playCurrent()
         }
-
-        player.seekToPreviousMediaItem()
-        player.play()
-        syncStateFromPlayer()
-        syncPositionFromPlayer(force = true)
     }
 
     fun togglePlayPause() {
@@ -333,6 +325,19 @@ class PlayerController(
         )
         lastSyncedState = updatedState
         _state.value = updatedState
+    }
+
+    private fun playCurrent() {
+        val song = queue.getOrNull(currentIndex) ?: return
+        val mediaItem = createMediaItem(song) ?: return
+
+        player.setMediaItem(mediaItem)
+        player.prepare()
+        player.play()
+
+        syncStateWithSong(song = song, isPlaying = true)
+        syncPositionFromPlayer(force = true)
+        syncStateFromPlayer()
     }
 
     private companion object {

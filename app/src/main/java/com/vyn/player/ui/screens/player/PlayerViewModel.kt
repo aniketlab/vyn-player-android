@@ -67,6 +67,10 @@ class PlayerViewModel(
         playerController.play(song)
     }
 
+    fun playSongs(songs: List<Song>, startIndex: Int) {
+        playerController.playSongs(songs, startIndex)
+    }
+
     fun onPlaySongs(songs: List<Song>, startIndex: Int) {
         playerController.playSongs(songs, startIndex)
     }
@@ -83,8 +87,16 @@ class PlayerViewModel(
         playerController.playPrevious()
     }
 
+    fun previous() {
+        playerController.previous()
+    }
+
     fun onNext() {
         playerController.playNext()
+    }
+
+    fun next() {
+        playerController.next()
     }
 
     fun onSeek(position: Long) {

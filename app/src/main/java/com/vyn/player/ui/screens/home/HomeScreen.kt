@@ -73,8 +73,11 @@ fun HomeScreen(
                 SongItem(
                     song = song,
                     onClick = {
-                        Log.d("PLAYER_FLOW", "Clicked: ${song.title}")
-                        playerViewModel.playSong(song)
+                        Log.d("PLAYER_FLOW", "Clicked: ${song.title} index=$index queueSize=${songs.size}")
+                        playerViewModel.playSongs(
+                            songs = songs,
+                            startIndex = index,
+                        )
                     },
                 )
             }

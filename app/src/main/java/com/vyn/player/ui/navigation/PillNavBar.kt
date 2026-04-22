@@ -18,10 +18,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -85,7 +85,7 @@ fun PillNavBar(
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth(PillNavBarDefaults.ContainerWidthFraction)
+            .wrapContentWidth()
             .height(PillNavBarDefaults.ContainerHeight)
             .pillShadow(PillNavBarDefaults.ContainerShape)
             .clip(PillNavBarDefaults.ContainerShape)
@@ -112,7 +112,7 @@ fun PillNavBar(
             )
 
             if (index != items.lastIndex) {
-                Spacer(modifier = Modifier.width(6.dp))
+                Spacer(modifier = Modifier.width(10.dp))
             }
         }
     }
@@ -165,7 +165,7 @@ fun NavItem(
                 ),
             )
             .padding(
-                horizontal = PillNavBarDefaults.ItemHorizontalPadding,
+                horizontal = 18.dp,
                 vertical = 10.dp,
             ),
         horizontalArrangement = Arrangement.Center,

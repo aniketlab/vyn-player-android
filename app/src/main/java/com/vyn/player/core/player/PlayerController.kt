@@ -99,7 +99,12 @@ class PlayerController(
     }
 
     fun playSong(song: Song) {
+        Log.d(TAG, "playSong() requested for=${song.title} id=${song.id}")
         playSongs(songs = listOf(song), startIndex = 0)
+    }
+
+    fun play(song: Song) {
+        playSong(song)
     }
 
     fun playSongs(songs: List<Song>, startIndex: Int) {
@@ -111,6 +116,7 @@ class PlayerController(
         }
 
         val boundedIndex = startIndex.coerceIn(0, songs.lastIndex)
+        Log.d(TAG, "playSongs() startIndex=$startIndex boundedIndex=$boundedIndex size=${songs.size}")
         queue = songs.toList()
         currentIndex = boundedIndex
 
@@ -132,6 +138,10 @@ class PlayerController(
         player.prepare()
         player.seekTo(currentIndex, 0L)
         player.play()
+        syncStateWithSong(
+            song = queue.getOrNull(currentIndex),
+            isPlaying = true,
+        )
         syncPositionFromPlayer(force = true)
         syncStateFromPlayer()
     }
@@ -305,6 +315,22 @@ class PlayerController(
             return
         }
 
+        lastSyncedState = updatedState
+        _state.value = updatedState
+    }
+
+    private fun syncStateWithSong(
+        song: Song?,
+        isPlaying: Boolean,
+    ) {
+        if (song == null) return
+
+        val updatedState = lastSyncedState.copy(
+            currentSong = song,
+            isPlaying = isPlaying,
+            queue = queue,
+            currentIndex = currentIndex,
+        )
         lastSyncedState = updatedState
         _state.value = updatedState
     }

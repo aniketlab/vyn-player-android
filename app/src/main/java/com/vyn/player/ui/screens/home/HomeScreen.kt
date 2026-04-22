@@ -1,5 +1,6 @@
 package com.vyn.player.ui.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.components.AppButton
 import com.vyn.player.ui.components.SongItem
-import com.vyn.player.ui.screens.player.PlayerUiEvent
 import com.vyn.player.ui.screens.player.PlayerViewModel
 
 @Composable
@@ -73,12 +73,8 @@ fun HomeScreen(
                 SongItem(
                     song = song,
                     onClick = {
-                        playerViewModel.onEvent(
-                            PlayerUiEvent.PlaySongs(
-                                songs = songs,
-                                startIndex = index,
-                            ),
-                        )
+                        Log.d("PLAYER_FLOW", "Clicked: ${song.title}")
+                        playerViewModel.playSong(song)
                     },
                 )
             }

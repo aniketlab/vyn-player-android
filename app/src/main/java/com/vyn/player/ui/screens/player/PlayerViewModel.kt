@@ -63,6 +63,10 @@ class PlayerViewModel(
         playerController.playSong(song)
     }
 
+    fun playSong(song: Song) {
+        playerController.play(song)
+    }
+
     fun onPlaySongs(songs: List<Song>, startIndex: Int) {
         playerController.playSongs(songs, startIndex)
     }

@@ -146,12 +146,15 @@ class PlayerController(
         player.prepare()
         player.seekTo(currentIndex, 0L)
         player.play()
+        Log.d(
+            "PLAYER_DEBUG",
+            "Queue size=${queue.size}, currentIndex=$currentIndex, playing=${queue[currentIndex].title}",
+        )
         syncStateWithSong(
             song = queue.getOrNull(currentIndex),
             isPlaying = true,
         )
         syncPositionFromPlayer(force = true)
-        syncStateFromPlayer()
     }
 
     fun playNext() {
@@ -329,15 +332,14 @@ class PlayerController(
 
     private fun playCurrent() {
         val song = queue.getOrNull(currentIndex) ?: return
-        val mediaItem = createMediaItem(song) ?: return
-
-        player.setMediaItem(mediaItem)
-        player.prepare()
+        player.seekTo(currentIndex, 0L)
         player.play()
 
+        Log.d(
+            "PLAYER_DEBUG",
+            "Queue size=${queue.size}, currentIndex=$currentIndex, playing=${song.title}",
+        )
         syncStateWithSong(song = song, isPlaying = true)
-        syncPositionFromPlayer(force = true)
-        syncStateFromPlayer()
     }
 
     private companion object {

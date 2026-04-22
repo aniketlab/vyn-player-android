@@ -127,6 +127,7 @@ class PlayerController(
         Log.d(TAG, "playSongs() startIndex=$startIndex boundedIndex=$boundedIndex size=${songs.size}")
         queue = songs.toList()
         currentIndex = boundedIndex
+        Log.d("PLAYER_DEBUG", "FINAL INDEX SET = $currentIndex")
 
         val mediaItems = queue.mapNotNull(::createMediaItem)
         if (mediaItems.isEmpty()) {
@@ -293,10 +294,9 @@ class PlayerController(
     private fun syncStateFromPlayer() {
         if (isReleased.get()) return
 
-        currentIndex = player.currentMediaItemIndex.takeIf { it != C.INDEX_UNSET } ?: currentIndex
         val playbackEnded = player.playbackState == Player.STATE_ENDED
         val updatedState = PlayerState(
-            currentSong = player.currentMediaItem?.mediaId?.let(mediaItemSongs::get),
+            currentSong = queue.getOrNull(currentIndex),
             queue = queue,
             currentIndex = currentIndex,
             isPlaying = if (playbackEnded) false else player.isPlaying,

@@ -1,18 +1,10 @@
 package com.vyn.player.ui.navigation
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandHorizontally
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkHorizontally
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -135,15 +126,6 @@ fun NavItem(
         label = "nav_item_scale",
     )
 
-    val iconScale = animateFloatAsState(
-        targetValue = if (selected) 1.08f else 1f,
-        animationSpec = tween(
-            durationMillis = 140,
-            easing = FastOutSlowInEasing,
-        ),
-        label = "nav_icon_scale",
-    )
-
     val interactionSource = remember { MutableInteractionSource() }
 
     Row(
@@ -165,12 +147,6 @@ fun NavItem(
                 onClick = onClick,
             )
             .defaultMinSize(minHeight = 44.dp)
-            .animateContentSize(
-                animationSpec = tween(
-                    durationMillis = 180,
-                    easing = FastOutSlowInEasing,
-                ),
-            )
             .padding(
                 horizontal = 18.dp,
                 vertical = 10.dp,
@@ -190,26 +166,20 @@ fun NavItem(
                         PillNavBarDefaults.UnselectedIconSize
                     },
                 )
-                .scale(iconScale.value)
-                .alpha(if (selected) 1f else PillNavBarDefaults.UnselectedAlpha),
+                .alpha(if (selected) 1f else 0.7f),
         )
 
-        AnimatedVisibility(
-            visible = selected,
-            enter = fadeIn(animationSpec = tween(120)) + expandHorizontally(animationSpec = tween(160)),
-            exit = fadeOut(animationSpec = tween(120)) + shrinkHorizontally(animationSpec = tween(180)),
-        ) {
+        if (selected) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Spacer(modifier = Modifier.size(PillNavBarDefaults.InnerHorizontalPadding))
+                Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = item.label,
                     color = PillNavBarDefaults.SelectedContentColor,
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
-                    modifier = Modifier.padding(end = 4.dp),
                 )
             }
         }

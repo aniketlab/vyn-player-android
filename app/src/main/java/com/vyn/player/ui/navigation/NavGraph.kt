@@ -1,25 +1,24 @@
 package com.vyn.player.ui.navigation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.Alignment
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.vyn.player.ui.screens.home.HomeScreen
-import com.vyn.player.ui.screens.home.HomeViewModel
 import com.vyn.player.ui.onboarding.OnboardingScreen
 import com.vyn.player.ui.onboarding.OnboardingViewModel
-import com.vyn.player.ui.screens.player.PlayerViewModel
+import com.vyn.player.ui.screens.home.HomeScreen
+import com.vyn.player.ui.screens.home.HomeViewModel
+import com.vyn.player.ui.screens.library.LibraryScreen
 import com.vyn.player.ui.screens.player.PlayerScreen
+import com.vyn.player.ui.screens.player.PlayerViewModel
+import com.vyn.player.ui.screens.search.SearchScreen
 
 object Destinations {
     const val ONBOARDING = "onboarding"
     const val HOME = "home"
+    const val SEARCH = "search"
+    const val LIBRARY = "library"
     const val PLAYER = "player"
 }
 
@@ -53,6 +52,12 @@ fun VynNavGraph(
                 viewModel = homeViewModel,
                 playerViewModel = playerViewModel,
             )
+        }
+        composable(Destinations.SEARCH) {
+            SearchScreen()
+        }
+        composable(Destinations.LIBRARY) {
+            LibraryScreen()
         }
         composable(Destinations.PLAYER) { PlayerScreen(viewModel = playerViewModel) }
     }

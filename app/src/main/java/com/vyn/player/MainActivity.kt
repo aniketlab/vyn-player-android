@@ -5,21 +5,36 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.vyn.player.core.player.PlayerController
 import com.vyn.player.data.local.MediaStoreDataSource
-import com.vyn.player.data.repository.MusicRepository
 import com.vyn.player.data.repository.SongRepository
-import com.vyn.player.domain.usecase.GetSongsUseCase
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.navigation.Destinations
 import com.vyn.player.ui.navigation.VynNavGraph
@@ -97,10 +112,66 @@ class MainActivity : ComponentActivity() {
 
                     Log.d("ONBOARDING_FLOW", "Start destination=$startDestination")
 
-                    Column(
+                    val bottomNavItems = remember {
+                        listOf(
+                            BottomNavItem(
+                                route = Destinations.HOME,
+                                label = "Home",
+                                icon = Icons.Filled.Home,
+                            ),
+                            BottomNavItem(
+                                route = Destinations.SEARCH,
+                                label = "Search",
+                                icon = Icons.Filled.Search,
+                            ),
+                            BottomNavItem(
+                                route = Destinations.LIBRARY,
+                                label = "Library",
+                                icon = Icons.Filled.List,
+                            ),
+                        )
+                    }
+
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val currentDestination = navBackStackEntry?.destination
+                    val showBottomNavigation = currentDestination?.route != Destinations.ONBOARDING
+
+                    Scaffold(
                         modifier = Modifier.fillMaxSize(),
-                    ) {
-                        Box(modifier = Modifier.weight(1f)) {
+                        bottomBar = {
+                            Column {
+                                MiniPlayer(
+                                    viewModel = playerViewModel,
+                                    onClick = {
+                                        navController.navigate(Destinations.PLAYER) {
+                                            launchSingleTop = true
+                                        }
+                                    },
+                                )
+
+                                if (showBottomNavigation) {
+                                    BottomNavigationBar(
+                                        items = bottomNavItems,
+                                        currentDestination = currentDestination,
+                                        onItemClick = { route ->
+                                            navController.navigate(route) {
+                                                popUpTo(navController.graph.findStartDestination().id) {
+                                                    saveState = true
+                                                }
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        },
+                                    )
+                                }
+                            }
+                        },
+                    ) { innerPadding ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(innerPadding),
+                        ) {
                             VynNavGraph(
                                 modifier = Modifier.fillMaxSize(),
                                 navController = navController,
@@ -110,15 +181,6 @@ class MainActivity : ComponentActivity() {
                                 startDestination = startDestination,
                             )
                         }
-
-                        MiniPlayer(
-                            viewModel = playerViewModel,
-                            onClick = {
-                                navController.navigate(Destinations.PLAYER) {
-                                    launchSingleTop = true
-                                }
-                            },
-                        )
                     }
                 }
             }
@@ -127,5 +189,43 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         private const val ONBOARDING_PREFS = "onboarding_prefs"
+    }
+}
+
+private data class BottomNavItem(
+    val route: String,
+    val label: String,
+    val icon: ImageVector,
+)
+
+@Composable
+private fun BottomNavigationBar(
+    items: List<BottomNavItem>,
+    currentDestination: NavDestination?,
+    onItemClick: (String) -> Unit,
+) {
+    NavigationBar {
+        items.forEach { item ->
+            val selected = currentDestination
+                ?.hierarchy
+                ?.any { destination: NavDestination -> destination.route == item.route } == true
+            NavigationBarItem(
+                selected = selected,
+                onClick = {
+                    if (!selected) {
+                        onItemClick(item.route)
+                    }
+                },
+                icon = {
+                    Icon(
+                        imageVector = item.icon,
+                        contentDescription = item.label,
+                    )
+                },
+                label = {
+                    Text(text = item.label)
+                },
+            )
+        }
     }
 }

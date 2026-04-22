@@ -1,4 +1,4 @@
-package com.vyn.player.ui.screens.library
+package com.vyn.player.ui.screens.search
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,13 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun LibraryScreen(
-    state: LibraryState = LibraryState(),
-) {
+fun SearchScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        Text(text = "Library Screen")
+        Text(text = "Search Screen")
     }
 }

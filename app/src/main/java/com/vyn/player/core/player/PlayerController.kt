@@ -144,14 +144,14 @@ class PlayerController(
 
         player.setMediaItems(mediaItems)
         player.prepare()
-        player.seekTo(currentIndex, 0L)
+        player.seekTo(boundedIndex, 0L)
         player.play()
         Log.d(
             "PLAYER_DEBUG",
-            "Queue size=${queue.size}, currentIndex=$currentIndex, playing=${queue[currentIndex].title}",
+            "Queue size=${queue.size}, currentIndex=$boundedIndex, playing=${queue[boundedIndex].title}",
         )
         syncStateWithSong(
-            song = queue.getOrNull(currentIndex),
+            song = queue.getOrNull(boundedIndex),
             isPlaying = true,
         )
         syncPositionFromPlayer(force = true)

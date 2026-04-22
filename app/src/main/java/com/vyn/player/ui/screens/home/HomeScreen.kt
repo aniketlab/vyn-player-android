@@ -69,15 +69,23 @@ fun HomeScreen(
             itemsIndexed(
                 items = songs,
                 key = { _, song -> song.id },
-            ) { index, song ->
+            ) { _, song ->
                 SongItem(
                     song = song,
                     onClick = {
-                        Log.d("PLAYER_FLOW", "Clicked: ${song.title} index=$index queueSize=${songs.size}")
-                        playerViewModel.playSongs(
-                            songs = songs,
-                            startIndex = index,
+                        val actualIndex = songs.indexOfFirst { queuedSong -> queuedSong.id == song.id }
+
+                        Log.d(
+                            "PLAYER_DEBUG",
+                            "Clicked=${song.title}, resolvedIndex=$actualIndex, total=${songs.size}",
                         )
+
+                        if (actualIndex != -1) {
+                            playerViewModel.playSongs(
+                                songs = songs,
+                                startIndex = actualIndex,
+                            )
+                        }
                     },
                 )
             }

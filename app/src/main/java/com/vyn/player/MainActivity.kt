@@ -7,23 +7,20 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -34,12 +31,12 @@ import androidx.navigation.compose.rememberNavController
 import com.vyn.player.core.player.PlayerController
 import com.vyn.player.data.local.MediaStoreDataSource
 import com.vyn.player.data.repository.SongRepository
-import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.navigation.Destinations
 import com.vyn.player.ui.navigation.PillNavBar
 import com.vyn.player.ui.navigation.PillNavItem
 import com.vyn.player.ui.navigation.VynNavGraph
 import com.vyn.player.ui.onboarding.OnboardingViewModel
+import com.vyn.player.ui.player.PlayerHost
 import com.vyn.player.ui.screens.home.HomeViewModel
 import com.vyn.player.ui.screens.player.PlayerViewModel
 import com.vyn.player.ui.theme.VynPlayerTheme
@@ -142,64 +139,48 @@ class MainActivity : ComponentActivity() {
                             ?.any { destination -> destination.route == item.route } == true
                     }?.route
 
-                    Scaffold(
-                        modifier = Modifier.fillMaxSize(),
-                        bottomBar = {
-                            Column {
-                                MiniPlayer(
-                                    viewModel = playerViewModel,
-                                    onClick = {
-                                        navController.navigate(Destinations.PLAYER) {
-                                            launchSingleTop = true
-                                        }
-                                    },
-                                )
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        VynNavGraph(
+                            modifier = Modifier.fillMaxSize(),
+                            navController = navController,
+                            onboardingViewModel = onboardingViewModel,
+                            homeViewModel = homeViewModel,
+                            playerViewModel = playerViewModel,
+                            startDestination = startDestination,
+                        )
 
-                                if (showBottomNavigation) {
-                                    Spacer(modifier = Modifier.height(12.dp))
-
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .systemBarsPadding(),
-                                        contentAlignment = Alignment.BottomCenter,
-                                    ) {
-                                        PillNavBar(
-                                            items = bottomNavItems,
-                                            currentRoute = currentBottomRoute,
-                                            onItemClick = { item ->
-                                                Log.d("NAVBAR_FLOW", "Selected tab: ${item.label}")
-                                                navController.navigate(item.route) {
-                                                    popUpTo(navController.graph.findStartDestination().id) {
-                                                        saveState = true
-                                                    }
-                                                    launchSingleTop = true
-                                                    restoreState = true
+                        if (showBottomNavigation) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .systemBarsPadding(),
+                                contentAlignment = Alignment.BottomCenter,
+                            ) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    PillNavBar(
+                                        items = bottomNavItems,
+                                        currentRoute = currentBottomRoute,
+                                        onItemClick = { item ->
+                                            Log.d("NAVBAR_FLOW", "Selected tab: ${item.label}")
+                                            navController.navigate(item.route) {
+                                                popUpTo(navController.graph.findStartDestination().id) {
+                                                    saveState = true
                                                 }
-                                            },
-                                            modifier = Modifier
-                                                .align(Alignment.BottomCenter)
-                                                .padding(bottom = 20.dp),
-                                        )
-                                    }
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        },
+                                        modifier = Modifier.padding(bottom = 20.dp),
+                                    )
                                 }
                             }
-                        },
-                    ) { innerPadding ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(innerPadding),
-                        ) {
-                            VynNavGraph(
-                                modifier = Modifier.fillMaxSize(),
-                                navController = navController,
-                                onboardingViewModel = onboardingViewModel,
-                                homeViewModel = homeViewModel,
-                                playerViewModel = playerViewModel,
-                                startDestination = startDestination,
-                            )
                         }
+
+                        PlayerHost(
+                            playerViewModel = playerViewModel,
+                        )
                     }
                 }
             }

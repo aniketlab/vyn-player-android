@@ -1,5 +1,6 @@
 package com.vyn.player.ui.screens.player
 
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,16 +18,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun PlayerScreen(
     viewModel: PlayerViewModel,
+    onCollapse: (() -> Unit)? = null,
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val duration = uiState.duration.coerceAtLeast(0L)
-    val currentPosition = uiState.position.coerceIn(0L, duration.takeIf { it > 0L } ?: 0L)
+    val playerState by viewModel.uiState.collectAsStateWithLifecycle()
+    val duration = playerState.duration.coerceAtLeast(0L)
+    val currentPosition = playerState.position.coerceIn(0L, duration.takeIf { it > 0L } ?: 0L)
     val normalizedPosition = if (duration > 0L) {
         (currentPosition.toFloat() / duration.toFloat()).coerceIn(0f, 1f)
     } else {
@@ -39,7 +42,15 @@ fun PlayerScreen(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectVerticalDragGestures { _, dragAmount ->
+                    if (dragAmount > 20) {
+                        onCollapse?.invoke()
+                    }
+                }
+            },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -50,9 +61,9 @@ fun PlayerScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Text(text = uiState.currentSong?.title ?: "No Song")
+            Text(text = playerState.currentSong?.title ?: "No Song")
 
-            if (uiState.isBuffering) {
+            if (playerState.isBuffering) {
                 Text(text = "Buffering...")
             }
 
@@ -78,21 +89,21 @@ fun PlayerScreen(
             ) {
                 Button(
                     onClick = { viewModel.onEvent(PlayerUiEvent.Previous) },
-                    enabled = uiState.currentSong != null,
+                    enabled = playerState.currentSong != null,
                 ) {
                     Text(text = "Previous")
                 }
 
                 Button(
                     onClick = { viewModel.onEvent(PlayerUiEvent.TogglePlayPause) },
-                    enabled = uiState.currentSong != null,
+                    enabled = playerState.currentSong != null,
                 ) {
-                    Text(text = if (uiState.isPlaying) "Pause" else "Play")
+                    Text(text = if (playerState.isPlaying) "Pause" else "Play")
                 }
 
                 Button(
                     onClick = { viewModel.onEvent(PlayerUiEvent.Next) },
-                    enabled = uiState.currentSong != null,
+                    enabled = playerState.currentSong != null,
                 ) {
                     Text(text = "Next")
                 }

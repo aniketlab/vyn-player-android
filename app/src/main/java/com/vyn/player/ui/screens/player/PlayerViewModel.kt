@@ -1,9 +1,12 @@
 package com.vyn.player.ui.screens.player
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vyn.player.core.player.PlayerController
 import com.vyn.player.data.model.Song
+import com.vyn.player.ui.player.PlayerExpansionState
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.StateFlow
@@ -13,6 +16,9 @@ import kotlinx.coroutines.flow.stateIn
 class PlayerViewModel(
     private val playerController: PlayerController,
 ) : ViewModel() {
+    private val _playerExpansionState = MutableStateFlow(PlayerExpansionState.COLLAPSED)
+    val playerExpansionState: StateFlow<PlayerExpansionState> = _playerExpansionState
+
     val currentSong: StateFlow<Song?> = playerController.state
         .map { playerState -> playerState.currentSong }
         .stateIn(
@@ -81,6 +87,16 @@ class PlayerViewModel(
 
     fun togglePlayPause() {
         playerController.togglePlayPause()
+    }
+
+    fun expandPlayer() {
+        Log.d("PLAYER_UI", "Expanded")
+        _playerExpansionState.value = PlayerExpansionState.EXPANDED
+    }
+
+    fun collapsePlayer() {
+        Log.d("PLAYER_UI", "Collapsed")
+        _playerExpansionState.value = PlayerExpansionState.COLLAPSED
     }
 
     fun onPrevious() {

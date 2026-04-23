@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -139,20 +140,13 @@ class MainActivity : ComponentActivity() {
                             ?.any { destination -> destination.route == item.route } == true
                     }?.route
 
-                    Scaffold(
+                    Box(
                         modifier = Modifier.fillMaxSize(),
-                        bottomBar = {
-                            if (showBottomNavigation) {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .systemBarsPadding(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                ) {
-                                    PlayerHost(
-                                        playerViewModel = playerViewModel,
-                                    )
-
+                    ) {
+                        Scaffold(
+                            modifier = Modifier.fillMaxSize(),
+                            bottomBar = {
+                                if (showBottomNavigation) {
                                     PillNavBar(
                                         items = bottomNavItems,
                                         currentRoute = currentBottomRoute,
@@ -169,19 +163,30 @@ class MainActivity : ComponentActivity() {
                                         modifier = Modifier.padding(bottom = 20.dp),
                                     )
                                 }
+                            },
+                        ) { innerPadding ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(innerPadding),
+                            ) {
+                                VynNavGraph(
+                                    modifier = Modifier.fillMaxSize(),
+                                    navController = navController,
+                                    onboardingViewModel = onboardingViewModel,
+                                    homeViewModel = homeViewModel,
+                                    playerViewModel = playerViewModel,
+                                    startDestination = startDestination,
+                                )
                             }
-                        },
-                    ) { innerPadding ->
-                        VynNavGraph(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(innerPadding),
-                            navController = navController,
-                            onboardingViewModel = onboardingViewModel,
-                            homeViewModel = homeViewModel,
-                            playerViewModel = playerViewModel,
-                            startDestination = startDestination,
-                        )
+                        }
+
+                        if (showBottomNavigation) {
+                            PlayerHost(
+                                playerViewModel = playerViewModel,
+                                modifier = Modifier.align(Alignment.BottomCenter),
+                            )
+                        }
                     }
                 }
             }

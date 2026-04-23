@@ -53,7 +53,9 @@ fun MiniPlayer(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable(onClick = onClick)
+                .clickable {
+                    viewModel.expandPlayer()
+                }
                 .padding(horizontal = 14.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {

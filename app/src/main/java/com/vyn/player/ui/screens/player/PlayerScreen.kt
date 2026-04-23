@@ -1,12 +1,14 @@
 package com.vyn.player.ui.screens.player
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
@@ -19,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
@@ -44,9 +47,11 @@ fun PlayerScreen(
 
     Column(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxWidth()
+            .heightIn(min = 300.dp, max = 600.dp)
+            .background(MaterialTheme.colorScheme.background)
             .pointerInput(Unit) {
-                detectVerticalDragGestures { _, dragAmount ->
+                detectVerticalDragGestures { _, dragAmount: Float ->
                     if (dragAmount > 20) {
                         onCollapse?.invoke()
                     }

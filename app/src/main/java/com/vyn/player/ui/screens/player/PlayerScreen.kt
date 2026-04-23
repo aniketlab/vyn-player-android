@@ -1,6 +1,8 @@
 package com.vyn.player.ui.screens.player
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,9 +44,12 @@ fun PlayerScreen(
         sliderValue = normalizedPosition
     }
 
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures { }
+            }
             .pointerInput(Unit) {
                 detectVerticalDragGestures { _, dragAmount ->
                     if (dragAmount > 20) {
@@ -52,61 +57,65 @@ fun PlayerScreen(
                     }
                 }
             },
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.Center,
         ) {
-            Text(text = playerState.currentSong?.title ?: "No Song")
-
-            if (playerState.isBuffering) {
-                Text(text = "Buffering...")
-            }
-
-            Text(text = formatDuration(currentPosition))
-
-            Slider(
-                value = sliderValue,
-                onValueChange = { newValue ->
-                    sliderValue = newValue
-                },
-                onValueChangeFinished = {
-                    val seekPosition = (sliderValue * duration.toFloat()).toLong()
-                    viewModel.onEvent(PlayerUiEvent.Seek(seekPosition))
-                },
-                valueRange = 0f..1f,
-                enabled = duration > 0L,
-            )
-
-            Text(text = formatDuration(duration))
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                Button(
-                    onClick = { viewModel.onEvent(PlayerUiEvent.Previous) },
-                    enabled = playerState.currentSong != null,
-                ) {
-                    Text(text = "Previous")
+                Text(text = playerState.currentSong?.title ?: "No Song")
+
+                if (playerState.isBuffering) {
+                    Text(text = "Buffering...")
                 }
 
-                Button(
-                    onClick = { viewModel.onEvent(PlayerUiEvent.TogglePlayPause) },
-                    enabled = playerState.currentSong != null,
-                ) {
-                    Text(text = if (playerState.isPlaying) "Pause" else "Play")
-                }
+                Text(text = formatDuration(currentPosition))
 
-                Button(
-                    onClick = { viewModel.onEvent(PlayerUiEvent.Next) },
-                    enabled = playerState.currentSong != null,
+                Slider(
+                    value = sliderValue,
+                    onValueChange = { newValue ->
+                        sliderValue = newValue
+                    },
+                    onValueChangeFinished = {
+                        val seekPosition = (sliderValue * duration.toFloat()).toLong()
+                        viewModel.onEvent(PlayerUiEvent.Seek(seekPosition))
+                    },
+                    valueRange = 0f..1f,
+                    enabled = duration > 0L,
+                )
+
+                Text(text = formatDuration(duration))
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    Text(text = "Next")
+                    Button(
+                        onClick = { viewModel.onEvent(PlayerUiEvent.Previous) },
+                        enabled = playerState.currentSong != null,
+                    ) {
+                        Text(text = "Previous")
+                    }
+
+                    Button(
+                        onClick = { viewModel.onEvent(PlayerUiEvent.TogglePlayPause) },
+                        enabled = playerState.currentSong != null,
+                    ) {
+                        Text(text = if (playerState.isPlaying) "Pause" else "Play")
+                    }
+
+                    Button(
+                        onClick = { viewModel.onEvent(PlayerUiEvent.Next) },
+                        enabled = playerState.currentSong != null,
+                    ) {
+                        Text(text = "Next")
+                    }
                 }
             }
         }

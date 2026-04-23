@@ -2,6 +2,7 @@ package com.vyn.player.ui.player
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
@@ -45,15 +47,27 @@ fun PlayerContainer(
             onClick = {
                 viewModel.expandPlayer()
             },
-            modifier = Modifier.alpha(1f - progress),
+            modifier = Modifier
+                .alpha(1f - progress)
+                .pointerInput(progress) {
+                    if (progress < 0.5f) {
+                        awaitPointerEventScope {
+                            while (true) {
+                                awaitPointerEvent()
+                            }
+                        }
+                    }
+                },
         )
 
-        PlayerScreen(
-            viewModel = viewModel,
-            onCollapse = {
-                viewModel.collapsePlayer()
-            },
-            modifier = Modifier.alpha(progress),
-        )
+        if (progress > 0.01f) {
+            PlayerScreen(
+                viewModel = viewModel,
+                onCollapse = {
+                    viewModel.collapsePlayer()
+                },
+                modifier = Modifier.alpha(progress),
+            )
+        }
     }
 }

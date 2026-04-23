@@ -34,6 +34,7 @@ import com.vyn.player.ui.screens.player.PlayerViewModel
 fun MiniPlayer(
     viewModel: PlayerViewModel,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val currentSong by viewModel.currentSong.collectAsStateWithLifecycle()
     val isPlaying by viewModel.isPlaying.collectAsStateWithLifecycle()
@@ -44,7 +45,7 @@ fun MiniPlayer(
         shape = RoundedCornerShape(18.dp),
         tonalElevation = 6.dp,
         color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.96f),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(64.dp)
             .padding(horizontal = 12.dp),

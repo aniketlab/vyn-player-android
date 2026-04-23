@@ -1,17 +1,15 @@
 package com.vyn.player.ui.player
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.screens.player.PlayerViewModel
 
@@ -27,30 +25,20 @@ fun PlayerHost(
 
     val progress by animateFloatAsState(
         targetValue = if (uiState == PlayerExpansionState.EXPANDED) 1f else 0f,
-        animationSpec = tween(300),
+        animationSpec = tween(
+            durationMillis = 220,
+            easing = FastOutSlowInEasing,
+        ),
         label = "player_host_progress",
     )
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        if (progress > 0f) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.5f * progress))
-                    .clickable {
-                        playerViewModel.collapsePlayer()
-                    },
-            )
-        }
-
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.BottomCenter,
-        ) {
-            PlayerContainer(
-                progress = progress,
-                viewModel = playerViewModel,
-            )
-        }
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        PlayerContainer(
+            progress = progress,
+            viewModel = playerViewModel,
+        )
     }
 }

@@ -26,6 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun PlayerScreen(
     viewModel: PlayerViewModel,
     onCollapse: (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
 ) {
     val playerState by viewModel.uiState.collectAsStateWithLifecycle()
     val duration = playerState.duration.coerceAtLeast(0L)
@@ -42,7 +43,7 @@ fun PlayerScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .pointerInput(Unit) {
                 detectVerticalDragGestures { _, dragAmount ->

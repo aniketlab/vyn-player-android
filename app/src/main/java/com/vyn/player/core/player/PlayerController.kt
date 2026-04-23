@@ -143,6 +143,8 @@ class PlayerController(
             currentIndex = boundedIndex.coerceIn(0, queue.lastIndex)
         }
 
+        player.stop()
+        player.clearMediaItems()
         player.setMediaItems(mediaItems)
         player.prepare()
         player.seekTo(boundedIndex, 0L)

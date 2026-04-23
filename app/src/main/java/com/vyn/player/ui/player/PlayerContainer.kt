@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.screens.player.PlayerScreen
 import com.vyn.player.ui.screens.player.PlayerViewModel
@@ -24,6 +26,7 @@ fun PlayerContainer(
     progress: Float,
     viewModel: PlayerViewModel,
 ) {
+    val uiState by viewModel.playerExpansionState.collectAsStateWithLifecycle()
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val height = animateDpAsState(
         targetValue = lerp(64.dp, screenHeight, progress),
@@ -39,7 +42,7 @@ fun PlayerContainer(
             .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
             .background(MaterialTheme.colorScheme.surface),
     ) {
-        if (progress < 0.5f) {
+        if (uiState == PlayerExpansionState.COLLAPSED) {
             MiniPlayer(
                 viewModel = viewModel,
                 onClick = {

@@ -1,5 +1,6 @@
 package com.vyn.player.ui.player
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -18,6 +20,10 @@ fun PlayerHost(
     playerViewModel: PlayerViewModel,
 ) {
     val uiState by playerViewModel.playerExpansionState.collectAsStateWithLifecycle()
+
+    BackHandler(enabled = uiState == PlayerExpansionState.EXPANDED) {
+        playerViewModel.collapsePlayer()
+    }
 
     val progress by animateFloatAsState(
         targetValue = if (uiState == PlayerExpansionState.EXPANDED) 1f else 0f,
@@ -37,9 +43,14 @@ fun PlayerHost(
             )
         }
 
-        PlayerContainer(
-            progress = progress,
-            viewModel = playerViewModel,
-        )
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter,
+        ) {
+            PlayerContainer(
+                progress = progress,
+                viewModel = playerViewModel,
+            )
+        }
     }
 }

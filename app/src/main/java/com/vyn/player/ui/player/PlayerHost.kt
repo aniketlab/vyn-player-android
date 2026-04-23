@@ -1,12 +1,10 @@
 package com.vyn.player.ui.player
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -24,22 +22,14 @@ fun PlayerHost(
         playerViewModel.collapsePlayer()
     }
 
-    val progress by animateFloatAsState(
-        targetValue = if (uiState == PlayerExpansionState.EXPANDED) 1f else 0f,
-        animationSpec = tween(
-            durationMillis = 220,
-            easing = FastOutSlowInEasing,
-        ),
-        label = "player_host_progress",
-    )
-
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .wrapContentHeight()
             .navigationBarsPadding(),
     ) {
         PlayerContainer(
-            progress = progress,
+            expanded = uiState == PlayerExpansionState.EXPANDED,
             viewModel = playerViewModel,
         )
     }

@@ -1,11 +1,13 @@
 package com.vyn.player.ui.screens.player
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.MaterialTheme
@@ -28,7 +30,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun PlayerScreen(
     viewModel: PlayerViewModel,
-    onCollapse: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     val playerState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -45,24 +46,26 @@ fun PlayerScreen(
         sliderValue = normalizedPosition
     }
 
-    Column(
+    BackHandler {
+        viewModel.collapsePlayer()
+    }
+
+    Box(
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(min = 300.dp, max = 600.dp)
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .pointerInput(Unit) {
-                detectVerticalDragGestures { _, dragAmount: Float ->
-                    if (dragAmount > 20) {
-                        onCollapse?.invoke()
-                    }
-                }
-            },
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
+                .pointerInput(Unit) {
+                    detectVerticalDragGestures { _, dragAmount: Float ->
+                        if (dragAmount > 20) {
+                            viewModel.collapsePlayer()
+                        }
+                    }
+                }
                 .padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),

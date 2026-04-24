@@ -81,23 +81,28 @@ fun PlayerScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text(text = formatDuration(currentPosition))
+            Column {
+                Slider(
+                    value = sliderValue,
+                    onValueChange = { newValue ->
+                        sliderValue = newValue
+                    },
+                    onValueChangeFinished = {
+                        val seekPosition = (sliderValue * duration.toFloat()).toLong()
+                        viewModel.onEvent(PlayerUiEvent.Seek(seekPosition))
+                    },
+                    valueRange = 0f..1f,
+                    enabled = duration > 0L,
+                )
 
-            Slider(
-                value = sliderValue,
-                onValueChange = { newValue ->
-                    sliderValue = newValue
-                },
-                onValueChangeFinished = {
-                    val seekPosition = (sliderValue * duration.toFloat()).toLong()
-                    viewModel.onEvent(PlayerUiEvent.Seek(seekPosition))
-                },
-                valueRange = 0f..1f,
-                enabled = duration > 0L,
-            )
-
-            Text(text = formatDuration(currentPosition))
-            Text(text = formatDuration(duration))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(text = formatDuration(currentPosition))
+                    Text(text = formatDuration(duration))
+                }
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 

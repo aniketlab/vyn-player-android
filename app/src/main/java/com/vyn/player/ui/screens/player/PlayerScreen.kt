@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.Slider
@@ -68,13 +70,16 @@ fun PlayerScreen(
                 }
                 .padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            Spacer(modifier = Modifier.height(40.dp))
+
             Text(text = playerState.currentSong?.title ?: "No Song")
 
             if (playerState.isBuffering) {
                 Text(text = "Buffering...")
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(text = formatDuration(currentPosition))
 

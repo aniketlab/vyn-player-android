@@ -16,6 +16,10 @@ import kotlinx.coroutines.flow.stateIn
 class PlayerViewModel(
     private val playerController: PlayerController,
 ) : ViewModel() {
+    init {
+        Log.d("PLAYER_VM", "INSTANCE CREATED: $this")
+    }
+
     private val _playerExpansionState = MutableStateFlow(PlayerExpansionState.COLLAPSED)
     val playerExpansionState: StateFlow<PlayerExpansionState> = _playerExpansionState
 

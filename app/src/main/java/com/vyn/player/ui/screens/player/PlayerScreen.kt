@@ -17,8 +17,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -152,8 +152,8 @@ fun PlayerScreen(
                     Icon(
                         imageVector = Icons.Filled.Home,
                         contentDescription = null,
-                        modifier = Modifier.height(80.dp),
-                        tint = Color.LightGray,
+                        modifier = Modifier.height(64.dp),
+                        tint = Color(0xFFAAAAAA),
                     )
                 }
             }
@@ -200,17 +200,29 @@ fun PlayerScreen(
                     Icon(
                         imageVector = Icons.Filled.Search,
                         contentDescription = "Previous",
+                        modifier = Modifier.height(36.dp),
                     )
                 }
 
                 IconButton(
                     onClick = { viewModel.onEvent(PlayerUiEvent.TogglePlayPause) },
                     enabled = playerState.currentSong != null,
-                    modifier = Modifier.height(72.dp),
+                    modifier = Modifier
+                        .height(72.dp)
+                        .background(
+                            color = Color(0xFF7B61FF),
+                            shape = RoundedCornerShape(36.dp),
+                        ),
                 ) {
                     Icon(
-                        imageVector = if (playerState.isPlaying) Icons.Filled.Home else Icons.Filled.PlayArrow,
+                        imageVector = if (playerState.isPlaying) {
+                            Icons.Filled.Home
+                        } else {
+                            Icons.Filled.PlayArrow
+                        },
                         contentDescription = if (playerState.isPlaying) "Pause" else "Play",
+                        tint = Color.White,
+                        modifier = Modifier.height(36.dp),
                     )
                 }
 
@@ -221,6 +233,7 @@ fun PlayerScreen(
                     Icon(
                         imageVector = Icons.Filled.Search,
                         contentDescription = "Next",
+                        modifier = Modifier.height(36.dp),
                     )
                 }
             }

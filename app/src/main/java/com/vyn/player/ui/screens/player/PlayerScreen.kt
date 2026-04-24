@@ -23,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableFloatStateOf
@@ -38,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import android.util.Log
 
 @Composable
 fun PlayerScreen(
@@ -106,12 +108,15 @@ fun PlayerScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             AsyncImage(
-                model = playerState.currentSong?.uri,
+                model = playerState.currentSong?.albumArtUri?.also { albumArt ->
+                    Log.d("ALBUM_ART", "uri: $albumArt")
+                },
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
                     .clip(RoundedCornerShape(20.dp)),
+                contentScale = ContentScale.Crop,
             )
 
             Spacer(modifier = Modifier.height(24.dp))

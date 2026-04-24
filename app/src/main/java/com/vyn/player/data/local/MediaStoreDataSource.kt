@@ -2,6 +2,7 @@ package com.vyn.player.data.local
 
 import android.content.ContentUris
 import android.content.Context
+import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import com.vyn.player.data.model.Song
@@ -17,6 +18,8 @@ class MediaStoreDataSource(
             MediaStore.Audio.Media._ID,
             MediaStore.Audio.Media.TITLE,
             MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.ALBUM_ID,
+            MediaStore.Audio.Media.ALBUM,
             MediaStore.Audio.Media.DURATION,
         )
         val selection = "${MediaStore.Audio.Media.SIZE} > 0"
@@ -37,23 +40,32 @@ class MediaStoreDataSource(
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
             val titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
             val artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
+            val albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
+            val albumColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)
             val durationColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
 
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(idColumn)
                 val title = cursor.getString(titleColumn).orEmpty()
                 val artist = cursor.getString(artistColumn).orEmpty()
+                val albumId = cursor.getLong(albumIdColumn)
+                val album = cursor.getString(albumColumn).orEmpty()
                 val durationMillis = cursor.getLong(durationColumn)
                 val contentUri = ContentUris.withAppendedId(
                     collection,
                     id,
+                )
+                val albumArtUri = ContentUris.withAppendedId(
+                    Uri.parse("content://media/external/audio/albumart"),
+                    albumId,
                 )
 
                 val song = Song(
                     id = id,
                     title = title,
                     artistName = artist,
-                    albumName = "",
+                    albumName = album,
+                    albumArtUri = albumArtUri.toString(),
                     uri = contentUri.toString(),
                     durationMillis = durationMillis,
                 )
@@ -62,7 +74,7 @@ class MediaStoreDataSource(
                 if (uniqueSongs.size <= 5) {
                     Log.d(
                         "CHECK_FLOW",
-                        "Song: ${title} | ${contentUri}",
+                        "Song: ${title} | ${contentUri} | albumArt=${albumArtUri}",
                     )
                 }
             }

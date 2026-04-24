@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,12 +19,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableFloatStateOf
@@ -36,9 +37,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.vyn.player.R
+import androidx.compose.ui.res.painterResource
 import android.util.Log
 
 @Composable
@@ -80,6 +84,7 @@ fun PlayerScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .navigationBarsPadding()
                 .pointerInput(Unit) {
                     detectVerticalDragGestures { _, dragAmount: Float ->
                         if (dragAmount > 20) {
@@ -90,28 +95,35 @@ fun PlayerScreen(
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Spacer(modifier = Modifier.height(32.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 40.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = playerState.currentSong?.title ?: "No Song",
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 1,
+                )
 
-            Text(
-                text = playerState.currentSong?.title ?: "No Song",
-                style = MaterialTheme.typography.titleLarge,
-                maxLines = 1,
-            )
+                Text(
+                    text = playerState.currentSong?.artistName ?: "Unknown Artist",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.Gray.copy(alpha = 0.7f),
+                    maxLines = 1,
+                )
+            }
 
-            Text(
-                text = playerState.currentSong?.artistName ?: "Unknown Artist",
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray,
-                maxLines = 1,
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.weight(1f))
 
             AsyncImage(
                 model = playerState.currentSong?.albumArtUri?.also { albumArt ->
                     Log.d("ALBUM_ART", "uri: $albumArt")
                 },
                 contentDescription = null,
+                error = painterResource(R.drawable.default_album),
+                placeholder = painterResource(R.drawable.default_album),
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
@@ -119,9 +131,11 @@ fun PlayerScreen(
                 contentScale = ContentScale.Crop,
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.weight(1f))
 
-            Column {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
                 Slider(
                     value = sliderValue,
                     onValueChange = { newValue ->
@@ -147,7 +161,9 @@ fun PlayerScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
                 IconButton(
@@ -166,11 +182,7 @@ fun PlayerScreen(
                     modifier = Modifier.height(72.dp),
                 ) {
                     Icon(
-                        imageVector = if (playerState.isPlaying) {
-                            Icons.Filled.Home
-                        } else {
-                            Icons.Filled.PlayArrow
-                        },
+                        imageVector = if (playerState.isPlaying) Icons.Filled.Home else Icons.Filled.PlayArrow,
                         contentDescription = if (playerState.isPlaying) "Pause" else "Play",
                     )
                 }

@@ -186,7 +186,7 @@ class MainActivity : ComponentActivity() {
                         if (showBottomNavigation) {
                             PlayerHost(
                                 playerViewModel = playerViewModel,
-                                modifier = Modifier.align(Alignment.BottomCenter),
+                                modifier = Modifier.matchParentSize(),
                             )
                         }
                     }

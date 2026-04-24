@@ -1,7 +1,6 @@
 package com.vyn.player.ui.player
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.vyn.player.ui.screens.player.PlayerViewModel
@@ -12,7 +11,7 @@ fun PlayerHost(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier,
     ) {
         PlayerContainer(viewModel = playerViewModel)
     }

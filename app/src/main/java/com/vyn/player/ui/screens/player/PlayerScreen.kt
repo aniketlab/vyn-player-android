@@ -96,10 +96,14 @@ fun PlayerScreen(
                 enabled = duration > 0L,
             )
 
+            Text(text = formatDuration(currentPosition))
             Text(text = formatDuration(duration))
 
+            Spacer(modifier = Modifier.weight(1f))
+
             Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
                 Button(
                     onClick = { viewModel.onEvent(PlayerUiEvent.Previous) },
@@ -122,6 +126,8 @@ fun PlayerScreen(
                     Text(text = "Next")
                 }
             }
+
+            Spacer(modifier = Modifier.height(40.dp))
         }
     }
 }

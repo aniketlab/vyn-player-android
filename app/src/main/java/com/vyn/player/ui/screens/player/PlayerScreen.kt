@@ -3,6 +3,7 @@ package com.vyn.player.ui.screens.player
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +14,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Button
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,10 +31,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 
 @Composable
 fun PlayerScreen(
@@ -56,7 +66,14 @@ fun PlayerScreen(
         modifier = modifier
             .fillMaxWidth()
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(
+                Brush.verticalGradient(
+                    listOf(
+                        Color(0xFF0A0A0A),
+                        Color(0xFF1A1A1A),
+                    ),
+                ),
+            ),
     ) {
         Column(
             modifier = Modifier
@@ -68,16 +85,34 @@ fun PlayerScreen(
                         }
                     }
                 }
-                .padding(horizontal = 24.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-            Text(text = playerState.currentSong?.title ?: "No Song")
+            Text(
+                text = playerState.currentSong?.title ?: "No Song",
+                style = MaterialTheme.typography.titleLarge,
+                maxLines = 1,
+            )
 
-            if (playerState.isBuffering) {
-                Text(text = "Buffering...")
-            }
+            Text(
+                text = playerState.currentSong?.artistName ?: "Unknown Artist",
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.Gray,
+                maxLines = 1,
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            AsyncImage(
+                model = playerState.currentSong?.uri,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(20.dp)),
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -110,29 +145,43 @@ fun PlayerScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
-                Button(
+                IconButton(
                     onClick = { viewModel.onEvent(PlayerUiEvent.Previous) },
                     enabled = playerState.currentSong != null,
                 ) {
-                    Text(text = "Previous")
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = "Previous",
+                    )
                 }
 
-                Button(
+                IconButton(
                     onClick = { viewModel.onEvent(PlayerUiEvent.TogglePlayPause) },
                     enabled = playerState.currentSong != null,
+                    modifier = Modifier.height(72.dp),
                 ) {
-                    Text(text = if (playerState.isPlaying) "Pause" else "Play")
+                    Icon(
+                        imageVector = if (playerState.isPlaying) {
+                            Icons.Filled.Home
+                        } else {
+                            Icons.Filled.PlayArrow
+                        },
+                        contentDescription = if (playerState.isPlaying) "Pause" else "Play",
+                    )
                 }
 
-                Button(
+                IconButton(
                     onClick = { viewModel.onEvent(PlayerUiEvent.Next) },
                     enabled = playerState.currentSong != null,
                 ) {
-                    Text(text = "Next")
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = "Next",
+                    )
                 }
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }

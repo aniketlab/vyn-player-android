@@ -91,7 +91,7 @@ fun PlayerScreen(
                         }
                     }
                 }
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             val song = playerState.currentSong
@@ -117,7 +117,7 @@ fun PlayerScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(24.dp))
 
             if (hasAlbumArt) {
                 AsyncImage(
@@ -142,8 +142,8 @@ fun PlayerScreen(
                         .background(
                             Brush.verticalGradient(
                                 listOf(
-                                    Color.DarkGray,
-                                    Color(0xFF222222),
+                                    Color(0xFF1A1A1A),
+                                    Color(0xFF000000),
                                 ),
                             ),
                         ),
@@ -152,13 +152,13 @@ fun PlayerScreen(
                     Icon(
                         imageVector = Icons.Filled.Home,
                         contentDescription = null,
-                        modifier = Modifier.height(64.dp),
-                        tint = Color(0xFFAAAAAA),
+                        modifier = Modifier.height(60.dp),
+                        tint = Color(0xFFBBBBBB),
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -190,8 +190,10 @@ fun PlayerScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .navigationBarsPadding()
                     .padding(bottom = 16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 IconButton(
                     onClick = { viewModel.onEvent(PlayerUiEvent.Previous) },

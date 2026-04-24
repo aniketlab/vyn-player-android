@@ -19,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -95,6 +94,9 @@ fun PlayerScreen(
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            val song = playerState.currentSong
+            val hasAlbumArt = !song?.albumArtUri.isNullOrBlank()
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -102,13 +104,13 @@ fun PlayerScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = playerState.currentSong?.title ?: "No Song",
+                    text = song?.title ?: "No Song",
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 1,
                 )
 
                 Text(
-                    text = playerState.currentSong?.artistName ?: "Unknown Artist",
+                    text = song?.artistName ?: "Unknown Artist",
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray.copy(alpha = 0.7f),
                     maxLines = 1,
@@ -117,19 +119,44 @@ fun PlayerScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            AsyncImage(
-                model = playerState.currentSong?.albumArtUri?.also { albumArt ->
-                    Log.d("ALBUM_ART", "uri: $albumArt")
-                },
-                contentDescription = null,
-                error = painterResource(R.drawable.default_album),
-                placeholder = painterResource(R.drawable.default_album),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(20.dp)),
-                contentScale = ContentScale.Crop,
-            )
+            if (hasAlbumArt) {
+                AsyncImage(
+                    model = song?.albumArtUri?.also { albumArt ->
+                        Log.d("ALBUM_ART", "uri: $albumArt")
+                    },
+                    contentDescription = null,
+                    error = painterResource(R.drawable.default_album),
+                    placeholder = painterResource(R.drawable.default_album),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                        .clip(RoundedCornerShape(20.dp)),
+                    contentScale = ContentScale.Crop,
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(
+                            Brush.verticalGradient(
+                                listOf(
+                                    Color.DarkGray,
+                                    Color(0xFF222222),
+                                ),
+                            ),
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Home,
+                        contentDescription = null,
+                        modifier = Modifier.height(80.dp),
+                        tint = Color.LightGray,
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 

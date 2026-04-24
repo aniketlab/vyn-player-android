@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -203,6 +204,7 @@ fun PlayerScreen(
                         imageVector = Icons.Filled.Search,
                         contentDescription = "Previous",
                         modifier = Modifier.height(36.dp),
+                        tint = Color.White,
                     )
                 }
 
@@ -213,7 +215,7 @@ fun PlayerScreen(
                         .height(72.dp)
                         .background(
                             color = Color(0xFF7B61FF),
-                            shape = RoundedCornerShape(36.dp),
+                            shape = CircleShape,
                         ),
                 ) {
                     Icon(
@@ -236,6 +238,7 @@ fun PlayerScreen(
                         imageVector = Icons.Filled.Search,
                         contentDescription = "Next",
                         modifier = Modifier.height(36.dp),
+                        tint = Color.White,
                     )
                 }
             }

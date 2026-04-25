@@ -4,6 +4,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
@@ -55,18 +57,66 @@ fun DynamicBottomBar(
         shadowElevation = elevation,
         color = Color(0xFF1A1A1E),
     ) {
-        NavBarContent(
-            currentRoute = currentRoute,
-            onHomeClick = onHomeClick,
-            onDiscoverClick = onDiscoverClick,
-            onLibraryClick = onLibraryClick,
-            onSearchClick = onSearchClick,
+        if (isScrollingUp) {
+            ExpandedNavBar(
+                currentRoute = currentRoute,
+                onHomeClick = onHomeClick,
+                onDiscoverClick = onDiscoverClick,
+                onLibraryClick = onLibraryClick,
+                onSearchClick = onSearchClick,
+            )
+        } else {
+            SegmentedNavBar(
+                currentRoute = currentRoute,
+                onHomeClick = onHomeClick,
+                onSearchClick = onSearchClick,
+            )
+        }
+    }
+}
+
+@Composable
+private fun SegmentedNavBar(
+    currentRoute: String?,
+    onHomeClick: () -> Unit,
+    onSearchClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(72.dp)
+            .padding(horizontal = 12.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        NavBarIconItem(
+            label = "Home",
+            selected = currentRoute == Destinations.HOME,
+            onClick = onHomeClick,
+            icon = Icons.Filled.Home,
+        )
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+        )
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        NavBarIconItem(
+            label = "Search",
+            selected = currentRoute == Destinations.SEARCH,
+            onClick = onSearchClick,
+            icon = Icons.Filled.Search,
         )
     }
 }
 
 @Composable
-private fun NavBarContent(
+private fun ExpandedNavBar(
     currentRoute: String?,
     onHomeClick: () -> Unit,
     onDiscoverClick: () -> Unit,

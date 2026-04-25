@@ -14,13 +14,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.rounded.Pause
+import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.SkipNext
+import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
@@ -38,12 +40,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.vyn.player.R
-import androidx.compose.ui.res.painterResource
-import android.util.Log
 
 @Composable
 fun PlayerScreen(
@@ -122,9 +123,7 @@ fun PlayerScreen(
 
             if (hasAlbumArt) {
                 AsyncImage(
-                    model = song?.albumArtUri?.also { albumArt ->
-                        Log.d("ALBUM_ART", "uri: $albumArt")
-                    },
+                    model = song?.albumArtUri,
                     contentDescription = null,
                     error = painterResource(R.drawable.default_album),
                     placeholder = painterResource(R.drawable.default_album),
@@ -151,7 +150,7 @@ fun PlayerScreen(
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.Home,
+                        imageVector = Icons.Rounded.PlayArrow,
                         contentDescription = null,
                         modifier = Modifier.height(60.dp),
                         tint = Color(0xFFBBBBBB),
@@ -192,7 +191,7 @@ fun PlayerScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .navigationBarsPadding()
-                    .padding(bottom = 16.dp),
+                    .padding(bottom = 12.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -201,9 +200,9 @@ fun PlayerScreen(
                     enabled = playerState.currentSong != null,
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.Search,
+                        imageVector = Icons.Rounded.SkipPrevious,
                         contentDescription = "Previous",
-                        modifier = Modifier.height(36.dp),
+                        modifier = Modifier.size(36.dp),
                         tint = Color.White,
                     )
                 }
@@ -212,7 +211,7 @@ fun PlayerScreen(
                     onClick = { viewModel.onEvent(PlayerUiEvent.TogglePlayPause) },
                     enabled = playerState.currentSong != null,
                     modifier = Modifier
-                        .height(72.dp)
+                        .size(72.dp)
                         .background(
                             color = Color(0xFF7B61FF),
                             shape = CircleShape,
@@ -220,13 +219,13 @@ fun PlayerScreen(
                 ) {
                     Icon(
                         imageVector = if (playerState.isPlaying) {
-                            Icons.Filled.Home
+                            Icons.Rounded.Pause
                         } else {
-                            Icons.Filled.PlayArrow
+                            Icons.Rounded.PlayArrow
                         },
-                        contentDescription = if (playerState.isPlaying) "Pause" else "Play",
+                        contentDescription = "Play/Pause",
                         tint = Color.White,
-                        modifier = Modifier.height(36.dp),
+                        modifier = Modifier.size(36.dp),
                     )
                 }
 
@@ -235,9 +234,9 @@ fun PlayerScreen(
                     enabled = playerState.currentSong != null,
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.Search,
+                        imageVector = Icons.Rounded.SkipNext,
                         contentDescription = "Next",
-                        modifier = Modifier.height(36.dp),
+                        modifier = Modifier.size(36.dp),
                         tint = Color.White,
                     )
                 }

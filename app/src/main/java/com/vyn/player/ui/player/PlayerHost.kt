@@ -2,8 +2,9 @@ package com.vyn.player.ui.player
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.Composable
@@ -24,9 +25,12 @@ fun PlayerHost(
 ) {
     val expansionState by playerViewModel.playerExpansionState.collectAsStateWithLifecycle()
     val bottomBarHeight = UiDimens.BottomBarHeight
-    val spacing = 6.dp
 
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+    ) {
         if (expansionState == PlayerExpansionState.EXPANDED) {
             PlayerScreen(
                 viewModel = playerViewModel,
@@ -37,7 +41,7 @@ fun PlayerHost(
                 viewModel = playerViewModel,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .offset(y = -(bottomBarHeight + spacing))
+                    .padding(bottom = bottomBarHeight + 12.dp)
                     .widthIn(max = 600.dp)
                     .padding(horizontal = 16.dp),
             )

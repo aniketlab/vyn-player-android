@@ -171,8 +171,7 @@ class MainActivity : ComponentActivity() {
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .padding(innerPadding)
-                                    .padding(bottom = 90.dp),
+                                    .padding(innerPadding),
                             ) {
                                 VynNavGraph(
                                     modifier = Modifier.fillMaxSize(),

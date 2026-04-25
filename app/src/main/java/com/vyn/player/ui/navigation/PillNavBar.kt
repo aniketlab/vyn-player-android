@@ -35,7 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 private object PillNavBarDefaults {
-    val ContainerShape = RoundedCornerShape(56.dp)
+    val ContainerShape = RoundedCornerShape(18.dp)
     val ItemShape = RoundedCornerShape(50.dp)
     val ContainerColor = Color(0xFF1C1C1E).copy(alpha = 0.85f)
     val BorderColor = Color.White.copy(alpha = 0.10f)
@@ -43,7 +43,7 @@ private object PillNavBarDefaults {
     val SelectedContentColor = Color.White
     const val UnselectedAlpha = 0.68f
     val ContainerWidthFraction = 0.88f
-    val ContainerHeight = 64.dp
+    val ContainerHeight = 72.dp
     val OuterHorizontalPadding = 14.dp
     val InnerHorizontalPadding = 8.dp
     val ItemHorizontalPadding = 16.dp

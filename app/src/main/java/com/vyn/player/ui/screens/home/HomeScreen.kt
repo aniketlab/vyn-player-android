@@ -46,12 +46,14 @@ fun HomeScreen(
     }
 
     LaunchedEffect(listState) {
-        snapshotFlow { listState.firstVisibleItemScrollOffset }
+        snapshotFlow {
+            listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset
+        }
             .pairWithPrevious()
             .collect { (prev, curr) ->
                 if (prev != null) {
-                    val prevOffset = prev
-                    val currOffset = curr
+                    val prevOffset = prev.second
+                    val currOffset = curr.second
                     val delta = currOffset - prevOffset
 
                     when {

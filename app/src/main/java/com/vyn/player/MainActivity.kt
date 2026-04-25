@@ -19,6 +19,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -140,12 +141,18 @@ class MainActivity : ComponentActivity() {
                     val currentDestination = navBackStackEntry?.destination
                     val showBottomNavigation = currentDestination?.route != Destinations.ONBOARDING
                     val isPlayerActive by playerViewModel.isPlayerActive.collectAsStateWithLifecycle()
-                    var isScrollingUp by remember { mutableStateOf(false) }
+                    var scrollDirection by remember { mutableStateOf(false) }
+                    var stableScrollDirection by remember { mutableStateOf(false) }
                     val currentBottomRoute = bottomNavItems.firstOrNull { item ->
                         currentDestination
                             ?.hierarchy
                             ?.any { destination -> destination.route == item.route } == true
                     }?.route
+
+                    LaunchedEffect(scrollDirection) {
+                        kotlinx.coroutines.delay(120)
+                        stableScrollDirection = scrollDirection
+                    }
 
                     Box(modifier = Modifier.fillMaxSize()) {
                         Scaffold(
@@ -155,7 +162,7 @@ class MainActivity : ComponentActivity() {
                                 if (showBottomNavigation) {
                                     DynamicBottomBar(
                                         isPlayerActive = isPlayerActive,
-                                        isScrollingUp = isScrollingUp,
+                                        isScrollingUp = stableScrollDirection,
                                         currentRoute = currentBottomRoute,
                                         onHomeClick = {
                                             navController.navigate(Destinations.HOME) {
@@ -210,7 +217,7 @@ class MainActivity : ComponentActivity() {
                                     playerViewModel = playerViewModel,
                                     startDestination = startDestination,
                                     onHomeScrollDirectionChanged = { scrollingUp ->
-                                        isScrollingUp = scrollingUp
+                                        scrollDirection = scrollingUp
                                     },
                                 )
                             }

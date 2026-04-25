@@ -24,9 +24,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -48,8 +51,14 @@ fun MiniPlayer(
     val isPlaying by viewModel.isPlaying.collectAsStateWithLifecycle()
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
+    var totalDrag by remember { mutableStateOf(0f) }
+    var isDragging by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.96f else 1f,
+        targetValue = if (isPressed) 0.94f else 1f,
+        animationSpec = spring(
+            dampingRatio = 0.6f,
+            stiffness = 400f,
+        ),
         label = "pressScale",
     )
 
@@ -72,6 +81,7 @@ fun MiniPlayer(
             .graphicsLayer {
                 scaleX = scale
                 scaleY = scale
+                shadowElevation = 20f
             }
             .fillMaxWidth()
             .height(64.dp),
@@ -80,17 +90,27 @@ fun MiniPlayer(
             modifier = Modifier
                 .fillMaxWidth()
                 .pointerInput(Unit) {
-                    detectVerticalDragGestures { _, dragAmount ->
-                        if (dragAmount < -20f) {
-                            viewModel.expandPlayer()
-                        }
-                    }
+                    detectVerticalDragGestures(
+                        onVerticalDrag = { _, dragAmount ->
+                            isDragging = true
+                            totalDrag += dragAmount
+                        },
+                        onDragEnd = {
+                            if (totalDrag < -120f) {
+                                viewModel.expandPlayer()
+                            }
+                            totalDrag = 0f
+                            isDragging = false
+                        },
+                    )
                 }
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null,
                 ) {
-                    viewModel.expandPlayer()
+                    if (!isDragging) {
+                        viewModel.expandPlayer()
+                    }
                 }
                 .padding(horizontal = 14.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,

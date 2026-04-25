@@ -172,7 +172,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .padding(innerPadding)
-                                    .padding(bottom = UiDimens.MiniPlayerHeight + UiDimens.MiniPlayerSpacing),
+                                    .padding(bottom = 90.dp),
                             ) {
                                 VynNavGraph(
                                     modifier = Modifier.fillMaxSize(),

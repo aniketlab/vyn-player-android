@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.vyn.player.core.ui.UiDimens
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.player.PlayerExpansionState
 import com.vyn.player.ui.screens.player.PlayerScreen
@@ -22,8 +23,8 @@ fun PlayerHost(
     modifier: Modifier = Modifier,
 ) {
     val expansionState by playerViewModel.playerExpansionState.collectAsStateWithLifecycle()
-    val bottomBarHeight = 72.dp
-    val spacing = 8.dp
+    val bottomBarHeight = UiDimens.BottomBarHeight
+    val spacing = UiDimens.MiniPlayerSpacing
 
     Box(modifier = modifier.fillMaxSize()) {
         if (expansionState == PlayerExpansionState.EXPANDED) {

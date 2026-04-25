@@ -31,6 +31,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.vyn.player.core.player.PlayerController
+import com.vyn.player.core.ui.UiDimens
 import com.vyn.player.data.local.MediaStoreDataSource
 import com.vyn.player.data.repository.SongRepository
 import com.vyn.player.ui.navigation.Destinations
@@ -171,7 +172,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .padding(innerPadding)
-                                    .padding(bottom = 64.dp),
+                                    .padding(bottom = UiDimens.MiniPlayerHeight + UiDimens.MiniPlayerSpacing),
                             ) {
                                 VynNavGraph(
                                     modifier = Modifier.fillMaxSize(),

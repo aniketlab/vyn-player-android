@@ -11,9 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.rounded.Pause
+import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,6 +45,10 @@ fun MiniPlayer(
         tonalElevation = 6.dp,
         color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.96f),
         modifier = modifier
+            .shadow(
+                elevation = 12.dp,
+                shape = RoundedCornerShape(18.dp),
+            )
             .fillMaxWidth()
             .height(64.dp),
     ) {
@@ -92,7 +97,7 @@ fun MiniPlayer(
                 onClick = { viewModel.togglePlayPause() },
             ) {
                 Icon(
-                    imageVector = if (isPlaying) Icons.Rounded.Pause else Icons.Filled.PlayArrow,
+                    imageVector = if (isPlaying) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
                     contentDescription = if (isPlaying) "Pause" else "Play",
                 )
             }

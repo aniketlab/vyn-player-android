@@ -19,13 +19,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -35,7 +38,7 @@ import com.vyn.player.core.ui.UiDimens
 import com.vyn.player.data.local.MediaStoreDataSource
 import com.vyn.player.data.repository.SongRepository
 import com.vyn.player.ui.navigation.Destinations
-import com.vyn.player.ui.navigation.PillNavBar
+import com.vyn.player.ui.navigation.DynamicBottomBar
 import com.vyn.player.ui.navigation.PillNavItem
 import com.vyn.player.ui.navigation.VynNavGraph
 import com.vyn.player.ui.onboarding.OnboardingViewModel
@@ -136,6 +139,8 @@ class MainActivity : ComponentActivity() {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
                     val showBottomNavigation = currentDestination?.route != Destinations.ONBOARDING
+                    val isPlayerActive by playerViewModel.isPlayerActive.collectAsStateWithLifecycle()
+                    var isScrollingUp by remember { mutableStateOf(false) }
                     val currentBottomRoute = bottomNavItems.firstOrNull { item ->
                         currentDestination
                             ?.hierarchy
@@ -148,12 +153,13 @@ class MainActivity : ComponentActivity() {
                             contentWindowInsets = WindowInsets(0, 0, 0, 0),
                             bottomBar = {
                                 if (showBottomNavigation) {
-                                    PillNavBar(
-                                        items = bottomNavItems,
+                                    DynamicBottomBar(
+                                        isPlayerActive = isPlayerActive,
+                                        isScrollingUp = isScrollingUp,
+                                        playerViewModel = playerViewModel,
                                         currentRoute = currentBottomRoute,
-                                        onItemClick = { item ->
-                                            Log.d("NAVBAR_FLOW", "Selected tab: ${item.label}")
-                                            navController.navigate(item.route) {
+                                        onHomeClick = {
+                                            navController.navigate(Destinations.HOME) {
                                                 popUpTo(navController.graph.findStartDestination().id) {
                                                     saveState = true
                                                 }
@@ -161,7 +167,33 @@ class MainActivity : ComponentActivity() {
                                                 restoreState = true
                                             }
                                         },
-                                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                                        onDiscoverClick = {
+                                            navController.navigate(Destinations.SEARCH) {
+                                                popUpTo(navController.graph.findStartDestination().id) {
+                                                    saveState = true
+                                                }
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        },
+                                        onLibraryClick = {
+                                            navController.navigate(Destinations.LIBRARY) {
+                                                popUpTo(navController.graph.findStartDestination().id) {
+                                                    saveState = true
+                                                }
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        },
+                                        onSearchClick = {
+                                            navController.navigate(Destinations.SEARCH) {
+                                                popUpTo(navController.graph.findStartDestination().id) {
+                                                    saveState = true
+                                                }
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        },
                                     )
                                 }
                             },
@@ -178,6 +210,9 @@ class MainActivity : ComponentActivity() {
                                     homeViewModel = homeViewModel,
                                     playerViewModel = playerViewModel,
                                     startDestination = startDestination,
+                                    onHomeScrollDirectionChanged = { scrollingUp ->
+                                        isScrollingUp = scrollingUp
+                                    },
                                 )
                             }
                         }

@@ -30,6 +30,7 @@ fun VynNavGraph(
     homeViewModel: HomeViewModel,
     playerViewModel: PlayerViewModel,
     startDestination: String,
+    onHomeScrollDirectionChanged: (Boolean) -> Unit = {},
 ) {
     NavHost(
         modifier = modifier,
@@ -51,6 +52,7 @@ fun VynNavGraph(
             HomeScreen(
                 viewModel = homeViewModel,
                 playerViewModel = playerViewModel,
+                onScrollDirectionChanged = onHomeScrollDirectionChanged,
             )
         }
         composable(Destinations.SEARCH) {

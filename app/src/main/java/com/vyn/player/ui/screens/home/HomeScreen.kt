@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,6 +23,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.snapshotFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import com.vyn.player.ui.components.AppButton
 import com.vyn.player.ui.components.SongItem
 import com.vyn.player.ui.screens.player.PlayerViewModel
@@ -30,12 +35,24 @@ import com.vyn.player.ui.screens.player.PlayerViewModel
 fun HomeScreen(
     viewModel: HomeViewModel,
     playerViewModel: PlayerViewModel,
+    onScrollDirectionChanged: (Boolean) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val songs = state.songs.distinctBy { it.uri }
+    val listState = rememberLazyListState()
 
     LaunchedEffect(Unit) {
         viewModel.loadSongsIfNeeded()
+    }
+
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemScrollOffset }
+            .pairWithPrevious()
+            .collect { (prev, curr) ->
+                if (prev != null) {
+                    onScrollDirectionChanged(curr < prev)
+                }
+            }
     }
 
     Column(
@@ -64,6 +81,7 @@ fun HomeScreen(
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
+            state = listState,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             itemsIndexed(
@@ -90,5 +108,13 @@ fun HomeScreen(
                 )
             }
         }
+    }
+}
+
+private fun <T> Flow<T>.pairWithPrevious(): Flow<Pair<T?, T>> = flow {
+    var previous: T? = null
+    collect { value ->
+        emit(previous to value)
+        previous = value
     }
 }

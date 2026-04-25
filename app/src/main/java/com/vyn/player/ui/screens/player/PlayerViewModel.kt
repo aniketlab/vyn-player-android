@@ -39,6 +39,14 @@ class PlayerViewModel(
             initialValue = false,
         )
 
+    val isPlayerActive: StateFlow<Boolean> = playerController.state
+        .map { playerState -> playerState.currentSong != null }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
+            initialValue = false,
+        )
+
     val uiState: StateFlow<PlayerUiState> = combine(
         playerController.state,
         playerController.position,

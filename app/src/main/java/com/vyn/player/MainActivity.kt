@@ -7,10 +7,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
@@ -23,6 +26,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -149,21 +154,32 @@ class MainActivity : ComponentActivity() {
                             contentWindowInsets = WindowInsets(0, 0, 0, 0),
                             bottomBar = {
                                 if (showBottomNavigation) {
-                                    PillNavBar(
-                                        items = bottomNavItems,
-                                        currentRoute = currentBottomRoute,
-                                        onItemClick = { item ->
-                                            Log.d("NAVBAR_FLOW", "Selected tab: ${item.label}")
-                                            navController.navigate(item.route) {
-                                                popUpTo(navController.graph.findStartDestination().id) {
-                                                    saveState = true
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .navigationBarsPadding()
+                                            .padding(horizontal = 16.dp, vertical = 10.dp)
+                                            .clip(RoundedCornerShape(28.dp))
+                                            .background(Color(0xFF1C1C1E)),
+                                    ) {
+                                        PillNavBar(
+                                            items = bottomNavItems,
+                                            currentRoute = currentBottomRoute,
+                                            onItemClick = { item ->
+                                                Log.d("NAVBAR_FLOW", "Selected tab: ${item.label}")
+                                                navController.navigate(item.route) {
+                                                    popUpTo(navController.graph.findStartDestination().id) {
+                                                        saveState = true
+                                                    }
+                                                    launchSingleTop = true
+                                                    restoreState = true
                                                 }
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        },
-                                        modifier = Modifier.padding(bottom = 20.dp),
-                                    )
+                                            },
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(vertical = 14.dp),
+                                        )
+                                    }
                                 }
                             },
                         ) { innerPadding ->

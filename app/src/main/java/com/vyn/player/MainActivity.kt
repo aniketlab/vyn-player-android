@@ -142,9 +142,7 @@ class MainActivity : ComponentActivity() {
                             ?.any { destination -> destination.route == item.route } == true
                     }?.route
 
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
+                    Box(modifier = Modifier.fillMaxSize()) {
                         Scaffold(
                             modifier = Modifier.fillMaxSize(),
                             contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -184,13 +182,17 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        if (showBottomNavigation) {
-                            PlayerHost(
-                                playerViewModel = playerViewModel,
-                                modifier = Modifier
-                                    .align(Alignment.BottomCenter)
-                                    .zIndex(10f),
-                            )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .zIndex(100f),
+                        ) {
+                            if (showBottomNavigation) {
+                                PlayerHost(
+                                    playerViewModel = playerViewModel,
+                                    modifier = Modifier.align(Alignment.BottomCenter),
+                                )
+                            }
                         }
                     }
                 }

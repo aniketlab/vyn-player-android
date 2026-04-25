@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -58,6 +59,10 @@ fun MiniPlayer(
                 shape = RoundedCornerShape(18.dp),
             )
             .scale(1.02f)
+            .graphicsLayer {
+                scaleX = 0.96f
+                scaleY = 0.96f
+            }
             .fillMaxWidth()
             .height(64.dp),
     ) {

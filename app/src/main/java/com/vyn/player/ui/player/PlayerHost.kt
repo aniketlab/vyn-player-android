@@ -41,9 +41,7 @@ fun PlayerHost(
                 viewModel = playerViewModel,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = bottomBarHeight + 18.dp)
-                    .widthIn(max = 600.dp)
-                    .fillMaxWidth()
+                    .padding(bottom = 90.dp)
                     .padding(horizontal = 16.dp),
             )
         }

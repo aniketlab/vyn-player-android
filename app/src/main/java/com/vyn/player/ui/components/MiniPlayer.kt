@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -45,7 +46,7 @@ fun MiniPlayer(
     Surface(
         shape = RoundedCornerShape(18.dp),
         tonalElevation = 6.dp,
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.96f),
+        color = Color.Red,
         modifier = modifier.fillMaxWidth(),
     ) {
         Row(
@@ -77,8 +78,9 @@ fun MiniPlayer(
                 modifier = Modifier.weight(1f),
             ) {
                 Text(
-                    text = song.title,
+                    text = "MINI PLAYER FIXED",
                     style = MaterialTheme.typography.titleSmall,
+                    color = Color.White,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )

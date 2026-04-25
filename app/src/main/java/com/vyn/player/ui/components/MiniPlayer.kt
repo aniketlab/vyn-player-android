@@ -15,6 +15,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.Icons
@@ -81,7 +82,7 @@ fun MiniPlayer(
             .graphicsLayer {
                 scaleX = scale
                 scaleY = scale
-                shadowElevation = 20f
+                shadowElevation = 12f
             }
             .fillMaxWidth()
             .height(64.dp),
@@ -96,7 +97,7 @@ fun MiniPlayer(
                             totalDrag += dragAmount
                         },
                         onDragEnd = {
-                            if (totalDrag < -120f) {
+                            if (totalDrag < -100f) {
                                 viewModel.expandPlayer()
                             }
                             totalDrag = 0f
@@ -106,7 +107,7 @@ fun MiniPlayer(
                 }
                 .clickable(
                     interactionSource = interactionSource,
-                    indication = null,
+                    indication = LocalIndication.current,
                 ) {
                     if (!isDragging) {
                         viewModel.expandPlayer()

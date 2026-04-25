@@ -50,7 +50,14 @@ fun HomeScreen(
             .pairWithPrevious()
             .collect { (prev, curr) ->
                 if (prev != null) {
-                    onScrollDirectionChanged(curr < prev)
+                    val prevOffset = prev
+                    val currOffset = curr
+                    val delta = currOffset - prevOffset
+
+                    when {
+                        delta < -20 -> onScrollDirectionChanged(true)
+                        delta > 20 -> onScrollDirectionChanged(false)
+                    }
                 }
             }
     }

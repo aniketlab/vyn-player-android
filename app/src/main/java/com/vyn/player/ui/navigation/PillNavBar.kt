@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 private object PillNavBarDefaults {
     val ContainerShape = RoundedCornerShape(18.dp)
     val ItemShape = RoundedCornerShape(50.dp)
-    val ContainerColor = Color(0xFF1C1C1E).copy(alpha = 0.85f)
+    val ContainerColor = Color(0xFF141418)
     val BorderColor = Color.White.copy(alpha = 0.10f)
     val SelectedItemColor = Color.White.copy(alpha = 0.12f)
     val SelectedContentColor = Color.White

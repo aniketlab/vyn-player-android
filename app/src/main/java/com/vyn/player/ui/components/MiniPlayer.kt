@@ -46,16 +46,15 @@ fun MiniPlayer(
     Surface(
         shape = RoundedCornerShape(18.dp),
         tonalElevation = 6.dp,
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+        color = Color(0xFF1E1E22),
         modifier = modifier
             .shadow(
-                elevation = 20.dp,
+                elevation = 6.dp,
                 shape = RoundedCornerShape(18.dp),
-                clip = false,
             )
             .border(
                 width = 1.dp,
-                color = Color.White.copy(alpha = 0.08f),
+                color = Color.White.copy(alpha = 0.06f),
                 shape = RoundedCornerShape(18.dp),
             )
             .scale(1.02f)

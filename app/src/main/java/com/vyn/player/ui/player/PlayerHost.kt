@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
@@ -38,29 +39,28 @@ fun PlayerHost(
     val expansionState by playerViewModel.playerExpansionState.collectAsStateWithLifecycle()
     val bottomBarHeight = UiDimens.BottomBarHeight
     val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    val dimAlpha by animateFloatAsState(
+        targetValue = if (expansionState == PlayerExpansionState.EXPANDED) 0.35f else 0f,
+        label = "dimAlpha",
+    )
 
     Box(
         modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
+            .fillMaxSize(),
     ) {
-        if (expansionState == PlayerExpansionState.EXPANDED) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.35f)),
-            )
-        } else {
-            Unit
-        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = dimAlpha)),
+        )
 
         AnimatedContent(
             targetState = expansionState,
             transitionSpec = {
-                fadeIn(animationSpec = tween(220)) +
-                    scaleIn(initialScale = 0.95f) togetherWith
-                    fadeOut(animationSpec = tween(180)) +
-                    scaleOut(targetScale = 1.05f)
+                (fadeIn(animationSpec = tween(250)) +
+                    scaleIn(initialScale = 0.92f)) togetherWith
+                    (fadeOut(animationSpec = tween(200)) +
+                        scaleOut(targetScale = 1.08f))
             },
             label = "playerTransition",
         ) { state ->
@@ -70,13 +70,18 @@ fun PlayerHost(
                     modifier = Modifier.fillMaxSize(),
                 )
             } else {
-                MiniPlayer(
-                    viewModel = playerViewModel,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = navBarPadding + bottomBarHeight + 12.dp)
-                        .padding(horizontal = 16.dp),
-                )
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.BottomCenter,
+                ) {
+                    MiniPlayer(
+                        viewModel = playerViewModel,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = navBarPadding + bottomBarHeight + 12.dp)
+                            .padding(horizontal = 16.dp),
+                    )
+                }
             }
         }
     }

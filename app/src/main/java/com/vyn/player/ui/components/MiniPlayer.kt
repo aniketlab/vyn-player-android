@@ -46,13 +46,12 @@ fun MiniPlayer(
     Surface(
         shape = RoundedCornerShape(18.dp),
         tonalElevation = 6.dp,
-        color = Color.Red,
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.96f),
         modifier = modifier.fillMaxWidth(),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .navigationBarsPadding()
                 .height(64.dp)
                 .clickable {
                     viewModel.expandPlayer()
@@ -78,9 +77,8 @@ fun MiniPlayer(
                 modifier = Modifier.weight(1f),
             ) {
                 Text(
-                    text = "MINI PLAYER FIXED",
+                    text = song.title,
                     style = MaterialTheme.typography.titleSmall,
-                    color = Color.White,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )

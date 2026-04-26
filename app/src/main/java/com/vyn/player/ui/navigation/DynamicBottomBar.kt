@@ -42,23 +42,30 @@ fun DynamicBottomBar(
     onSearchClick: () -> Unit,
 ) {
     val showPlayerBar = isPlayerActive && isScrollingUp
+    val barHeight = if (isScrollingUp) 64.dp else 72.dp
     val elevation by animateDpAsState(
         targetValue = if (showPlayerBar) 16.dp else 8.dp,
         label = "barElevation",
     )
+    val height by animateDpAsState(
+        targetValue = if (isScrollingUp) 64.dp else 72.dp,
+        label = "barHeight",
+    )
+    val shape = RoundedCornerShape(if (isScrollingUp) 20.dp else 28.dp)
 
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 10.dp)
             .animateContentSize(),
-        shape = RoundedCornerShape(28.dp),
+        shape = shape,
         tonalElevation = 8.dp,
         shadowElevation = elevation,
         color = Color(0xFF1A1A1E),
     ) {
         if (isScrollingUp) {
             ExpandedNavBar(
+                barHeight = barHeight,
                 currentRoute = currentRoute,
                 onHomeClick = onHomeClick,
                 onDiscoverClick = onDiscoverClick,
@@ -67,6 +74,7 @@ fun DynamicBottomBar(
             )
         } else {
             SegmentedNavBar(
+                barHeight = barHeight,
                 currentRoute = currentRoute,
                 onHomeClick = onHomeClick,
                 onSearchClick = onSearchClick,
@@ -77,6 +85,7 @@ fun DynamicBottomBar(
 
 @Composable
 private fun SegmentedNavBar(
+    barHeight: androidx.compose.ui.unit.Dp,
     currentRoute: String?,
     onHomeClick: () -> Unit,
     onSearchClick: () -> Unit,
@@ -84,7 +93,7 @@ private fun SegmentedNavBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(72.dp)
+            .height(barHeight)
             .padding(horizontal = 12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -117,6 +126,7 @@ private fun SegmentedNavBar(
 
 @Composable
 private fun ExpandedNavBar(
+    barHeight: androidx.compose.ui.unit.Dp,
     currentRoute: String?,
     onHomeClick: () -> Unit,
     onDiscoverClick: () -> Unit,
@@ -126,7 +136,7 @@ private fun ExpandedNavBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(72.dp),
+            .height(barHeight),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
     ) {

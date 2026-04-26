@@ -47,6 +47,7 @@ import com.vyn.player.ui.player.PlayerHost
 import com.vyn.player.ui.screens.home.HomeViewModel
 import com.vyn.player.ui.screens.player.PlayerViewModel
 import com.vyn.player.ui.theme.VynPlayerTheme
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -141,17 +142,17 @@ class MainActivity : ComponentActivity() {
                     val currentDestination = navBackStackEntry?.destination
                     val showBottomNavigation = currentDestination?.route != Destinations.ONBOARDING
                     val isPlayerActive by playerViewModel.isPlayerActive.collectAsStateWithLifecycle()
-                    var scrollDirection by remember { mutableStateOf(false) }
-                    var stableScrollDirection by remember { mutableStateOf(false) }
+                    var rawScroll by remember { mutableStateOf(false) }
+                    var stableScroll by remember { mutableStateOf(false) }
                     val currentBottomRoute = bottomNavItems.firstOrNull { item ->
                         currentDestination
                             ?.hierarchy
                             ?.any { destination -> destination.route == item.route } == true
                     }?.route
 
-                    LaunchedEffect(scrollDirection) {
+                    LaunchedEffect(rawScroll) {
                         kotlinx.coroutines.delay(120)
-                        stableScrollDirection = scrollDirection
+                        stableScroll = rawScroll
                     }
 
                     Box(modifier = Modifier.fillMaxSize()) {
@@ -162,7 +163,7 @@ class MainActivity : ComponentActivity() {
                                 if (showBottomNavigation) {
                                     DynamicBottomBar(
                                         isPlayerActive = isPlayerActive,
-                                        isScrollingUp = stableScrollDirection,
+                                        isScrollingUp = stableScroll,
                                         currentRoute = currentBottomRoute,
                                         onHomeClick = {
                                             navController.navigate(Destinations.HOME) {
@@ -217,7 +218,7 @@ class MainActivity : ComponentActivity() {
                                     playerViewModel = playerViewModel,
                                     startDestination = startDestination,
                                     onHomeScrollDirectionChanged = { scrollingUp ->
-                                        scrollDirection = scrollingUp
+                                        rawScroll = scrollingUp
                                     },
                                 )
                             }
@@ -231,6 +232,7 @@ class MainActivity : ComponentActivity() {
                             if (showBottomNavigation) {
                                 PlayerHost(
                                     playerViewModel = playerViewModel,
+                                    isScrollingUp = stableScroll,
                                     modifier = Modifier.align(Alignment.BottomCenter),
                                 )
                             }

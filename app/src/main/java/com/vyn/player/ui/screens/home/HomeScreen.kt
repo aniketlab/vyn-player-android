@@ -26,7 +26,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.snapshotFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import com.vyn.player.ui.components.AppButton
 import com.vyn.player.ui.components.SongItem
 import com.vyn.player.ui.screens.player.PlayerViewModel
@@ -50,17 +53,23 @@ fun HomeScreen(
             listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset
         }
             .pairWithPrevious()
-            .collect { (prev, curr) ->
-                if (prev != null) {
-                    val prevOffset = prev.second
-                    val currOffset = curr.second
-                    val delta = currOffset - prevOffset
+            .map { (prev, curr) ->
+                if (prev == null) return@map null
 
-                    when {
-                        delta < -20 -> onScrollDirectionChanged(true)
-                        delta > 20 -> onScrollDirectionChanged(false)
-                    }
+                val indexChanged = curr.first != prev.first
+                val offsetDelta = curr.second - prev.second
+
+                when {
+                    indexChanged -> curr.first < prev.first
+                    offsetDelta < -30 -> true
+                    offsetDelta > 30 -> false
+                    else -> null
                 }
+            }
+            .filterNotNull()
+            .distinctUntilChanged()
+            .collect {
+                onScrollDirectionChanged(it)
             }
     }
 

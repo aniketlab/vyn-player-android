@@ -1,6 +1,8 @@
 package com.vyn.player.ui.player
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.widthIn
@@ -34,6 +37,7 @@ import com.vyn.player.ui.screens.player.PlayerViewModel
 @Composable
 fun PlayerHost(
     playerViewModel: PlayerViewModel,
+    isScrollingUp: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val expansionState by playerViewModel.playerExpansionState.collectAsStateWithLifecycle()
@@ -42,6 +46,14 @@ fun PlayerHost(
     val dimAlpha by animateFloatAsState(
         targetValue = if (expansionState == PlayerExpansionState.EXPANDED) 0.35f else 0f,
         label = "dimAlpha",
+    )
+    val lift by animateDpAsState(
+        targetValue = if (isScrollingUp) (-72).dp else 0.dp,
+        label = "playerLift",
+    )
+    val scale by animateFloatAsState(
+        targetValue = if (isScrollingUp) 0.96f else 1f,
+        label = "playerScale",
     )
 
     Box(
@@ -77,6 +89,7 @@ fun PlayerHost(
                     MiniPlayer(
                         viewModel = playerViewModel,
                         modifier = Modifier
+                            .offset(y = lift)
                             .fillMaxWidth()
                             .padding(bottom = navBarPadding + bottomBarHeight + 12.dp)
                             .padding(horizontal = 16.dp),

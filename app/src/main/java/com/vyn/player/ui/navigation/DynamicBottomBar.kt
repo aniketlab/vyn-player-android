@@ -3,6 +3,7 @@ package com.vyn.player.ui.navigation
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,7 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.screens.player.PlayerViewModel
 
@@ -36,32 +39,42 @@ fun DynamicBottomBar(
     onSearchClick: () -> Unit,
 ) {
     val isMerged = !isScrollingUp && isPlayerActive
+    val currentSong by playerViewModel.currentSong.collectAsStateWithLifecycle()
+    if (currentSong == null) return
+
     val height by animateDpAsState(
-        targetValue = if (isMerged) 72.dp else 120.dp,
-        animationSpec = spring(0.8f, 400f),
+        targetValue = if (isMerged) 72.dp else 110.dp,
+        animationSpec = spring(
+            dampingRatio = 0.85f,
+            stiffness = Spring.StiffnessMedium,
+        ),
         label = "bottomBarHeight",
     )
     val elevation by animateDpAsState(
         targetValue = if (isMerged) 6.dp else 18.dp,
-        animationSpec = spring(),
+        animationSpec = spring(
+            dampingRatio = 0.85f,
+            stiffness = Spring.StiffnessMedium,
+        ),
         label = "bottomBarElevation",
     )
-    val centerWeight by animateFloatAsState(
-        targetValue = if (isMerged) 2f else 0f,
+    val cornerRadius by animateDpAsState(
+        targetValue = if (isMerged) 28.dp else 20.dp,
         animationSpec = spring(
-            dampingRatio = 0.7f,
-            stiffness = 300f,
+            dampingRatio = 0.85f,
+            stiffness = Spring.StiffnessMedium,
+        ),
+        label = "bottomBarCornerRadius",
+    )
+    val centerWeight by animateFloatAsState(
+        targetValue = if (isMerged) 2f else 0.0001f,
+        animationSpec = spring(
+            dampingRatio = 0.85f,
+            stiffness = Spring.StiffnessMedium,
         ),
         label = "centerWeight",
     )
-    val sideWeight by animateFloatAsState(
-        targetValue = 1f,
-        animationSpec = spring(
-            dampingRatio = 0.7f,
-            stiffness = 300f,
-        ),
-        label = "sideWeight",
-    )
+    val sideWeight = 1f
 
     Column(
         modifier = Modifier
@@ -72,71 +85,62 @@ fun DynamicBottomBar(
         Surface(
             modifier = Modifier
                 .fillMaxWidth(),
-            shape = RoundedCornerShape(28.dp),
+            shape = RoundedCornerShape(cornerRadius),
             tonalElevation = 8.dp,
             shadowElevation = 12.dp,
             color = Color(0xFF1A1A1E),
         ) {
-            Column(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(height)
                     .padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                if (isMerged) {
+                Box(
+                    modifier = Modifier.weight(sideWeight),
+                    contentAlignment = Alignment.Center,
+                ) {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
                         verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceEvenly,
                     ) {
-                        Box(
-                            modifier = Modifier.weight(sideWeight),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            NavItem("Home", currentRoute == Destinations.HOME, onHomeClick, Icons.Filled.Home)
-                        }
+                        NavItem("Home", currentRoute == Destinations.HOME, onHomeClick, Icons.Filled.Home)
 
-                        Box(
-                            modifier = Modifier
-                                .weight(centerWeight)
-                                .padding(horizontal = 6.dp),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            if (centerWeight > 0.1f) {
-                                MorphingMiniPlayer(
-                                    playerViewModel = playerViewModel,
-                                    elevation = elevation,
-                                )
-                            }
-                        }
-
-                        Box(
-                            modifier = Modifier.weight(sideWeight),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            NavItem("Search", currentRoute == Destinations.SEARCH, onSearchClick, Icons.Filled.Search)
+                        if (!isMerged) {
+                            Spacer(modifier = Modifier.width(8.dp))
+                            NavItem("Discover", false, onDiscoverClick, Icons.Filled.Star)
                         }
                     }
-                } else {
+                }
+
+                Box(
+                    modifier = Modifier
+                        .weight(centerWeight)
+                        .padding(horizontal = 6.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
                     if (isPlayerActive) {
                         MorphingMiniPlayer(
                             playerViewModel = playerViewModel,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 6.dp),
                             elevation = elevation,
                         )
                     }
+                }
 
+                Box(
+                    modifier = Modifier.weight(sideWeight),
+                    contentAlignment = Alignment.Center,
+                ) {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceEvenly,
                     ) {
-                        NavItem("Home", currentRoute == Destinations.HOME, onHomeClick, Icons.Filled.Home)
-                        NavItem("Discover", false, onDiscoverClick, Icons.Filled.Star)
-                        NavItem("Library", currentRoute == Destinations.LIBRARY, onLibraryClick, Icons.AutoMirrored.Filled.List)
+                        if (!isMerged) {
+                            NavItem("Library", currentRoute == Destinations.LIBRARY, onLibraryClick, Icons.AutoMirrored.Filled.List)
+                            Spacer(modifier = Modifier.width(8.dp))
+                        }
+
                         NavItem("Search", currentRoute == Destinations.SEARCH, onSearchClick, Icons.Filled.Search)
                     }
                 }
@@ -149,7 +153,7 @@ fun DynamicBottomBar(
 private fun MorphingMiniPlayer(
     playerViewModel: PlayerViewModel,
     modifier: Modifier = Modifier,
-    elevation: androidx.compose.ui.unit.Dp,
+    elevation: Dp,
 ) {
     MiniPlayer(
         viewModel = playerViewModel,

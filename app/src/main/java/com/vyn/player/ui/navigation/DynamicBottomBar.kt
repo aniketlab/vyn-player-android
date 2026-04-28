@@ -1,10 +1,7 @@
 package com.vyn.player.ui.navigation
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.requiredWidthIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -58,25 +54,13 @@ fun DynamicBottomBar(
             .padding(horizontal = 16.dp, vertical = 10.dp)
             .animateContentSize(),
     ) {
-        val animatedWeight by animateFloatAsState(
-            targetValue = if (isMerged) 1f else 0.0001f,
-            animationSpec = spring(
-                dampingRatio = 0.8f,
-                stiffness = Spring.StiffnessMediumLow,
-            ),
-            label = "miniPlayerWeight",
+        val miniPlayerAlpha by animateFloatAsState(
+            targetValue = if (isMerged && isPlayerActive) 1f else 0f,
+            label = "miniPlayerAlpha",
         )
-        val playerHeight by animateDpAsState(
-            targetValue = if (isMerged) 62.dp else 50.dp,
-            label = "miniPlayerHeight",
-        )
-        val horizontalPadding by animateDpAsState(
-            targetValue = if (isMerged) 0.dp else 16.dp,
-            label = "miniPlayerHorizontalPadding",
-        )
-        val playerScale by animateFloatAsState(
-            targetValue = if (isMerged) 1f else 0.98f,
-            label = "playerScale",
+        val miniPlayerScale by animateFloatAsState(
+            targetValue = if (isMerged && isPlayerActive) 1f else 0.9f,
+            label = "miniPlayerScale",
         )
         val centerPillAlpha by animateFloatAsState(
             targetValue = if (isMerged) 0f else 1f,
@@ -123,22 +107,20 @@ fun DynamicBottomBar(
                         alpha = centerPillAlpha,
                         scale = centerPillScale,
                     )
-                }
 
-                Box(
-                    modifier = Modifier
-                        .weight(animatedWeight)
-                        .padding(horizontal = horizontalPadding)
-                        .height(playerHeight)
-                        .requiredWidthIn(min = 1.dp)
-                        .graphicsLayer {
-                            scaleX = playerScale
-                            scaleY = playerScale
-                            alpha = if (isPlayerActive) 1f else 0f
-                        },
-                    contentAlignment = Alignment.Center,
-                ) {
-                    MiniPlayer(viewModel = playerViewModel)
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(62.dp)
+                            .graphicsLayer {
+                                alpha = miniPlayerAlpha
+                                scaleX = miniPlayerScale
+                                scaleY = miniPlayerScale
+                            },
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        MiniPlayer(viewModel = playerViewModel)
+                    }
                 }
 
                 NavBarIconItem(

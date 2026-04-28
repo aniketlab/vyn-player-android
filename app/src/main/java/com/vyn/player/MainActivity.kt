@@ -146,7 +146,7 @@ class MainActivity : ComponentActivity() {
                     }?.route
 
                      LaunchedEffect(rawScroll) {
-                        kotlinx.coroutines.delay(100)
+                        kotlinx.coroutines.delay(120)
                         stableScroll = rawScroll
                     }
 
@@ -158,9 +158,6 @@ class MainActivity : ComponentActivity() {
                                 if (showBottomNavigation) {
                                      DynamicBottomBar(
                                          currentRoute = currentBottomRoute,
-                                         playerViewModel = playerViewModel,
-                                         isPlayerActive = isPlayerActive,
-                                         isScrollingUp = stableScroll,
                                          onHomeClick = {
                                             navController.navigate(Destinations.HOME) {
                                                 popUpTo(navController.graph.findStartDestination().id) {
@@ -228,6 +225,7 @@ class MainActivity : ComponentActivity() {
                             if (showBottomNavigation) {
                                  PlayerHost(
                                      playerViewModel = playerViewModel,
+                                     isScrollingUp = stableScroll,
                                      modifier = Modifier.align(Alignment.BottomCenter),
                                  )
                             }

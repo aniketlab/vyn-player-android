@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +47,11 @@ fun HomeScreen(
     val songs = state.songs.distinctBy { it.uri }
     val listState = rememberLazyListState()
     val lastDirection = remember { mutableStateOf<Boolean?>(null) }
+    val scrollPosition by remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.loadSongsIfNeeded()
@@ -53,7 +59,7 @@ fun HomeScreen(
 
     LaunchedEffect(listState) {
         snapshotFlow {
-            listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset
+            scrollPosition
         }
             .pairWithPrevious()
             .map { (prev, curr) ->
@@ -140,7 +146,7 @@ fun HomeScreen(
     }
 }
 
-private const val MIN_SCROLL_DISTANCE = 40
+private const val MIN_SCROLL_DISTANCE = 5
 
 private fun <T> Flow<T>.pairWithPrevious(): Flow<Pair<T?, T>> = flow {
     var previous: T? = null

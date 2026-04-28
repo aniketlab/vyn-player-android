@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -139,6 +140,9 @@ class MainActivity : ComponentActivity() {
                     val isPlayerActive by playerViewModel.isPlayerActive.collectAsStateWithLifecycle()
                     var rawScroll by remember { mutableStateOf(false) }
                     var stableScroll by remember { mutableStateOf(false) }
+                    val isMerged by remember {
+                        derivedStateOf { isPlayerActive && !stableScroll }
+                    }
                     val currentBottomRoute = bottomNavItems.firstOrNull { item ->
                         currentDestination
                             ?.hierarchy
@@ -159,6 +163,9 @@ class MainActivity : ComponentActivity() {
                                 if (showBottomNavigation) {
                                      DynamicBottomBar(
                                          currentRoute = currentBottomRoute,
+                                         playerViewModel = playerViewModel,
+                                         isPlayerActive = isPlayerActive,
+                                         isMerged = isMerged,
                                          onHomeClick = {
                                             navController.navigate(Destinations.HOME) {
                                                 popUpTo(navController.graph.findStartDestination().id) {
@@ -226,7 +233,6 @@ class MainActivity : ComponentActivity() {
                             if (showBottomNavigation) {
                                  PlayerHost(
                                      playerViewModel = playerViewModel,
-                                     isScrollingUp = stableScroll,
                                      modifier = Modifier.align(Alignment.BottomCenter),
                                  )
                             }

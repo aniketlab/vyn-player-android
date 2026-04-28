@@ -3,6 +3,7 @@ package com.vyn.player.ui.navigation
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -35,21 +36,31 @@ fun DynamicBottomBar(
     onSearchClick: () -> Unit,
 ) {
     val isMerged = !isScrollingUp && isPlayerActive
-    val widthFraction by animateFloatAsState(
-        targetValue = if (isMerged) 0.55f else 1f,
-        label = "miniPlayerWidthFraction",
-    )
-    val offsetY by animateDpAsState(
-        targetValue = if (isMerged) 0.dp else (-24).dp,
-        label = "miniPlayerOffsetY",
+    val height by animateDpAsState(
+        targetValue = if (isMerged) 72.dp else 120.dp,
+        animationSpec = spring(0.8f, 400f),
+        label = "bottomBarHeight",
     )
     val elevation by animateDpAsState(
-        targetValue = if (isMerged) 4.dp else 16.dp,
-        label = "miniPlayerElevation",
+        targetValue = if (isMerged) 6.dp else 18.dp,
+        animationSpec = spring(),
+        label = "bottomBarElevation",
     )
-    val containerHeight by animateDpAsState(
-        targetValue = if (isPlayerActive && !isMerged) 148.dp else 80.dp,
-        label = "bottomBarContainerHeight",
+    val centerWeight by animateFloatAsState(
+        targetValue = if (isMerged) 2f else 0f,
+        animationSpec = spring(
+            dampingRatio = 0.7f,
+            stiffness = 300f,
+        ),
+        label = "centerWeight",
+    )
+    val sideWeight by animateFloatAsState(
+        targetValue = 1f,
+        animationSpec = spring(
+            dampingRatio = 0.7f,
+            stiffness = 300f,
+        ),
+        label = "sideWeight",
     )
 
     Column(
@@ -66,50 +77,85 @@ fun DynamicBottomBar(
             shadowElevation = 12.dp,
             color = Color(0xFF1A1A1E),
         ) {
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(containerHeight)
+                    .height(height)
                     .padding(horizontal = 12.dp, vertical = 8.dp),
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(72.dp)
-                        .align(Alignment.BottomCenter),
-                    horizontalArrangement = if (isMerged) Arrangement.SpaceBetween else Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    NavItem("Home", currentRoute == Destinations.HOME, onHomeClick, Icons.Filled.Home)
-
-                    if (isMerged) {
-                        Spacer(modifier = Modifier.weight(1f))
-                    } else {
-                        NavItem("Discover", false, onDiscoverClick, Icons.Filled.Star)
-                        NavItem("Library", currentRoute == Destinations.LIBRARY, onLibraryClick, Icons.AutoMirrored.Filled.List)
-                    }
-
-                    NavItem("Search", currentRoute == Destinations.SEARCH, onSearchClick, Icons.Filled.Search)
-                }
-
-                if (isPlayerActive) {
-                    Box(
+                if (isMerged) {
+                    Row(
                         modifier = Modifier
-                            .fillMaxWidth(widthFraction)
-                            .offset(y = offsetY)
-                            .align(if (isMerged) Alignment.Center else Alignment.TopCenter),
-                        contentAlignment = Alignment.Center,
+                            .fillMaxWidth()
+                            .weight(1f),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        MiniPlayer(
-                            viewModel = playerViewModel,
-                            modifier = Modifier,
+                        Box(
+                            modifier = Modifier.weight(sideWeight),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            NavItem("Home", currentRoute == Destinations.HOME, onHomeClick, Icons.Filled.Home)
+                        }
+
+                        Box(
+                            modifier = Modifier
+                                .weight(centerWeight)
+                                .padding(horizontal = 6.dp),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            if (centerWeight > 0.1f) {
+                                MorphingMiniPlayer(
+                                    playerViewModel = playerViewModel,
+                                    elevation = elevation,
+                                )
+                            }
+                        }
+
+                        Box(
+                            modifier = Modifier.weight(sideWeight),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            NavItem("Search", currentRoute == Destinations.SEARCH, onSearchClick, Icons.Filled.Search)
+                        }
+                    }
+                } else {
+                    if (isPlayerActive) {
+                        MorphingMiniPlayer(
+                            playerViewModel = playerViewModel,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 6.dp),
                             elevation = elevation,
                         )
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        NavItem("Home", currentRoute == Destinations.HOME, onHomeClick, Icons.Filled.Home)
+                        NavItem("Discover", false, onDiscoverClick, Icons.Filled.Star)
+                        NavItem("Library", currentRoute == Destinations.LIBRARY, onLibraryClick, Icons.AutoMirrored.Filled.List)
+                        NavItem("Search", currentRoute == Destinations.SEARCH, onSearchClick, Icons.Filled.Search)
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+private fun MorphingMiniPlayer(
+    playerViewModel: PlayerViewModel,
+    modifier: Modifier = Modifier,
+    elevation: androidx.compose.ui.unit.Dp,
+) {
+    MiniPlayer(
+        viewModel = playerViewModel,
+        modifier = modifier,
+        elevation = elevation,
+    )
 }
 
 @Composable

@@ -1,13 +1,12 @@
 package com.vyn.player.ui.navigation
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -49,23 +48,14 @@ fun DynamicBottomBar(
     val currentSong by playerViewModel.currentSong.collectAsStateWithLifecycle()
     if (isPlayerActive && currentSong == null) return
 
-    BoxWithConstraints(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(164.dp)
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 10.dp)
             .animateContentSize(),
     ) {
-        val centerHorizontalPadding by animateDpAsState(
-            targetValue = if (isMerged) 86.dp else 0.dp,
-            label = "playerHorizontalPadding",
-        )
-        val playerBottom by animateDpAsState(
-            targetValue = if (isMerged) 16.dp else 90.dp,
-            label = "playerBottom",
-        )
         val playerScale by animateFloatAsState(
-            targetValue = if (isMerged) 1f else 0.86f,
+            targetValue = if (isMerged) 1f else 0.98f,
             label = "playerScale",
         )
         val centerPillAlpha by animateFloatAsState(
@@ -80,8 +70,7 @@ fun DynamicBottomBar(
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(72.dp)
-                .align(Alignment.BottomCenter),
+                .height(72.dp),
             shape = RoundedCornerShape(28.dp),
             tonalElevation = 8.dp,
             color = Color(0xFF1A1A1E),
@@ -98,13 +87,14 @@ fun DynamicBottomBar(
                     selected = currentRoute == Destinations.HOME,
                     onClick = onHomeClick,
                     icon = Icons.Filled.Home,
-                    modifier = Modifier.size(70.dp),
+                    modifier = Modifier.size(62.dp),
                 )
 
                 Box(
                     modifier = Modifier
                         .weight(1f)
-                        .height(62.dp),
+                        .height(62.dp)
+                        .animateContentSize(),
                     contentAlignment = Alignment.Center,
                 ) {
                     CenterPill(
@@ -113,6 +103,20 @@ fun DynamicBottomBar(
                         alpha = centerPillAlpha,
                         scale = centerPillScale,
                     )
+
+                    if (isPlayerActive && isMerged) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .graphicsLayer {
+                                    scaleX = playerScale
+                                    scaleY = playerScale
+                                },
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            MiniPlayer(viewModel = playerViewModel)
+                        }
+                    }
                 }
 
                 NavBarIconItem(
@@ -120,25 +124,8 @@ fun DynamicBottomBar(
                     selected = currentRoute == Destinations.SEARCH,
                     onClick = onSearchClick,
                     icon = Icons.Filled.Search,
-                    modifier = Modifier.size(70.dp),
+                    modifier = Modifier.size(62.dp),
                 )
-            }
-        }
-
-        if (isPlayerActive) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = centerHorizontalPadding)
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = playerBottom)
-                    .graphicsLayer {
-                        scaleX = playerScale
-                        scaleY = playerScale
-                    },
-                contentAlignment = Alignment.Center,
-            ) {
-                MiniPlayer(viewModel = playerViewModel)
             }
         }
     }

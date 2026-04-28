@@ -57,12 +57,12 @@ fun HomeScreen(
                 if (prev == null) return@map null
 
                 val indexChanged = curr.first != prev.first
-                val offsetDelta = curr.second - prev.second
+                val delta = curr.second - prev.second
 
                 when {
                     indexChanged -> curr.first < prev.first
-                    offsetDelta < -30 -> true
-                    offsetDelta > 30 -> false
+                    delta < -25 -> true
+                    delta > 25 -> false
                     else -> null
                 }
             }

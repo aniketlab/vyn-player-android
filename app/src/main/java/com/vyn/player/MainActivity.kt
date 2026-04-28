@@ -6,14 +6,12 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.foundation.layout.WindowInsets
@@ -26,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -35,7 +32,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.vyn.player.core.player.PlayerController
-import com.vyn.player.core.ui.UiDimens
 import com.vyn.player.data.local.MediaStoreDataSource
 import com.vyn.player.data.repository.SongRepository
 import com.vyn.player.ui.navigation.Destinations
@@ -47,7 +43,6 @@ import com.vyn.player.ui.player.PlayerHost
 import com.vyn.player.ui.screens.home.HomeViewModel
 import com.vyn.player.ui.screens.player.PlayerViewModel
 import com.vyn.player.ui.theme.VynPlayerTheme
-import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,8 +145,8 @@ class MainActivity : ComponentActivity() {
                             ?.any { destination -> destination.route == item.route } == true
                     }?.route
 
-                    LaunchedEffect(rawScroll) {
-                        kotlinx.coroutines.delay(120)
+                     LaunchedEffect(rawScroll) {
+                        kotlinx.coroutines.delay(100)
                         stableScroll = rawScroll
                     }
 
@@ -161,9 +156,12 @@ class MainActivity : ComponentActivity() {
                             contentWindowInsets = WindowInsets(0, 0, 0, 0),
                             bottomBar = {
                                 if (showBottomNavigation) {
-                                    DynamicBottomBar(
-                                        currentRoute = currentBottomRoute,
-                                        onHomeClick = {
+                                     DynamicBottomBar(
+                                         currentRoute = currentBottomRoute,
+                                         playerViewModel = playerViewModel,
+                                         isPlayerActive = isPlayerActive,
+                                         isScrollingUp = stableScroll,
+                                         onHomeClick = {
                                             navController.navigate(Destinations.HOME) {
                                                 popUpTo(navController.graph.findStartDestination().id) {
                                                     saveState = true
@@ -228,11 +226,10 @@ class MainActivity : ComponentActivity() {
                                 .zIndex(100f),
                         ) {
                             if (showBottomNavigation) {
-                                PlayerHost(
-                                    playerViewModel = playerViewModel,
-                                    isScrollingUp = stableScroll,
-                                    modifier = Modifier.align(Alignment.BottomCenter),
-                                )
+                                 PlayerHost(
+                                     playerViewModel = playerViewModel,
+                                     modifier = Modifier.align(Alignment.BottomCenter),
+                                 )
                             }
                         }
                     }

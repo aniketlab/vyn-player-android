@@ -38,6 +38,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.screens.player.PlayerViewModel
@@ -47,6 +48,7 @@ fun MiniPlayer(
     viewModel: PlayerViewModel,
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
+    elevation: Dp = 6.dp,
 ) {
     val currentSong by viewModel.currentSong.collectAsStateWithLifecycle()
     val isPlaying by viewModel.isPlaying.collectAsStateWithLifecycle()
@@ -67,11 +69,11 @@ fun MiniPlayer(
 
     Surface(
         shape = RoundedCornerShape(18.dp),
-        tonalElevation = 6.dp,
+        tonalElevation = elevation,
         color = Color(0xFF1E1E22),
         modifier = modifier
             .shadow(
-                elevation = 6.dp,
+                elevation = elevation,
                 shape = RoundedCornerShape(18.dp),
             )
             .border(
@@ -82,7 +84,7 @@ fun MiniPlayer(
             .graphicsLayer {
                 scaleX = scale
                 scaleY = scale
-                shadowElevation = 12f
+                shadowElevation = elevation.toPx()
             }
             .fillMaxWidth()
             .height(64.dp),

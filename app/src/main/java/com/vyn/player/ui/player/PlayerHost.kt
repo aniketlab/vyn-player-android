@@ -47,8 +47,8 @@ fun PlayerHost(
         targetValue = if (expansionState == PlayerExpansionState.EXPANDED) 0.35f else 0f,
         label = "dimAlpha",
     )
-    val lift by animateDpAsState(
-        targetValue = if (isScrollingUp) (-72).dp else 0.dp,
+    val offsetY by animateDpAsState(
+        targetValue = if (isScrollingUp) (-68).dp else 0.dp,
         label = "playerLift",
     )
     val scale by animateFloatAsState(
@@ -89,7 +89,7 @@ fun PlayerHost(
                     MiniPlayer(
                         viewModel = playerViewModel,
                         modifier = Modifier
-                            .offset(y = lift)
+                            .offset(y = offsetY)
                             .fillMaxWidth()
                             .padding(bottom = navBarPadding + bottomBarHeight + 12.dp)
                             .padding(horizontal = 16.dp),

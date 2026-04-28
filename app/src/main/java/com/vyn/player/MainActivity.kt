@@ -162,8 +162,6 @@ class MainActivity : ComponentActivity() {
                             bottomBar = {
                                 if (showBottomNavigation) {
                                     DynamicBottomBar(
-                                        isPlayerActive = isPlayerActive,
-                                        isScrollingUp = stableScroll,
                                         currentRoute = currentBottomRoute,
                                         onHomeClick = {
                                             navController.navigate(Destinations.HOME) {

@@ -145,9 +145,10 @@ class MainActivity : ComponentActivity() {
                             ?.any { destination -> destination.route == item.route } == true
                     }?.route
 
-                     LaunchedEffect(rawScroll) {
+                    LaunchedEffect(rawScroll) {
                         kotlinx.coroutines.delay(120)
                         stableScroll = rawScroll
+                        Log.d("SCROLL_STATE", "raw=$rawScroll stable=$stableScroll")
                     }
 
                     Box(modifier = Modifier.fillMaxSize()) {

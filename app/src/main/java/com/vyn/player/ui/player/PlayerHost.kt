@@ -1,5 +1,6 @@
 package com.vyn.player.ui.player
 
+import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -34,8 +35,9 @@ fun PlayerHost(
         targetValue = if (expansionState == PlayerExpansionState.EXPANDED) 0.35f else 0f,
         label = "dimAlpha",
     )
+    val targetOffset = if (isScrollingUp) (-60).dp else 0.dp
     val lift by animateDpAsState(
-        targetValue = if (isScrollingUp) (-70).dp else 0.dp,
+        targetValue = targetOffset.coerceIn((-60).dp, 0.dp),
         animationSpec = spring(dampingRatio = 0.85f),
         label = "miniPlayerLift",
     )
@@ -46,6 +48,8 @@ fun PlayerHost(
     )
 
     if (currentSong == null && expansionState != PlayerExpansionState.EXPANDED) return
+
+    Log.d("PLAYER_ANIM", "isScrollingUp=$isScrollingUp offset=$lift")
 
     Box(
         modifier = modifier

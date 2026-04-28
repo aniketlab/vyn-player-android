@@ -19,6 +19,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -43,6 +45,7 @@ fun HomeScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val songs = state.songs.distinctBy { it.uri }
     val listState = rememberLazyListState()
+    val lastDirection = remember { mutableStateOf<Boolean?>(null) }
 
     LaunchedEffect(Unit) {
         viewModel.loadSongsIfNeeded()
@@ -58,12 +61,20 @@ fun HomeScreen(
 
                 val indexChanged = curr.first != prev.first
                 val delta = curr.second - prev.second
-
-                when {
+                val direction = when {
                     indexChanged -> curr.first < prev.first
-                    delta < -25 -> true
-                    delta > 25 -> false
+                    delta < -MIN_SCROLL_DISTANCE -> true
+                    delta > MIN_SCROLL_DISTANCE -> false
                     else -> null
+                }
+
+                Log.d("SCROLL_DEBUG", "delta=$delta direction=$direction index=${curr.first}")
+
+                if (direction != null && direction != lastDirection.value) {
+                    lastDirection.value = direction
+                    direction
+                } else {
+                    null
                 }
             }
             .filterNotNull()
@@ -128,6 +139,8 @@ fun HomeScreen(
         }
     }
 }
+
+private const val MIN_SCROLL_DISTANCE = 40
 
 private fun <T> Flow<T>.pairWithPrevious(): Flow<Pair<T?, T>> = flow {
     var previous: T? = null

@@ -1,15 +1,7 @@
 package com.vyn.player.ui.player
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -26,11 +18,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.core.ui.UiDimens
 import com.vyn.player.ui.components.MiniPlayer
-import com.vyn.player.ui.player.PlayerExpansionState
 import com.vyn.player.ui.screens.player.PlayerScreen
 import com.vyn.player.ui.screens.player.PlayerViewModel
 
@@ -52,7 +44,7 @@ fun PlayerHost(
         label = "playerLift",
     )
     val scale by animateFloatAsState(
-        targetValue = if (isScrollingUp) 0.96f else 1f,
+        targetValue = if (isScrollingUp) 0.95f else 1f,
         label = "playerScale",
     )
 
@@ -66,35 +58,28 @@ fun PlayerHost(
                 .background(Color.Black.copy(alpha = dimAlpha)),
         )
 
-        AnimatedContent(
-            targetState = expansionState,
-            transitionSpec = {
-                (fadeIn(animationSpec = tween(250)) +
-                    scaleIn(initialScale = 0.92f)) togetherWith
-                    (fadeOut(animationSpec = tween(200)) +
-                        scaleOut(targetScale = 1.08f))
-            },
-            label = "playerTransition",
-        ) { state ->
-            if (state == PlayerExpansionState.EXPANDED) {
-                PlayerScreen(
+        if (expansionState == PlayerExpansionState.EXPANDED) {
+            PlayerScreen(
+                viewModel = playerViewModel,
+                modifier = Modifier.fillMaxSize(),
+            )
+        } else {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.BottomCenter,
+            ) {
+                MiniPlayer(
                     viewModel = playerViewModel,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .offset(y = offsetY)
+                        .graphicsLayer {
+                            scaleX = scale
+                            scaleY = scale
+                        }
+                        .fillMaxWidth()
+                        .padding(bottom = navBarPadding + bottomBarHeight + 12.dp)
+                        .padding(horizontal = 16.dp),
                 )
-            } else {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.BottomCenter,
-                ) {
-                    MiniPlayer(
-                        viewModel = playerViewModel,
-                        modifier = Modifier
-                            .offset(y = offsetY)
-                            .fillMaxWidth()
-                            .padding(bottom = navBarPadding + bottomBarHeight + 12.dp)
-                            .padding(horizontal = 16.dp),
-                    )
-                }
             }
         }
     }

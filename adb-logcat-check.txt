@@ -1,0 +1,450 @@
+--------- beginning of main
+04-29 19:46:33.371  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+04-29 19:46:33.371  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+04-29 19:46:33.521  1346  8099 D vendor.qti.bluetooth@1.0-wake_lock: Release wakelock is released 
+04-29 19:46:33.567 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.mainline.primary.libs' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:33.791 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.art' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:33.848 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.mediaprovider' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:33.867 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.resolv' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:33.884 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.media' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:33.930 24389 17759 W adbd    : timed out while waiting for FUNCTIONFS_BIND, trying again
+04-29 19:46:33.930 24389 17759 I adbd    : UsbFfs: connection terminated: monitor thread finished
+04-29 19:46:33.969 24389 24395 I adbd    : opening control endpoint /dev/usb-ffs/adb/ep0
+04-29 19:46:33.995  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+04-29 19:46:33.995  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK ON
+04-29 19:46:33.997  1346  8374 D vendor.qti.bluetooth@1.0-wake_lock: Acquire wakelock is acquired 
+04-29 19:46:33.997  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Writing IBS_WAKE_ACK
+04-29 19:46:34.004 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.sdkext' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:34.026 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.tethering' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:34.038  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+04-29 19:46:34.038  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+04-29 19:46:34.096 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.cellbroadcast' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:34.143  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+04-29 19:46:34.143  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK ON
+04-29 19:46:34.143  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Writing IBS_WAKE_ACK
+04-29 19:46:34.184  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+04-29 19:46:34.184  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+04-29 19:46:34.243 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.tzdata3' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+--------- beginning of system
+04-29 19:46:34.265  2755  2827 D OplusFeatureBrightnessBarController: mDarkLevel: 0
+04-29 19:46:34.281 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.permission' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:34.335  1346  8099 D vendor.qti.bluetooth@1.0-wake_lock: Release wakelock is released 
+04-29 19:46:34.366  1338 23531 D DlbDap2Process: process() called [715000] times with input channel mask 0x3 (ProcessingMode=1)
+04-29 19:46:34.422 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.media.swcodec' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:34.424  1338 29484 D audio_hw_primary: out_standby: enter: stream (0xebd51800) usecase(0: deep-buffer-playback)
+04-29 19:46:34.490  2755  2916 D OplusAppListInterceptManager: shouldFilterTask
+04-29 19:46:34.491  2755  2916 D OplusAppListInterceptManager: shouldFilterTask::packageName = com.vyn.player
+04-29 19:46:34.491  2755  2916 D OplusAppListInterceptManager: shouldFilterTask
+04-29 19:46:34.491  2755  2916 D OplusAppListInterceptManager: shouldFilterTask::packageName = com.openai.chatgpt
+04-29 19:46:34.491  2755  2916 D OplusAppListInterceptManager: shouldFilterTask
+04-29 19:46:34.491  2755  2916 D OplusAppListInterceptManager: shouldFilterTask::packageName = com.whatsapp
+04-29 19:46:34.493 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.adbd' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:34.488  4142  4142 W GuardElfCpu: type=1400 audit(0.0:258991): avc: denied { read } for name="status" dev="proc" ino=4507839 scontext=u:r:system_app:s0 tcontext=u:r:surfaceflinger:s0 tclass=file permissive=0
+04-29 19:46:34.498  4142  4142 W GuardElfCpu: type=1400 audit(0.0:258992): avc: denied { read } for name="status" dev="proc" ino=4507840 scontext=u:r:system_app:s0 tcontext=u:r:installd:s0 tclass=file permissive=0
+04-29 19:46:34.498  4142  4142 W GuardElfCpu: type=1400 audit(0.0:258993): avc: denied { search } for name="1338" dev="proc" ino=4329392 scontext=u:r:system_app:s0 tcontext=u:r:hal_audio_default:s0 tclass=dir permissive=0
+04-29 19:46:34.498  4142  4142 W GuardElfCpu: type=1400 audit(0.0:258994): avc: denied { search } for name="1354" dev="proc" ino=4494535 scontext=u:r:system_app:s0 tcontext=u:r:hal_graphics_composer_default:s0 tclass=dir permissive=0
+04-29 19:46:34.498  4142  4142 W GuardElfCpu: type=1400 audit(0.0:258995): avc: denied { search } for name="1476" dev="proc" ino=4329462 scontext=u:r:system_app:s0 tcontext=u:r:audioserver:s0 tclass=dir permissive=0
+04-29 19:46:34.536 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.conscrypt' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:34.568  1338 29484 D audio_hw_primary: stop_output_stream: enter: usecase(0: deep-buffer-playback)
+04-29 19:46:34.568  1338 29484 D audio_hw_primary: disable_audio_route: reset and update mixer path: deep-buffer-playback quat_i2s
+04-29 19:46:34.569  1338 29484 E soundtrigger: audio_extn_sound_trigger_update_stream_status: invalid input device 0x0, for event 2
+04-29 19:46:34.569  1338 29484 D soundtrigger: audio_extn_sound_trigger_update_stream_status: uc_info->id 0 of type 0 for Event 2, with Raise=1
+04-29 19:46:34.569  1338 29484 I sound_trigger_platform: platform_stdev_check_and_update_concurrency: Received STREAM event, event type 2, usecase type 0
+04-29 19:46:34.569  1338 29484 D sound_trigger_platform: platform_stdev_check_and_update_concurrency: dedicated path 1, reset backend 1, tx 0, rx 0,concurrency session allowed
+04-29 19:46:34.569  1338 29484 D msm8974_platform: platform_split_snd_device: snd_device(2) num devices(0) new_snd_devices(0)
+04-29 19:46:34.569  1338 29484 I msm8974_platform: platform_get_custom_mtmx_params: no matching param with id 0 ip_ch 2 op_ch 2 uc_id 0 snd_dev 2
+04-29 19:46:34.569  1338 29484 D hardware_info: hw_info_append_hw_type : device_name = speaker
+04-29 19:46:34.569  1338 29484 D audio_hw_primary: disable_snd_device: snd_device(2: speaker), snd_dev_ref_cnt 0
+04-29 19:46:34.569  1338 29484 D audio_hw_primary: disable_snd_device: snd_device(2: speaker)
+04-29 19:46:34.569  1338 29484 D msm8974_platform: platform_check_backend_tag_match: be_tag1 = quat_i2s, be_tag2 = quat_i2s
+04-29 19:46:34.569  1338 29484 D msm8974_platform: platform_check_backend_tag_match: be_itf1 = QUAT_MI2S_RX, be_itf2 = QUAT_MI2S_RX, match 1
+04-29 19:46:34.569  1338 29484 D oplus_spk_protection: oplus_extn_spkr_prot_stop_processing: Entry
+04-29 19:46:34.575  1338 29484 D hardware_info: hw_info_append_hw_type : device_name = vi-feedback
+04-29 19:46:34.575  1338 29484 D audio_hw_primary: disable_snd_device: snd_device(248: vi-feedback), snd_dev_ref_cnt 0
+04-29 19:46:34.575  1338 29484 D audio_hw_primary: disable_snd_device: snd_device(248: vi-feedback)
+04-29 19:46:34.575  1338 29484 E msm8974_platform: platform_check_backend_tag_match: Invalid snd_device = vi-feedback
+04-29 19:46:34.575  1338 29484 D msm8974_platform: platform_split_snd_device: snd_device(248) num devices(0) new_snd_devices(0)
+04-29 19:46:34.575  1338 29484 I soundtrigger: audio_extn_sound_trigger_update_device_status: device 0xf8 of type 1 for Event 0, with Raise=0
+04-29 19:46:34.575  1338 29484 D audio_hw_primary: disable_audio_route: reset and update mixer path: spkr-vi-record
+04-29 19:46:34.576  1338 29484 D soundtrigger: audio_extn_sound_trigger_update_stream_status: uc_info->id 53 of type 1 for Event 2, with Raise=0
+04-29 19:46:34.577  1338 29484 D oplus_spk_protection: oplus_extn_spkr_prot_stop_processing: Exit
+04-29 19:46:34.577  1338 29484 D msm8974_platform: platform_split_snd_device: snd_device(2) num devices(0) new_snd_devices(0)
+04-29 19:46:34.577  1338 29484 I soundtrigger: audio_extn_sound_trigger_update_device_status: device 0x2 of type 0 for Event 0, with Raise=0
+04-29 19:46:34.577  1338 29484 D audio_hw_notify_sensor: notify_audio_state: notify state(0) success
+04-29 19:46:34.577  1338 29484 D audio_hw_primary: disable_snd_device:NotifyAudioState AUDIO_ULTRASOUND_DISABLE !!
+04-29 19:46:34.577  1338 29484 D audio_hw_primary: stop_output_stream: exit: status(0)
+04-29 19:46:34.577  1338 29484 D audio_hw_primary: out_standby: exit
+04-29 19:46:34.577  1366  3039 I sensors-hal: AudioStateEventCallBack:1310, _audioState : 0, _preAudioState : 1
+04-29 19:46:34.577  1366  3039 I sensors-hal: AudioStateEventCallBack:1313, not active, return
+04-29 19:46:34.583 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.neuralnetworks' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:34.599 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.ipsec' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:34.654 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.extservices' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:34.717 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.os.statsd' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:34.777 23555 23555 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.scheduling' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+04-29 19:46:34.795  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+04-29 19:46:34.796  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK ON
+04-29 19:46:34.796  1346  8374 D vendor.qti.bluetooth@1.0-wake_lock: Acquire wakelock is acquired 
+04-29 19:46:34.796  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Writing IBS_WAKE_ACK
+04-29 19:46:34.802 23555 23555 I Finsky  : [2] App states replicator found 36 unowned apps
+04-29 19:46:34.817 23555 23635 I Finsky  : [6131] Completed 0 account content syncs with 0 successful.
+04-29 19:46:34.817 23555 23555 I Finsky  : [2] [ContentSync] Installation state replication succeeded.
+04-29 19:46:34.817 23555 23555 I Finsky  : [2] SCH: jobFinished: 12-1. TimeElapsed: 1526ms.
+04-29 19:46:34.817 23555 23555 I Finsky  : [2] WM::SCH: Logging work end for 12-1
+04-29 19:46:34.837  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+04-29 19:46:34.837 23555 23635 I Finsky  : [6131] SCH: Scheduling phonesky job Id: 1-1337, CT: 1777455602698, Constraints: [{ L: 38437825, D: 81637825, C: CHARGING_NONE, I: IDLE_NONE, N: NET_ANY, B: BATTERY_ANY }]
+04-29 19:46:34.837  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+04-29 19:46:34.837 23555 23635 I Finsky  : [6131] SCH: Scheduling phonesky job Id: 34-195, CT: 1777455610841, Constraints: [{ L: 604800000, D: 2491207700, C: CHARGING_NONE, I: IDLE_NONE, N: NET_ANY, B: BATTERY_ANY }]
+04-29 19:46:34.837 23555 23635 I Finsky  : [6131] SCH: Scheduling phonesky job Id: 34-202, CT: 1777455610841, Constraints: [{ L: 604800000, D: 2577389046, C: CHARGING_NONE, I: IDLE_NONE, N: NET_ANY, B: BATTERY_ANY }]
+04-29 19:46:34.837 23555 23635 I Finsky  : [6131] SCH: Scheduling phonesky job Id: 34-207, CT: 1777455610842, Constraints: [{ L: 64586627, D: 1360586627, C: CHARGING_NONE, I: IDLE_NONE, N: NET_ANY, B: BATTERY_ANY }]
+04-29 19:46:34.844 23555 23646 I Finsky  : [6134] SCH: Scheduling 1 system job(s)
+04-29 19:46:34.845 23555 23646 I Finsky  : [6134] SCH: Scheduling system job Id: 9262, L: 21845679, D: 65045679, C: false, I: false, N: 1
+04-29 19:46:34.856 23555 16031 I Finsky  : [6346] SCH: job service finished with id 9254.
+04-29 19:46:34.973 24389 17767 W adbd    : timed out while waiting for FUNCTIONFS_BIND, trying again
+04-29 19:46:34.973 24389 17767 I adbd    : UsbFfs: connection terminated: monitor thread finished
+04-29 19:46:34.988  1346  8099 D vendor.qti.bluetooth@1.0-wake_lock: Release wakelock is released 
+04-29 19:46:35.008 24389 24395 I adbd    : opening control endpoint /dev/usb-ffs/adb/ep0
+04-29 19:46:35.363  1484  1715 D VRR [OTI]: handleIdle from 0 to 1
+04-29 19:46:35.364  1484  1715 D VRR [OTI-HW]: isStateReady 0
+04-29 19:46:35.364  1484  1715 D VRR [OTI-HW]: rate range: min {id=0, hwcId=0, fps=60.00, width=1080, height=2400 group=0} cur {id=1, hwcId=1, fps=90.00, width=1080, height=2400 group=0} max {id=1, hwcId=1, fps=90.00, width=1080, height=2400 group=0}
+04-29 19:46:35.364  1484  1715 D VRR [OTI-HW]: keep rate.
+04-29 19:46:35.499  2755  2827 D OplusFeatureBrightnessBarController: mDarkLevel: 0
+04-29 19:46:35.650  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+04-29 19:46:35.651  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK ON
+04-29 19:46:35.652  1346  8374 D vendor.qti.bluetooth@1.0-wake_lock: Acquire wakelock is acquired 
+04-29 19:46:35.652  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Writing IBS_WAKE_ACK
+04-29 19:46:35.694  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+04-29 19:46:35.694  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+04-29 19:46:35.708 17267 17707 D CCodecBufferChannel: [c2.android.mp3.decoder#809] DEBUG: elapsed: n=4 [in=0 pipeline=0 out=0]
+04-29 19:46:35.709 17267 17707 D PipelineWatcher: DEBUG: elapsed 0 / 4
+04-29 19:46:35.846  1346  8099 D vendor.qti.bluetooth@1.0-wake_lock: Release wakelock is released 
+04-29 19:46:35.991  1366  5611 E sensors-hal: ssc_conn_event_cb:661, event[0] msg_id=1025, ts=1783768640372 sensor_type = pedometer_minute  Wakeup
+04-29 19:46:35.992  1366  5611 E sensors-hal: handle_sns_client_event:83, pedometer_minute: report_ts=1547,counter=372.000000 move_status =[SNS_CMC_STATIONARY] time_gap = 0 run_counter=0.000000 walk_counter=226.000000
+04-29 19:46:35.999  4142  4142 I StepApp_StepDataPreHandler: (main)onSensorChanged raw data: step=372.0 state=3.0 minuteDelta=0.0 timestamp=92900483656183 steprun=0.0 stepwalk=226.0 formatted data: step=372 state=3 timestamp=92900483656183 time=1777472195988 steprun=0 stepwalk=226
+04-29 19:46:36.012 24389 17769 W adbd    : timed out while waiting for FUNCTIONFS_BIND, trying again
+04-29 19:46:36.012 24389 17769 I adbd    : UsbFfs: connection terminated: monitor thread finished
+04-29 19:46:36.018  7214  7239 E IHansComunication: HANS printMessageBody: RCVed message body: type = 0, port = 86870, caller_pid = 2755, caller_uid = 1000, target_pid = 8852, target_uid = 10382, pkg_cmd = -1
+04-29 19:46:36.024  2755  3812 I OplusHansManager : unfreeze uid: 10382 in.amazon.mShop.android.shopping pids: [27943, 8852] reason: AsyncBinder scene: LcdOn
+04-29 19:46:36.025  2755  2934 I ActivityManager: Killing 15813:com.google.process.gservices/u0a130 (adj 999): empty #31
+04-29 19:46:36.026 27943 28196 D MobileLoggingSuite: Executing Sushi UploadTask...
+04-29 19:46:36.027 27943 28196 D MobileLoggingSuite: Starting upload of previously persisted events in path /data/user/0/in.amazon.mShop.android.shopping/files/mls/nexus/sushi_normal
+04-29 19:46:36.027  2755  3811 I OplusHansManager : uid=10382, pkg=in.amazon.mShop.android.shopping, transition from Frozen to Middle, reason=AsyncBinder
+04-29 19:46:36.027  2755  3811 I OplusHansManager : uid=10382, pkg=in.amazon.mShop.android.shopping F exit(), reason=AsyncBinder
+04-29 19:46:36.027  2755  4857 D OplusProxyWakeLock: remove uid: 10382 wiht all pids from wakelockUidInfo list
+04-29 19:46:36.029 27943 28196 D MobileLoggingSuite: Completed upload of previously persisted events in path /data/user/0/in.amazon.mShop.android.shopping/files/mls/nexus/sushi_normal
+04-29 19:46:36.029 27943 28196 D MobileLoggingSuite: Sushi UploadTask completed successfully
+04-29 19:46:36.030   768   768 I hwservicemanager: getTransport: Cannot find entry vendor.qti.hardware.iop@2.0::IIop/default in either framework or device VINTF manifest.
+04-29 19:46:36.040  2755  2809 I libprocessgroup: Successfully killed process cgroup uid 10130 pid 15813 in 10ms
+04-29 19:46:36.079 24389 24395 I adbd    : opening control endpoint /dev/usb-ffs/adb/ep0
+04-29 19:46:36.086   768   768 I hwservicemanager: getTransport: Cannot find entry vendor.qti.hardware.iop@2.0::IIop/default in either framework or device VINTF manifest.
+04-29 19:46:36.091  6877 29146 V DeepThinker: ProcessManager: onProcessDied pid:15813, uid:10130
+04-29 19:46:36.092  1218  1218 I Zygote  : Process 15813 exited due to signal 9 (Killed)
+04-29 19:46:36.296  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+04-29 19:46:36.297  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK ON
+04-29 19:46:36.299  1346  8374 D vendor.qti.bluetooth@1.0-wake_lock: Acquire wakelock is acquired 
+04-29 19:46:36.299  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Writing IBS_WAKE_ACK
+04-29 19:46:36.340  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+04-29 19:46:36.340  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+04-29 19:46:36.373 17267 17709 D BufferPoolAccessor2.0: bufferpool2 0xb400007c37d2e828 : 5(40960 size) total buffers - 0(0 size) used buffers - 245/250 (recycle/alloc) - 6/498 (fetch/transfer)
+04-29 19:46:36.373 17267 17709 D BufferPoolAccessor2.0: evictor expired: 1, evicted: 1
+04-29 19:46:36.455 17790 17790 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:36.458 17790 17790 E Parcel  : Attempt to read from protected data in Parcel 0x7fdd5ddb10
+04-29 19:46:36.458 17790 17790 E Parcel  : Attempt to read from protected data in Parcel 0x7fdd5ddb10
+04-29 19:46:36.458 17790 17790 E Parcel  : Attempt to read from protected data in Parcel 0x7fdd5ddb10
+04-29 19:46:36.458 17790 17790 E Parcel  : Attempt to read from protected data in Parcel 0x7fdd5ddb10
+04-29 19:46:36.458 17790 17790 E Parcel  : Attempt to read from protected data in Parcel 0x7fdd5ddb10
+04-29 19:46:36.490  1346  8099 D vendor.qti.bluetooth@1.0-wake_lock: Release wakelock is released 
+04-29 19:46:36.478 17793 17793 W getenforce: type=1400 audit(0.0:258997): avc: denied { read } for name="enforce" dev="selinuxfs" ino=4 scontext=u:r:untrusted_app:s0:c126,c257,c512,c768 tcontext=u:object_r:selinuxfs:s0 tclass=file permissive=0 app=in.amazon.mShop.android.shopping
+04-29 19:46:36.478 27943 27943 W Thread-164: type=1400 audit(0.0:258998): avc: denied { read } for name="enforce" dev="selinuxfs" ino=4 scontext=u:r:untrusted_app:s0:c126,c257,c512,c768 tcontext=u:object_r:selinuxfs:s0 tclass=file permissive=0 app=in.amazon.mShop.android.shopping
+04-29 19:46:36.478 27943 27943 W Thread-164: type=1400 audit(0.0:258999): avc: denied { read } for name="cache" dev="dm-20" ino=103 scontext=u:r:untrusted_app:s0:c126,c257,c512,c768 tcontext=u:object_r:cache_file:s0 tclass=lnk_file permissive=0 app=in.amazon.mShop.android.shopping
+04-29 19:46:36.478 27943 27943 W Thread-164: type=1400 audit(0.0:259000): avc: denied { read } for name="cache" dev="dm-20" ino=103 scontext=u:r:untrusted_app:s0:c126,c257,c512,c768 tcontext=u:object_r:cache_file:s0 tclass=lnk_file permissive=0 app=in.amazon.mShop.android.shopping
+04-29 19:46:36.550 19546 20108 E Flipper : Attempted to initialize in non-internal build
+04-29 19:46:36.561 17796 17796 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:36.563 17796 17796 E Parcel  : Attempt to read from protected data in Parcel 0x7fca8200c0
+04-29 19:46:36.563 17796 17796 E Parcel  : Attempt to read from protected data in Parcel 0x7fca8200c0
+04-29 19:46:36.563 17796 17796 E Parcel  : Attempt to read from protected data in Parcel 0x7fca8200c0
+04-29 19:46:36.563 17796 17796 E Parcel  : Attempt to read from protected data in Parcel 0x7fca8200c0
+04-29 19:46:36.563 17796 17796 E Parcel  : Attempt to read from protected data in Parcel 0x7fca8200c0
+04-29 19:46:36.617 17800 17800 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:36.620 17800 17800 E Parcel  : Attempt to read from protected data in Parcel 0x7ff0f00cd0
+04-29 19:46:36.620 17800 17800 E Parcel  : Attempt to read from protected data in Parcel 0x7ff0f00cd0
+04-29 19:46:36.620 17800 17800 E Parcel  : Attempt to read from protected data in Parcel 0x7ff0f00cd0
+04-29 19:46:36.620 17800 17800 E Parcel  : Attempt to read from protected data in Parcel 0x7ff0f00cd0
+04-29 19:46:36.620 17800 17800 E Parcel  : Attempt to read from protected data in Parcel 0x7ff0f00cd0
+04-29 19:46:36.670 17804 17804 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:36.674 17804 17804 E Parcel  : Attempt to read from protected data in Parcel 0x7fd09bec10
+04-29 19:46:36.674 17804 17804 E Parcel  : Attempt to read from protected data in Parcel 0x7fd09bec10
+04-29 19:46:36.674 17804 17804 E Parcel  : Attempt to read from protected data in Parcel 0x7fd09bec10
+04-29 19:46:36.674 17804 17804 E Parcel  : Attempt to read from protected data in Parcel 0x7fd09bec10
+04-29 19:46:36.674 17804 17804 E Parcel  : Attempt to read from protected data in Parcel 0x7fd09bec10
+04-29 19:46:36.729 17808 17808 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:36.731 17808 17808 E Parcel  : Attempt to read from protected data in Parcel 0x7ff55c68d0
+04-29 19:46:36.732 17808 17808 E Parcel  : Attempt to read from protected data in Parcel 0x7ff55c68d0
+04-29 19:46:36.732 17808 17808 E Parcel  : Attempt to read from protected data in Parcel 0x7ff55c68d0
+04-29 19:46:36.732 17808 17808 E Parcel  : Attempt to read from protected data in Parcel 0x7ff55c68d0
+04-29 19:46:36.732 17808 17808 E Parcel  : Attempt to read from protected data in Parcel 0x7ff55c68d0
+04-29 19:46:36.789 17812 17812 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:36.791 17812 17812 E Parcel  : Attempt to read from protected data in Parcel 0x7ff2fd5ba0
+04-29 19:46:36.791 17812 17812 E Parcel  : Attempt to read from protected data in Parcel 0x7ff2fd5ba0
+04-29 19:46:36.791 17812 17812 E Parcel  : Attempt to read from protected data in Parcel 0x7ff2fd5ba0
+04-29 19:46:36.791 17812 17812 E Parcel  : Attempt to read from protected data in Parcel 0x7ff2fd5ba0
+04-29 19:46:36.791 17812 17812 E Parcel  : Attempt to read from protected data in Parcel 0x7ff2fd5ba0
+04-29 19:46:36.840 17816 17816 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:36.842 17816 17816 E Parcel  : Attempt to read from protected data in Parcel 0x7fc016e3f0
+04-29 19:46:36.842 17816 17816 E Parcel  : Attempt to read from protected data in Parcel 0x7fc016e3f0
+04-29 19:46:36.842 17816 17816 E Parcel  : Attempt to read from protected data in Parcel 0x7fc016e3f0
+04-29 19:46:36.842 17816 17816 E Parcel  : Attempt to read from protected data in Parcel 0x7fc016e3f0
+04-29 19:46:36.842 17816 17816 E Parcel  : Attempt to read from protected data in Parcel 0x7fc016e3f0
+04-29 19:46:36.890 17820 17820 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:36.891 17820 17820 E Parcel  : Attempt to read from protected data in Parcel 0x7fd2bcd230
+04-29 19:46:36.891 17820 17820 E Parcel  : Attempt to read from protected data in Parcel 0x7fd2bcd230
+04-29 19:46:36.891 17820 17820 E Parcel  : Attempt to read from protected data in Parcel 0x7fd2bcd230
+04-29 19:46:36.891 17820 17820 E Parcel  : Attempt to read from protected data in Parcel 0x7fd2bcd230
+04-29 19:46:36.891 17820 17820 E Parcel  : Attempt to read from protected data in Parcel 0x7fd2bcd230
+04-29 19:46:36.925  2755  2827 D OplusFeatureBrightnessBarController: mDarkLevel: 0
+04-29 19:46:36.939 17824 17824 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:36.941 17824 17824 E Parcel  : Attempt to read from protected data in Parcel 0x7ffe0fcf80
+04-29 19:46:36.941 17824 17824 E Parcel  : Attempt to read from protected data in Parcel 0x7ffe0fcf80
+04-29 19:46:36.941 17824 17824 E Parcel  : Attempt to read from protected data in Parcel 0x7ffe0fcf80
+04-29 19:46:36.941 17824 17824 E Parcel  : Attempt to read from protected data in Parcel 0x7ffe0fcf80
+04-29 19:46:36.941 17824 17824 E Parcel  : Attempt to read from protected data in Parcel 0x7ffe0fcf80
+04-29 19:46:36.956  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+04-29 19:46:36.956  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK ON
+04-29 19:46:36.956  1346  8374 D vendor.qti.bluetooth@1.0-wake_lock: Acquire wakelock is acquired 
+04-29 19:46:36.956  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Writing IBS_WAKE_ACK
+04-29 19:46:36.989 17828 17828 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:36.991 17828 17828 E Parcel  : Attempt to read from protected data in Parcel 0x7feab1b740
+04-29 19:46:36.991 17828 17828 E Parcel  : Attempt to read from protected data in Parcel 0x7feab1b740
+04-29 19:46:36.991 17828 17828 E Parcel  : Attempt to read from protected data in Parcel 0x7feab1b740
+04-29 19:46:36.991 17828 17828 E Parcel  : Attempt to read from protected data in Parcel 0x7feab1b740
+04-29 19:46:36.991 17828 17828 E Parcel  : Attempt to read from protected data in Parcel 0x7feab1b740
+04-29 19:46:36.997  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+04-29 19:46:36.997  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+04-29 19:46:37.040 17832 17832 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.042 17832 17832 E Parcel  : Attempt to read from protected data in Parcel 0x7fe24649f0
+04-29 19:46:37.042 17832 17832 E Parcel  : Attempt to read from protected data in Parcel 0x7fe24649f0
+04-29 19:46:37.042 17832 17832 E Parcel  : Attempt to read from protected data in Parcel 0x7fe24649f0
+04-29 19:46:37.042 17832 17832 E Parcel  : Attempt to read from protected data in Parcel 0x7fe24649f0
+04-29 19:46:37.042 17832 17832 E Parcel  : Attempt to read from protected data in Parcel 0x7fe24649f0
+04-29 19:46:37.083 24389 17773 W adbd    : timed out while waiting for FUNCTIONFS_BIND, trying again
+04-29 19:46:37.083 24389 17773 I adbd    : UsbFfs: connection terminated: monitor thread finished
+04-29 19:46:37.091 17836 17836 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.093 17836 17836 E Parcel  : Attempt to read from protected data in Parcel 0x7ff5c2bfc0
+04-29 19:46:37.093 17836 17836 E Parcel  : Attempt to read from protected data in Parcel 0x7ff5c2bfc0
+04-29 19:46:37.093 17836 17836 E Parcel  : Attempt to read from protected data in Parcel 0x7ff5c2bfc0
+04-29 19:46:37.093 17836 17836 E Parcel  : Attempt to read from protected data in Parcel 0x7ff5c2bfc0
+04-29 19:46:37.093 17836 17836 E Parcel  : Attempt to read from protected data in Parcel 0x7ff5c2bfc0
+04-29 19:46:37.115 17374 17374 I Process : Sending signal. PID: 17374 SIG: 9
+04-29 19:46:37.145 17840 17840 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.147 17840 17840 E Parcel  : Attempt to read from protected data in Parcel 0x7ff4228b40
+04-29 19:46:37.147 17840 17840 E Parcel  : Attempt to read from protected data in Parcel 0x7ff4228b40
+04-29 19:46:37.147 17840 17840 E Parcel  : Attempt to read from protected data in Parcel 0x7ff4228b40
+04-29 19:46:37.147 17840 17840 E Parcel  : Attempt to read from protected data in Parcel 0x7ff4228b40
+04-29 19:46:37.147 17840 17840 E Parcel  : Attempt to read from protected data in Parcel 0x7ff4228b40
+04-29 19:46:37.147  1346  8099 D vendor.qti.bluetooth@1.0-wake_lock: Release wakelock is released 
+04-29 19:46:37.157  2755  5687 I ActivityManager: Process com.heytap.mcs.appservice (pid 17374) has died: cch+15 CEM 
+04-29 19:46:37.157  2755  5687 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcast:1175 com.android.server.am.OplusExtraActivityManagerService.setKeyLockModeNormal:51 com.android.server.am.ActivityManagerServiceExtImpl.setKeyLockModeNormal:851 com.android.server.am.ActivityManagerService.appDiedLocked:3389 com.android.server.am.ActivityManagerService$AppDeathRecipient.binderDied:1531 
+04-29 19:46:37.157  1218  1218 I Zygote  : Process 17374 exited due to signal 9 (Killed)
+04-29 19:46:37.159   768   768 I hwservicemanager: getTransport: Cannot find entry vendor.qti.hardware.iop@2.0::IIop/default in either framework or device VINTF manifest.
+04-29 19:46:37.161  6877 29146 V DeepThinker: ProcessManager: onProcessDied pid:17374, uid:1000
+04-29 19:46:37.176  2755  2809 I libprocessgroup: Successfully killed process cgroup uid 1000 pid 17374 in 19ms
+04-29 19:46:37.191 17844 17844 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.192 17844 17844 E Parcel  : Attempt to read from protected data in Parcel 0x7fe1e9afd0
+04-29 19:46:37.192 17844 17844 E Parcel  : Attempt to read from protected data in Parcel 0x7fe1e9afd0
+04-29 19:46:37.192 17844 17844 E Parcel  : Attempt to read from protected data in Parcel 0x7fe1e9afd0
+04-29 19:46:37.192 17844 17844 E Parcel  : Attempt to read from protected data in Parcel 0x7fe1e9afd0
+04-29 19:46:37.192 17844 17844 E Parcel  : Attempt to read from protected data in Parcel 0x7fe1e9afd0
+04-29 19:46:37.219 24389 24395 I adbd    : opening control endpoint /dev/usb-ffs/adb/ep0
+04-29 19:46:37.234 17848 17848 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.236 17848 17848 E Parcel  : Attempt to read from protected data in Parcel 0x7fcff53330
+04-29 19:46:37.236 17848 17848 E Parcel  : Attempt to read from protected data in Parcel 0x7fcff53330
+04-29 19:46:37.236 17848 17848 E Parcel  : Attempt to read from protected data in Parcel 0x7fcff53330
+04-29 19:46:37.236 17848 17848 E Parcel  : Attempt to read from protected data in Parcel 0x7fcff53330
+04-29 19:46:37.236 17848 17848 E Parcel  : Attempt to read from protected data in Parcel 0x7fcff53330
+04-29 19:46:37.285 17853 17853 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.287 17853 17853 E Parcel  : Attempt to read from protected data in Parcel 0x7ffbee19f0
+04-29 19:46:37.287 17853 17853 E Parcel  : Attempt to read from protected data in Parcel 0x7ffbee19f0
+04-29 19:46:37.287 17853 17853 E Parcel  : Attempt to read from protected data in Parcel 0x7ffbee19f0
+04-29 19:46:37.287 17853 17853 E Parcel  : Attempt to read from protected data in Parcel 0x7ffbee19f0
+04-29 19:46:37.287 17853 17853 E Parcel  : Attempt to read from protected data in Parcel 0x7ffbee19f0
+04-29 19:46:37.337 17857 17857 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.339 17857 17857 E Parcel  : Attempt to read from protected data in Parcel 0x7fdc0a9df0
+04-29 19:46:37.339 17857 17857 E Parcel  : Attempt to read from protected data in Parcel 0x7fdc0a9df0
+04-29 19:46:37.339 17857 17857 E Parcel  : Attempt to read from protected data in Parcel 0x7fdc0a9df0
+04-29 19:46:37.339 17857 17857 E Parcel  : Attempt to read from protected data in Parcel 0x7fdc0a9df0
+04-29 19:46:37.339 17857 17857 E Parcel  : Attempt to read from protected data in Parcel 0x7fdc0a9df0
+04-29 19:46:37.389 17861 17861 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.393 17861 17861 E Parcel  : Attempt to read from protected data in Parcel 0x7fd3300540
+04-29 19:46:37.393 17861 17861 E Parcel  : Attempt to read from protected data in Parcel 0x7fd3300540
+04-29 19:46:37.393 17861 17861 E Parcel  : Attempt to read from protected data in Parcel 0x7fd3300540
+04-29 19:46:37.393 17861 17861 E Parcel  : Attempt to read from protected data in Parcel 0x7fd3300540
+04-29 19:46:37.393 17861 17861 E Parcel  : Attempt to read from protected data in Parcel 0x7fd3300540
+04-29 19:46:37.450 17866 17866 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.452 17866 17866 E Parcel  : Attempt to read from protected data in Parcel 0x7ff4ef6e10
+04-29 19:46:37.452 17866 17866 E Parcel  : Attempt to read from protected data in Parcel 0x7ff4ef6e10
+04-29 19:46:37.452 17866 17866 E Parcel  : Attempt to read from protected data in Parcel 0x7ff4ef6e10
+04-29 19:46:37.452 17866 17866 E Parcel  : Attempt to read from protected data in Parcel 0x7ff4ef6e10
+04-29 19:46:37.452 17866 17866 E Parcel  : Attempt to read from protected data in Parcel 0x7ff4ef6e10
+04-29 19:46:37.500 17870 17870 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.501 17870 17870 E Parcel  : Attempt to read from protected data in Parcel 0x7fccb5beb0
+04-29 19:46:37.501 17870 17870 E Parcel  : Attempt to read from protected data in Parcel 0x7fccb5beb0
+04-29 19:46:37.501 17870 17870 E Parcel  : Attempt to read from protected data in Parcel 0x7fccb5beb0
+04-29 19:46:37.501 17870 17870 E Parcel  : Attempt to read from protected data in Parcel 0x7fccb5beb0
+04-29 19:46:37.501 17870 17870 E Parcel  : Attempt to read from protected data in Parcel 0x7fccb5beb0
+04-29 19:46:37.549 17874 17874 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.551 17874 17874 E Parcel  : Attempt to read from protected data in Parcel 0x7fe5587080
+04-29 19:46:37.551 17874 17874 E Parcel  : Attempt to read from protected data in Parcel 0x7fe5587080
+04-29 19:46:37.551 17874 17874 E Parcel  : Attempt to read from protected data in Parcel 0x7fe5587080
+04-29 19:46:37.551 17874 17874 E Parcel  : Attempt to read from protected data in Parcel 0x7fe5587080
+04-29 19:46:37.551 17874 17874 E Parcel  : Attempt to read from protected data in Parcel 0x7fe5587080
+04-29 19:46:37.602 17878 17878 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.604 17878 17878 E Parcel  : Attempt to read from protected data in Parcel 0x7ffbf3da20
+04-29 19:46:37.604 17878 17878 E Parcel  : Attempt to read from protected data in Parcel 0x7ffbf3da20
+04-29 19:46:37.604 17878 17878 E Parcel  : Attempt to read from protected data in Parcel 0x7ffbf3da20
+04-29 19:46:37.604 17878 17878 E Parcel  : Attempt to read from protected data in Parcel 0x7ffbf3da20
+04-29 19:46:37.604 17878 17878 E Parcel  : Attempt to read from protected data in Parcel 0x7ffbf3da20
+04-29 19:46:37.656 17882 17882 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.658 17882 17882 E Parcel  : Attempt to read from protected data in Parcel 0x7fe95a5fc0
+04-29 19:46:37.658 17882 17882 E Parcel  : Attempt to read from protected data in Parcel 0x7fe95a5fc0
+04-29 19:46:37.658 17882 17882 E Parcel  : Attempt to read from protected data in Parcel 0x7fe95a5fc0
+04-29 19:46:37.658 17882 17882 E Parcel  : Attempt to read from protected data in Parcel 0x7fe95a5fc0
+04-29 19:46:37.658 17882 17882 E Parcel  : Attempt to read from protected data in Parcel 0x7fe95a5fc0
+04-29 19:46:37.709 17886 17886 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.711 17886 17886 E Parcel  : Attempt to read from protected data in Parcel 0x7fe828e740
+04-29 19:46:37.711 17886 17886 E Parcel  : Attempt to read from protected data in Parcel 0x7fe828e740
+04-29 19:46:37.711 17886 17886 E Parcel  : Attempt to read from protected data in Parcel 0x7fe828e740
+04-29 19:46:37.711 17886 17886 E Parcel  : Attempt to read from protected data in Parcel 0x7fe828e740
+04-29 19:46:37.711 17886 17886 E Parcel  : Attempt to read from protected data in Parcel 0x7fe828e740
+04-29 19:46:37.765 17890 17890 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.768 17890 17890 E Parcel  : Attempt to read from protected data in Parcel 0x7fec3cb440
+04-29 19:46:37.768 17890 17890 E Parcel  : Attempt to read from protected data in Parcel 0x7fec3cb440
+04-29 19:46:37.768 17890 17890 E Parcel  : Attempt to read from protected data in Parcel 0x7fec3cb440
+04-29 19:46:37.768 17890 17890 E Parcel  : Attempt to read from protected data in Parcel 0x7fec3cb440
+04-29 19:46:37.768 17890 17890 E Parcel  : Attempt to read from protected data in Parcel 0x7fec3cb440
+04-29 19:46:37.788  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+04-29 19:46:37.788  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK ON
+04-29 19:46:37.789  1346  8374 D vendor.qti.bluetooth@1.0-wake_lock: Acquire wakelock is acquired 
+04-29 19:46:37.789  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Writing IBS_WAKE_ACK
+04-29 19:46:37.816 17894 17894 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.818 17894 17894 E Parcel  : Attempt to read from protected data in Parcel 0x7fc67ea4e0
+04-29 19:46:37.818 17894 17894 E Parcel  : Attempt to read from protected data in Parcel 0x7fc67ea4e0
+04-29 19:46:37.818 17894 17894 E Parcel  : Attempt to read from protected data in Parcel 0x7fc67ea4e0
+04-29 19:46:37.818 17894 17894 E Parcel  : Attempt to read from protected data in Parcel 0x7fc67ea4e0
+04-29 19:46:37.818 17894 17894 E Parcel  : Attempt to read from protected data in Parcel 0x7fc67ea4e0
+04-29 19:46:37.830  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+04-29 19:46:37.830  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+04-29 19:46:37.870 17898 17898 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.872 17898 17898 E Parcel  : Attempt to read from protected data in Parcel 0x7febae1880
+04-29 19:46:37.872 17898 17898 E Parcel  : Attempt to read from protected data in Parcel 0x7febae1880
+04-29 19:46:37.872 17898 17898 E Parcel  : Attempt to read from protected data in Parcel 0x7febae1880
+04-29 19:46:37.872 17898 17898 E Parcel  : Attempt to read from protected data in Parcel 0x7febae1880
+04-29 19:46:37.872 17898 17898 E Parcel  : Attempt to read from protected data in Parcel 0x7febae1880
+04-29 19:46:37.925 17902 17902 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.927 17902 17902 E Parcel  : Attempt to read from protected data in Parcel 0x7fde8c28c0
+04-29 19:46:37.927 17902 17902 E Parcel  : Attempt to read from protected data in Parcel 0x7fde8c28c0
+04-29 19:46:37.927 17902 17902 E Parcel  : Attempt to read from protected data in Parcel 0x7fde8c28c0
+04-29 19:46:37.927 17902 17902 E Parcel  : Attempt to read from protected data in Parcel 0x7fde8c28c0
+04-29 19:46:37.927 17902 17902 E Parcel  : Attempt to read from protected data in Parcel 0x7fde8c28c0
+04-29 19:46:37.979  1410  1410 D vendor.oplus.hardware.charger@1.0-service: wireless adapter power -2147483648
+04-29 19:46:37.979 17906 17906 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:37.980  1346  8099 D vendor.qti.bluetooth@1.0-wake_lock: Release wakelock is released 
+04-29 19:46:37.981 17906 17906 E Parcel  : Attempt to read from protected data in Parcel 0x7ff9cc82f0
+04-29 19:46:37.981 17906 17906 E Parcel  : Attempt to read from protected data in Parcel 0x7ff9cc82f0
+04-29 19:46:37.981 17906 17906 E Parcel  : Attempt to read from protected data in Parcel 0x7ff9cc82f0
+04-29 19:46:37.981 17906 17906 E Parcel  : Attempt to read from protected data in Parcel 0x7ff9cc82f0
+04-29 19:46:37.981 17906 17906 E Parcel  : Attempt to read from protected data in Parcel 0x7ff9cc82f0
+04-29 19:46:37.992  2755  3811 I OplusHansManager : uid=10364, pkg=com.openai.chatgpt can transition from M to F
+04-29 19:46:37.992  2755  3811 I OplusHansManager : uid=10364, pkg=com.openai.chatgpt F enter()
+04-29 19:46:37.995  2755  3811 I OplusHansManager : freeze uid: 10364 com.openai.chatgpt pids: [1254, 31559] scene: LcdOn
+04-29 19:46:37.998  2755  3811 I OplusHansManager : uid=10365, pkg=com.anthropic.claude can transition from M to F
+04-29 19:46:37.998  2755  3811 I OplusHansManager : uid=10365, pkg=com.anthropic.claude F enter()
+04-29 19:46:38.000  2755  3811 I OplusHansManager : freeze uid: 10365 com.anthropic.claude pids: [10869, 10649] scene: LcdOn
+04-29 19:46:38.034 17910 17910 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.035 17910 17910 E Parcel  : Attempt to read from protected data in Parcel 0x7fdc1f69e0
+04-29 19:46:38.035 17910 17910 E Parcel  : Attempt to read from protected data in Parcel 0x7fdc1f69e0
+04-29 19:46:38.035 17910 17910 E Parcel  : Attempt to read from protected data in Parcel 0x7fdc1f69e0
+04-29 19:46:38.035 17910 17910 E Parcel  : Attempt to read from protected data in Parcel 0x7fdc1f69e0
+04-29 19:46:38.035 17910 17910 E Parcel  : Attempt to read from protected data in Parcel 0x7fdc1f69e0
+04-29 19:46:38.084 17914 17914 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.085 17914 17914 E Parcel  : Attempt to read from protected data in Parcel 0x7ffad4d310
+04-29 19:46:38.085 17914 17914 E Parcel  : Attempt to read from protected data in Parcel 0x7ffad4d310
+04-29 19:46:38.085 17914 17914 E Parcel  : Attempt to read from protected data in Parcel 0x7ffad4d310
+04-29 19:46:38.085 17914 17914 E Parcel  : Attempt to read from protected data in Parcel 0x7ffad4d310
+04-29 19:46:38.085 17914 17914 E Parcel  : Attempt to read from protected data in Parcel 0x7ffad4d310
+04-29 19:46:38.139 17918 17918 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.140 17918 17918 E Parcel  : Attempt to read from protected data in Parcel 0x7fd2a1f000
+04-29 19:46:38.140 17918 17918 E Parcel  : Attempt to read from protected data in Parcel 0x7fd2a1f000
+04-29 19:46:38.140 17918 17918 E Parcel  : Attempt to read from protected data in Parcel 0x7fd2a1f000
+04-29 19:46:38.140 17918 17918 E Parcel  : Attempt to read from protected data in Parcel 0x7fd2a1f000
+04-29 19:46:38.140 17918 17918 E Parcel  : Attempt to read from protected data in Parcel 0x7fd2a1f000
+04-29 19:46:38.151  2755  2827 D OplusFeatureBrightnessBarController: mDarkLevel: 0
+04-29 19:46:38.188 17922 17922 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.190 17922 17922 E Parcel  : Attempt to read from protected data in Parcel 0x7fe37df340
+04-29 19:46:38.190 17922 17922 E Parcel  : Attempt to read from protected data in Parcel 0x7fe37df340
+04-29 19:46:38.190 17922 17922 E Parcel  : Attempt to read from protected data in Parcel 0x7fe37df340
+04-29 19:46:38.191 17922 17922 E Parcel  : Attempt to read from protected data in Parcel 0x7fe37df340
+04-29 19:46:38.191 17922 17922 E Parcel  : Attempt to read from protected data in Parcel 0x7fe37df340
+04-29 19:46:38.221 24389 17849 W adbd    : timed out while waiting for FUNCTIONFS_BIND, trying again
+04-29 19:46:38.221 24389 17849 I adbd    : UsbFfs: connection terminated: monitor thread finished
+04-29 19:46:38.253 17926 17926 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.255 17926 17926 E Parcel  : Attempt to read from protected data in Parcel 0x7fd5401dc0
+04-29 19:46:38.255 17926 17926 E Parcel  : Attempt to read from protected data in Parcel 0x7fd5401dc0
+04-29 19:46:38.255 17926 17926 E Parcel  : Attempt to read from protected data in Parcel 0x7fd5401dc0
+04-29 19:46:38.255 17926 17926 E Parcel  : Attempt to read from protected data in Parcel 0x7fd5401dc0
+04-29 19:46:38.255 17926 17926 E Parcel  : Attempt to read from protected data in Parcel 0x7fd5401dc0
+04-29 19:46:38.307 17930 17930 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.310 17930 17930 E Parcel  : Attempt to read from protected data in Parcel 0x7fdbc451b0
+04-29 19:46:38.310 17930 17930 E Parcel  : Attempt to read from protected data in Parcel 0x7fdbc451b0
+04-29 19:46:38.310 17930 17930 E Parcel  : Attempt to read from protected data in Parcel 0x7fdbc451b0
+04-29 19:46:38.310 17930 17930 E Parcel  : Attempt to read from protected data in Parcel 0x7fdbc451b0
+04-29 19:46:38.310 17930 17930 E Parcel  : Attempt to read from protected data in Parcel 0x7fdbc451b0
+04-29 19:46:38.355 17934 17934 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.356 17934 17934 E Parcel  : Attempt to read from protected data in Parcel 0x7fce1d5d50
+04-29 19:46:38.356 17934 17934 E Parcel  : Attempt to read from protected data in Parcel 0x7fce1d5d50
+04-29 19:46:38.356 17934 17934 E Parcel  : Attempt to read from protected data in Parcel 0x7fce1d5d50
+04-29 19:46:38.356 17934 17934 E Parcel  : Attempt to read from protected data in Parcel 0x7fce1d5d50
+04-29 19:46:38.356 17934 17934 E Parcel  : Attempt to read from protected data in Parcel 0x7fce1d5d50
+04-29 19:46:38.358 24389 24395 I adbd    : opening control endpoint /dev/usb-ffs/adb/ep0
+04-29 19:46:38.362  2024  3690 D BufferPoolAccessor2.0: bufferpool2 0xb4000071912f0e28 : 4(18432 size) total buffers - 2(9216 size) used buffers - 245/249 (recycle/alloc) - 5/249 (fetch/transfer)
+04-29 19:46:38.363  2024  3690 D BufferPoolAccessor2.0: evictor expired: 1, evicted: 1
+04-29 19:46:38.402 17939 17939 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.404 17939 17939 E Parcel  : Attempt to read from protected data in Parcel 0x7fccac31c0
+04-29 19:46:38.404 17939 17939 E Parcel  : Attempt to read from protected data in Parcel 0x7fccac31c0
+04-29 19:46:38.404 17939 17939 E Parcel  : Attempt to read from protected data in Parcel 0x7fccac31c0
+04-29 19:46:38.404 17939 17939 E Parcel  : Attempt to read from protected data in Parcel 0x7fccac31c0
+04-29 19:46:38.404 17939 17939 E Parcel  : Attempt to read from protected data in Parcel 0x7fccac31c0
+04-29 19:46:38.453 17943 17943 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.455 17943 17943 E Parcel  : Attempt to read from protected data in Parcel 0x7fefd8ec90
+04-29 19:46:38.455 17943 17943 E Parcel  : Attempt to read from protected data in Parcel 0x7fefd8ec90
+04-29 19:46:38.455 17943 17943 E Parcel  : Attempt to read from protected data in Parcel 0x7fefd8ec90
+04-29 19:46:38.455 17943 17943 E Parcel  : Attempt to read from protected data in Parcel 0x7fefd8ec90
+04-29 19:46:38.455 17943 17943 E Parcel  : Attempt to read from protected data in Parcel 0x7fefd8ec90
+04-29 19:46:38.503 17947 17947 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.505 17947 17947 E Parcel  : Attempt to read from protected data in Parcel 0x7fe6e7e6d0
+04-29 19:46:38.505 17947 17947 E Parcel  : Attempt to read from protected data in Parcel 0x7fe6e7e6d0
+04-29 19:46:38.505 17947 17947 E Parcel  : Attempt to read from protected data in Parcel 0x7fe6e7e6d0
+04-29 19:46:38.505 17947 17947 E Parcel  : Attempt to read from protected data in Parcel 0x7fe6e7e6d0
+04-29 19:46:38.505 17947 17947 E Parcel  : Attempt to read from protected data in Parcel 0x7fe6e7e6d0
+04-29 19:46:38.518  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+04-29 19:46:38.518  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK ON
+04-29 19:46:38.519  1346  8374 D vendor.qti.bluetooth@1.0-wake_lock: Acquire wakelock is acquired 
+04-29 19:46:38.519  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Writing IBS_WAKE_ACK
+04-29 19:46:38.556 17951 17951 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.557 17951 17951 E Parcel  : Attempt to read from protected data in Parcel 0x7fd6b8f590
+04-29 19:46:38.557 17951 17951 E Parcel  : Attempt to read from protected data in Parcel 0x7fd6b8f590
+04-29 19:46:38.557 17951 17951 E Parcel  : Attempt to read from protected data in Parcel 0x7fd6b8f590
+04-29 19:46:38.557 17951 17951 E Parcel  : Attempt to read from protected data in Parcel 0x7fd6b8f590
+04-29 19:46:38.557 17951 17951 E Parcel  : Attempt to read from protected data in Parcel 0x7fd6b8f590
+04-29 19:46:38.560  1346  8374 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+04-29 19:46:38.560  1346  8374 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+04-29 19:46:38.605 17955 17955 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.607 17955 17955 E Parcel  : Attempt to read from protected data in Parcel 0x7fdf2a1ab0
+04-29 19:46:38.607 17955 17955 E Parcel  : Attempt to read from protected data in Parcel 0x7fdf2a1ab0
+04-29 19:46:38.607 17955 17955 E Parcel  : Attempt to read from protected data in Parcel 0x7fdf2a1ab0
+04-29 19:46:38.607 17955 17955 E Parcel  : Attempt to read from protected data in Parcel 0x7fdf2a1ab0
+04-29 19:46:38.607 17955 17955 E Parcel  : Attempt to read from protected data in Parcel 0x7fdf2a1ab0
+04-29 19:46:38.656 17959 17959 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-29 19:46:38.659 17959 17959 E Parcel  : Attempt to read from protected data in Parcel 0x7ffeb1da20
+04-29 19:46:38.659 17959 17959 E Parcel  : Attempt to read from protected data in Parcel 0x7ffeb1da20
+04-29 19:46:38.659 17959 17959 E Parcel  : Attempt to read from protected data in Parcel 0x7ffeb1da20
+04-29 19:46:38.659 17959 17959 E Parcel  : Attempt to read from protected data in Parcel 0x7ffeb1da20
+04-29 19:46:38.659 17959 17959 E Parcel  : Attempt to read from protected data in Parcel 0x7ffeb1da20

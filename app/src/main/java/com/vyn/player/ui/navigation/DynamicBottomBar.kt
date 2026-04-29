@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
@@ -112,6 +113,7 @@ fun DynamicBottomBar(
                         viewModel = playerViewModel,
                         modifier = Modifier
                             .matchParentSize()
+                            .clickable(enabled = isMerged && isPlayerActive) {}
                             .graphicsLayer {
                                 alpha = miniPlayerAlpha
                                 scaleX = miniPlayerScale
@@ -175,9 +177,9 @@ private fun NavBarIconItem(
             .clickable(onClick = onClick)
             .background(
                 color = if (selected) Color.White.copy(alpha = 0.1f) else Color.Transparent,
-                shape = RoundedCornerShape(20.dp),
+                shape = CircleShape,
             )
-            .padding(horizontal = 10.dp, vertical = 8.dp),
+            .padding(horizontal = 8.dp, vertical = 6.dp),
         contentAlignment = Alignment.Center,
     ) {
         androidx.compose.foundation.layout.Column(

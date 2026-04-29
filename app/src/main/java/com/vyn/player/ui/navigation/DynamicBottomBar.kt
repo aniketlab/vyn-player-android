@@ -108,19 +108,16 @@ fun DynamicBottomBar(
                         scale = centerPillScale,
                     )
 
-                    Box(
+                    MiniPlayer(
+                        viewModel = playerViewModel,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(62.dp)
+                            .matchParentSize()
                             .graphicsLayer {
                                 alpha = miniPlayerAlpha
                                 scaleX = miniPlayerScale
                                 scaleY = miniPlayerScale
                             },
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        MiniPlayer(viewModel = playerViewModel)
-                    }
+                    )
                 }
 
                 NavBarIconItem(
@@ -143,9 +140,11 @@ private fun CenterPill(
     scale: Float,
 ) {
     Surface(
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(18.dp),
         color = Color.White.copy(alpha = 0.08f),
         modifier = Modifier
+            .fillMaxWidth()
+            .height(62.dp)
             .graphicsLayer {
                 this.alpha = alpha
                 scaleX = scale

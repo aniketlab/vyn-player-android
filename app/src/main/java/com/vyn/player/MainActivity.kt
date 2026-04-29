@@ -138,10 +138,10 @@ class MainActivity : ComponentActivity() {
                     val currentDestination = navBackStackEntry?.destination
                     val showBottomNavigation = currentDestination?.route != Destinations.ONBOARDING
                     val isPlayerActive by playerViewModel.isPlayerActive.collectAsStateWithLifecycle()
-                    var rawScroll by remember { mutableStateOf(false) }
-                    var stableScroll by remember { mutableStateOf(false) }
+                    var rawMergeRequest by remember { mutableStateOf(false) }
+                    var stableMergeRequest by remember { mutableStateOf(false) }
                     val isMerged by remember {
-                        derivedStateOf { isPlayerActive && !stableScroll }
+                        derivedStateOf { isPlayerActive && stableMergeRequest }
                     }
                     val currentBottomRoute = bottomNavItems.firstOrNull { item ->
                         currentDestination
@@ -149,10 +149,10 @@ class MainActivity : ComponentActivity() {
                             ?.any { destination -> destination.route == item.route } == true
                     }?.route
 
-                    LaunchedEffect(rawScroll) {
+                    LaunchedEffect(rawMergeRequest) {
                         kotlinx.coroutines.delay(120)
-                        stableScroll = rawScroll
-                        Log.d("SCROLL_STATE", "raw=$rawScroll stable=$stableScroll")
+                        stableMergeRequest = rawMergeRequest
+                        Log.d("SCROLL_STATE", "rawMerge=$rawMergeRequest stableMerge=$stableMergeRequest")
                     }
 
                     Box(modifier = Modifier.fillMaxSize()) {
@@ -218,8 +218,8 @@ class MainActivity : ComponentActivity() {
                                     homeViewModel = homeViewModel,
                                     playerViewModel = playerViewModel,
                                     startDestination = startDestination,
-                                    onHomeScrollDirectionChanged = { scrollingUp ->
-                                        rawScroll = scrollingUp
+                                    onHomeScrollDirectionChanged = { shouldMerge ->
+                                        rawMergeRequest = shouldMerge
                                     },
                                 )
                             }

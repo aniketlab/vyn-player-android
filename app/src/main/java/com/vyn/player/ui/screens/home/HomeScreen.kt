@@ -46,7 +46,7 @@ fun HomeScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val songs = state.songs.distinctBy { it.uri }
     val listState = rememberLazyListState()
-    val lastDirection = remember { mutableStateOf<Boolean?>(null) }
+    val lastMergeRequest = remember { mutableStateOf<Boolean?>(null) }
     val scrollPosition by remember {
         derivedStateOf {
             listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset
@@ -67,18 +67,18 @@ fun HomeScreen(
 
                 val indexChanged = curr.first != prev.first
                 val delta = curr.second - prev.second
-                val direction = when {
-                    indexChanged -> curr.first < prev.first
-                    delta < -MIN_SCROLL_DISTANCE -> true
-                    delta > MIN_SCROLL_DISTANCE -> false
+                val shouldMerge = when {
+                    indexChanged -> curr.first > prev.first
+                    delta > MIN_SCROLL_DISTANCE -> true
+                    delta < -MIN_SCROLL_DISTANCE -> false
                     else -> null
                 }
 
-                Log.d("SCROLL_DEBUG", "delta=$delta direction=$direction index=${curr.first}")
+                Log.d("SCROLL_DEBUG", "delta=$delta shouldMerge=$shouldMerge index=${curr.first}")
 
-                if (direction != null && direction != lastDirection.value) {
-                    lastDirection.value = direction
-                    direction
+                if (shouldMerge != null && shouldMerge != lastMergeRequest.value) {
+                    lastMergeRequest.value = shouldMerge
+                    shouldMerge
                 } else {
                     null
                 }

@@ -6,13 +6,23 @@ import androidx.compose.runtime.Composable
 
 private val VynColorScheme = darkColorScheme(
     primary = Primary,
+    onPrimary = Background,
+    primaryContainer = Surface2,
+    onPrimaryContainer = TextPrimary,
     background = Background,
-    surface = Surface,
     secondary = Accent,
-    onPrimary = TextPrimary,
+    onSecondary = Background,
+    secondaryContainer = Surface2,
+    onSecondaryContainer = TextPrimary,
+    surface = Surface,
+    surfaceVariant = Surface2,
     onBackground = TextPrimary,
     onSurface = TextPrimary,
-    onSecondary = Background,
+    onSurfaceVariant = TextSecondary,
+    outline = Border,
+    outlineVariant = AccentBorder,
+    error = Primary,
+    onError = Background,
 )
 
 @Composable

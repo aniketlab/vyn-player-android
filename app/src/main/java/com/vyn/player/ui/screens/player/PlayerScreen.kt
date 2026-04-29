@@ -38,13 +38,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.vyn.player.R
+import com.vyn.player.ui.theme.Accent
+import com.vyn.player.ui.theme.Background
+import com.vyn.player.ui.theme.Primary
+import com.vyn.player.ui.theme.Surface
+import com.vyn.player.ui.theme.Surface2
+import com.vyn.player.ui.theme.TextPrimary
+import com.vyn.player.ui.theme.TextSecondary
 
 @Composable
 fun PlayerScreen(
@@ -76,8 +82,8 @@ fun PlayerScreen(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        Color(0xFF0A0A0A),
-                        Color(0xFF1A1A1A),
+                        Background,
+                        Surface,
                     ),
                 ),
             ),
@@ -114,7 +120,7 @@ fun PlayerScreen(
                 Text(
                     text = song?.artistName ?: "Unknown Artist",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray.copy(alpha = 0.7f),
+                    color = TextSecondary,
                     maxLines = 1,
                 )
             }
@@ -142,8 +148,8 @@ fun PlayerScreen(
                         .background(
                             Brush.verticalGradient(
                                 listOf(
-                                    Color(0xFF1A1A1A),
-                                    Color(0xFF000000),
+                                    Surface2,
+                                    Background,
                                 ),
                             ),
                         ),
@@ -153,7 +159,7 @@ fun PlayerScreen(
                         imageVector = Icons.Rounded.PlayArrow,
                         contentDescription = null,
                         modifier = Modifier.height(60.dp),
-                        tint = Color(0xFFBBBBBB),
+                        tint = Accent,
                     )
                 }
             }
@@ -203,7 +209,7 @@ fun PlayerScreen(
                         imageVector = Icons.Rounded.SkipPrevious,
                         contentDescription = "Previous",
                         modifier = Modifier.size(36.dp),
-                        tint = Color.White,
+                        tint = TextPrimary,
                     )
                 }
 
@@ -213,7 +219,7 @@ fun PlayerScreen(
                     modifier = Modifier
                         .size(72.dp)
                         .background(
-                            color = Color(0xFF7B61FF),
+                            color = Primary,
                             shape = CircleShape,
                         ),
                 ) {
@@ -224,7 +230,7 @@ fun PlayerScreen(
                             Icons.Rounded.PlayArrow
                         },
                         contentDescription = "Play/Pause",
-                        tint = Color.White,
+                        tint = Background,
                         modifier = Modifier.size(36.dp),
                     )
                 }
@@ -237,7 +243,7 @@ fun PlayerScreen(
                         imageVector = Icons.Rounded.SkipNext,
                         contentDescription = "Next",
                         modifier = Modifier.size(36.dp),
-                        tint = Color.White,
+                        tint = TextPrimary,
                     )
                 }
             }

@@ -33,14 +33,19 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.vyn.player.ui.theme.AccentBorder
+import com.vyn.player.ui.theme.Background
+import com.vyn.player.ui.theme.Border
+import com.vyn.player.ui.theme.Surface
+import com.vyn.player.ui.theme.TextPrimary
 
 private object PillNavBarDefaults {
     val ContainerShape = RoundedCornerShape(18.dp)
     val ItemShape = RoundedCornerShape(50.dp)
-    val ContainerColor = Color(0xFF141418)
-    val BorderColor = Color.White.copy(alpha = 0.10f)
-    val SelectedItemColor = Color.White.copy(alpha = 0.12f)
-    val SelectedContentColor = Color.White
+    val ContainerColor = Surface
+    val BorderColor = Border
+    val SelectedItemColor = AccentBorder
+    val SelectedContentColor = TextPrimary
     const val UnselectedAlpha = 0.68f
     val ContainerWidthFraction = 0.88f
     val ContainerHeight = 72.dp
@@ -59,8 +64,8 @@ private fun Modifier.pillShadow(
         elevation = 8.dp,
         shape = shape,
         clip = false,
-        ambientColor = Color.Black.copy(alpha = 0.32f),
-        spotColor = Color.Black.copy(alpha = 0.40f),
+        ambientColor = Background.copy(alpha = 0.32f),
+        spotColor = Background.copy(alpha = 0.40f),
     )
 
 data class PillNavItem(

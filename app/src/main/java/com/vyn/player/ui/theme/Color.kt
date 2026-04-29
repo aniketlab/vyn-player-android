@@ -2,9 +2,14 @@ package com.vyn.player.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Primary = Color(0xFF7C4DFF)
-val Background = Color(0xFF0F1115)
-val Surface = Color(0xFF171A21)
-val Accent = Color(0xFF03DAC5)
-val TextPrimary = Color(0xFFF4F7FB)
-val TextSecondary = Color(0xFF9CA3AF)
+val Background = Color(0xFF111009)
+val Surface = Color(0xFF1C1A11)
+val Surface2 = Color(0xFF252218)
+
+val Primary = Color(0xFFE8943A)
+val Accent = Color(0xFFF5B860)
+
+val TextPrimary = Color(0xFFF5EEDC)
+val TextSecondary = Color(0x61F5EEDC)
+val Border = Color(0x1AF5EEDC)
+val AccentBorder = Color(0x1FE8943A)

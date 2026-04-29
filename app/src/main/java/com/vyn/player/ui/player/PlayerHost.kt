@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.screens.player.PlayerScreen
 import com.vyn.player.ui.screens.player.PlayerViewModel
+import com.vyn.player.ui.theme.Background
 
 @Composable
 fun PlayerHost(
@@ -30,7 +30,7 @@ fun PlayerHost(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = dimAlpha)),
+                .background(Background.copy(alpha = dimAlpha)),
         )
 
         if (expansionState == PlayerExpansionState.EXPANDED) {

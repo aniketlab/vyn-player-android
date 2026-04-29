@@ -35,13 +35,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.screens.player.PlayerViewModel
+import com.vyn.player.ui.theme.Border
+import com.vyn.player.ui.theme.Surface2
+import com.vyn.player.ui.theme.TextSecondary
 
 @Composable
 fun MiniPlayer(
@@ -49,6 +51,7 @@ fun MiniPlayer(
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
     elevation: Dp = 6.dp,
+    cornerRadius: Dp = 16.dp,
 ) {
     val currentSong by viewModel.currentSong.collectAsStateWithLifecycle()
     val isPlaying by viewModel.isPlaying.collectAsStateWithLifecycle()
@@ -68,18 +71,18 @@ fun MiniPlayer(
     val song = currentSong ?: return
 
     Surface(
-        shape = RoundedCornerShape(18.dp),
+        shape = RoundedCornerShape(cornerRadius),
         tonalElevation = elevation,
-        color = Color(0xFF1E1E22),
+        color = Surface2,
         modifier = modifier
             .shadow(
                 elevation = elevation,
-                shape = RoundedCornerShape(18.dp),
+                shape = RoundedCornerShape(cornerRadius),
             )
             .border(
                 width = 1.dp,
-                color = Color.White.copy(alpha = 0.06f),
-                shape = RoundedCornerShape(18.dp),
+                color = Border,
+                shape = RoundedCornerShape(cornerRadius),
             )
             .graphicsLayer {
                 scaleX = scale
@@ -144,7 +147,7 @@ fun MiniPlayer(
                 Text(
                     text = song.artistName,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = TextSecondary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )

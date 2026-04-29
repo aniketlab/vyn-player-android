@@ -1,14 +1,12 @@
 package com.vyn.player.ui.navigation
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,13 +28,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.screens.player.PlayerViewModel
+import com.vyn.player.ui.theme.AccentBorder
+import com.vyn.player.ui.theme.Border
+import com.vyn.player.ui.theme.Surface as WarmSurface
+import com.vyn.player.ui.theme.Surface2
+import com.vyn.player.ui.theme.TextPrimary
+import com.vyn.player.ui.theme.TextSecondary
 
 @Composable
 fun DynamicBottomBar(
@@ -52,37 +56,36 @@ fun DynamicBottomBar(
     val currentSong by playerViewModel.currentSong.collectAsStateWithLifecycle()
     if (isPlayerActive && currentSong == null) return
 
+    val bottomPadding by animateDpAsState(
+        targetValue = if (isMerged) 16.dp else 90.dp,
+        label = "miniPlayerBottomPadding",
+    )
+    val cornerRadius by animateDpAsState(
+        targetValue = if (isMerged) 20.dp else 16.dp,
+        label = "miniPlayerCornerRadius",
+    )
+    val playerAlpha by animateFloatAsState(
+        targetValue = if (isPlayerActive) 1f else 0f,
+        label = "miniPlayerAlpha",
+    )
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(164.dp)
-            .padding(horizontal = 16.dp)
-            .animateContentSize(),
+            .padding(horizontal = 16.dp),
     ) {
-        val floatingBottom by animateDpAsState(
-            targetValue = if (isMerged) 16.dp else 90.dp,
-            label = "floatingPlayerBottom",
-        )
-        val floatingAlpha by animateFloatAsState(
-            targetValue = if (!isMerged && isPlayerActive) 1f else 0f,
-            label = "floatingPlayerAlpha",
-        )
-        val floatingScale by animateFloatAsState(
-            targetValue = if (!isMerged && isPlayerActive) 1f else 0.9f,
-            label = "floatingPlayerScale",
-        )
-
         if (!isMerged && isPlayerActive) {
             MiniPlayer(
                 viewModel = playerViewModel,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = floatingBottom)
+                    .padding(horizontal = 0.dp)
+                    .padding(bottom = bottomPadding)
                     .graphicsLayer {
-                        alpha = floatingAlpha
-                        scaleX = floatingScale
-                        scaleY = floatingScale
+                        alpha = playerAlpha
                     },
+                cornerRadius = cornerRadius,
             )
         }
 
@@ -91,9 +94,11 @@ fun DynamicBottomBar(
                 .fillMaxWidth()
                 .height(72.dp)
                 .align(Alignment.BottomCenter),
-            shape = RoundedCornerShape(28.dp),
-            tonalElevation = 8.dp,
-            color = Color(0xFF1A1A1E),
+            shape = RoundedCornerShape(24.dp),
+            tonalElevation = 0.dp,
+            shadowElevation = 8.dp,
+            color = WarmSurface,
+            border = BorderStroke(1.dp, AccentBorder),
         ) {
             Row(
                 modifier = Modifier
@@ -116,10 +121,10 @@ fun DynamicBottomBar(
                     playerViewModel = playerViewModel,
                     onDiscoverClick = onDiscoverClick,
                     onLibraryClick = onLibraryClick,
+                    cornerRadius = cornerRadius,
                     modifier = Modifier
                         .weight(1f)
-                        .height(62.dp)
-                        .animateContentSize(),
+                        .height(62.dp),
                 )
 
                 NavBarIconItem(
@@ -141,6 +146,7 @@ private fun CenterSlot(
     playerViewModel: PlayerViewModel,
     onDiscoverClick: () -> Unit,
     onLibraryClick: () -> Unit,
+    cornerRadius: Dp,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -148,44 +154,15 @@ private fun CenterSlot(
         contentAlignment = Alignment.Center,
     ) {
         if (merged && isPlayerActive) {
-            val miniPlayerAlpha by animateFloatAsState(
-                targetValue = 1f,
-                animationSpec = tween(durationMillis = 180),
-                label = "miniPlayerAlpha",
-            )
-            val miniPlayerScale by animateFloatAsState(
-                targetValue = 1f,
-                animationSpec = tween(durationMillis = 180),
-                label = "miniPlayerScale",
-            )
-
             MiniPlayer(
                 viewModel = playerViewModel,
-                modifier = Modifier
-                    .matchParentSize()
-                    .graphicsLayer {
-                        alpha = miniPlayerAlpha
-                        scaleX = miniPlayerScale
-                        scaleY = miniPlayerScale
-                    },
+                modifier = Modifier.matchParentSize(),
+                cornerRadius = cornerRadius,
             )
         } else {
-            val centerPillAlpha by animateFloatAsState(
-                targetValue = 1f,
-                animationSpec = tween(durationMillis = 180),
-                label = "centerPillAlpha",
-            )
-            val centerPillScale by animateFloatAsState(
-                targetValue = 1f,
-                animationSpec = tween(durationMillis = 180),
-                label = "centerPillScale",
-            )
-
             CenterPill(
                 onDiscoverClick = onDiscoverClick,
                 onLibraryClick = onLibraryClick,
-                alpha = centerPillAlpha,
-                scale = centerPillScale,
             )
         }
     }
@@ -195,20 +172,14 @@ private fun CenterSlot(
 private fun CenterPill(
     onDiscoverClick: () -> Unit,
     onLibraryClick: () -> Unit,
-    alpha: Float,
-    scale: Float,
 ) {
     Surface(
-        shape = RoundedCornerShape(18.dp),
-        color = Color.White.copy(alpha = 0.08f),
+        shape = RoundedCornerShape(20.dp),
+        color = Surface2,
+        border = BorderStroke(1.dp, Border),
         modifier = Modifier
             .fillMaxWidth()
-            .height(62.dp)
-            .graphicsLayer {
-                this.alpha = alpha
-                scaleX = scale
-                scaleY = scale
-            },
+            .height(62.dp),
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
@@ -233,7 +204,7 @@ private fun NavBarIconItem(
         modifier = modifier
             .clickable(onClick = onClick)
             .background(
-                color = if (selected) Color.White.copy(alpha = 0.1f) else Color.Transparent,
+                color = if (selected) AccentBorder else androidx.compose.ui.graphics.Color.Transparent,
                 shape = CircleShape,
             )
             .padding(horizontal = 8.dp, vertical = 6.dp),
@@ -242,8 +213,16 @@ private fun NavBarIconItem(
         androidx.compose.foundation.layout.Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Icon(icon, contentDescription = label)
-            Text(label, style = MaterialTheme.typography.bodySmall)
+            Icon(
+                imageVector = icon,
+                contentDescription = label,
+                tint = if (selected) MaterialTheme.colorScheme.primary else TextSecondary,
+            )
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodySmall,
+                color = if (selected) TextPrimary else TextSecondary,
+            )
         }
     }
 }

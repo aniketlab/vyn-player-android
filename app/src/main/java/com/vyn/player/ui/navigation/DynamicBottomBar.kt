@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.screens.player.PlayerViewModel
@@ -71,24 +72,12 @@ fun DynamicBottomBar(
             .fillMaxWidth()
             .height(164.dp),
     ) {
-        if (isPlayerActive) {
-            MiniPlayer(
-                viewModel = playerViewModel,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = bottomPadding)
-                    .padding(horizontal = sidePadding)
-                    .height(playerHeight)
-                    .clip(RoundedCornerShape(cornerRadius)),
-                cornerRadius = cornerRadius,
-            )
-        }
-
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(72.dp)
-                .align(Alignment.BottomCenter),
+                .align(Alignment.BottomCenter)
+                .zIndex(0f),
             shape = RoundedCornerShape(24.dp),
             tonalElevation = 0.dp,
             shadowElevation = 8.dp,
@@ -128,6 +117,20 @@ fun DynamicBottomBar(
                     modifier = Modifier.size(62.dp),
                 )
             }
+        }
+
+        if (isPlayerActive) {
+            MiniPlayer(
+                viewModel = playerViewModel,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .zIndex(1f)
+                    .padding(bottom = bottomPadding)
+                    .padding(horizontal = sidePadding)
+                    .height(playerHeight)
+                    .clip(RoundedCornerShape(cornerRadius)),
+                cornerRadius = cornerRadius,
+            )
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.vyn.player.ui.navigation
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -54,13 +55,42 @@ fun DynamicBottomBar(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .height(164.dp)
+            .padding(horizontal = 16.dp)
             .animateContentSize(),
     ) {
+        val floatingBottom by animateDpAsState(
+            targetValue = if (isMerged) 16.dp else 90.dp,
+            label = "floatingPlayerBottom",
+        )
+        val floatingAlpha by animateFloatAsState(
+            targetValue = if (!isMerged && isPlayerActive) 1f else 0f,
+            label = "floatingPlayerAlpha",
+        )
+        val floatingScale by animateFloatAsState(
+            targetValue = if (!isMerged && isPlayerActive) 1f else 0.9f,
+            label = "floatingPlayerScale",
+        )
+
+        if (!isMerged && isPlayerActive) {
+            MiniPlayer(
+                viewModel = playerViewModel,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = floatingBottom)
+                    .graphicsLayer {
+                        alpha = floatingAlpha
+                        scaleX = floatingScale
+                        scaleY = floatingScale
+                    },
+            )
+        }
+
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(72.dp),
+                .height(72.dp)
+                .align(Alignment.BottomCenter),
             shape = RoundedCornerShape(28.dp),
             tonalElevation = 8.dp,
             color = Color(0xFF1A1A1E),
@@ -82,6 +112,7 @@ fun DynamicBottomBar(
 
                 CenterSlot(
                     merged = isMerged,
+                    isPlayerActive = isPlayerActive,
                     playerViewModel = playerViewModel,
                     onDiscoverClick = onDiscoverClick,
                     onLibraryClick = onLibraryClick,
@@ -106,6 +137,7 @@ fun DynamicBottomBar(
 @Composable
 private fun CenterSlot(
     merged: Boolean,
+    isPlayerActive: Boolean,
     playerViewModel: PlayerViewModel,
     onDiscoverClick: () -> Unit,
     onLibraryClick: () -> Unit,
@@ -115,7 +147,7 @@ private fun CenterSlot(
         modifier = modifier.clip(RoundedCornerShape(20.dp)),
         contentAlignment = Alignment.Center,
     ) {
-        if (merged) {
+        if (merged && isPlayerActive) {
             val miniPlayerAlpha by animateFloatAsState(
                 targetValue = 1f,
                 animationSpec = tween(durationMillis = 180),

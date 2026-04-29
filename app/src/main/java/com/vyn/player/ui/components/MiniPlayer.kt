@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -41,7 +40,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.screens.player.PlayerViewModel
-import com.vyn.player.ui.theme.Border
 import com.vyn.player.ui.theme.Surface2
 import com.vyn.player.ui.theme.TextSecondary
 
@@ -76,12 +74,7 @@ fun MiniPlayer(
         color = Surface2,
         modifier = modifier
             .shadow(
-                elevation = elevation,
-                shape = RoundedCornerShape(cornerRadius),
-            )
-            .border(
-                width = 1.dp,
-                color = Border,
+                elevation = 12.dp,
                 shape = RoundedCornerShape(cornerRadius),
             )
             .graphicsLayer {

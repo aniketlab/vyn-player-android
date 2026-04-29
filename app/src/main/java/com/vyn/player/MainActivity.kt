@@ -159,52 +159,6 @@ class MainActivity : ComponentActivity() {
                         Scaffold(
                             modifier = Modifier.fillMaxSize(),
                             contentWindowInsets = WindowInsets(0, 0, 0, 0),
-                            bottomBar = {
-                                if (showBottomNavigation) {
-                                     DynamicBottomBar(
-                                         currentRoute = currentBottomRoute,
-                                         playerViewModel = playerViewModel,
-                                         isPlayerActive = isPlayerActive,
-                                         isMerged = isMerged,
-                                         onHomeClick = {
-                                            navController.navigate(Destinations.HOME) {
-                                                popUpTo(navController.graph.findStartDestination().id) {
-                                                    saveState = true
-                                                }
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        },
-                                        onDiscoverClick = {
-                                            navController.navigate(Destinations.SEARCH) {
-                                                popUpTo(navController.graph.findStartDestination().id) {
-                                                    saveState = true
-                                                }
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        },
-                                        onLibraryClick = {
-                                            navController.navigate(Destinations.LIBRARY) {
-                                                popUpTo(navController.graph.findStartDestination().id) {
-                                                    saveState = true
-                                                }
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        },
-                                        onSearchClick = {
-                                            navController.navigate(Destinations.SEARCH) {
-                                                popUpTo(navController.graph.findStartDestination().id) {
-                                                    saveState = true
-                                                }
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        },
-                                    )
-                                }
-                            },
                         ) { innerPadding ->
                             Box(
                                 modifier = Modifier
@@ -224,6 +178,54 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
+
+                        if (showBottomNavigation) {
+                              DynamicBottomBar(
+                                  modifier = Modifier
+                                      .fillMaxSize()
+                                      .zIndex(50f),
+                                  currentRoute = currentBottomRoute,
+                                  playerViewModel = playerViewModel,
+                                  isPlayerActive = isPlayerActive,
+                                  isMerged = isMerged,
+                                  onHomeClick = {
+                                     navController.navigate(Destinations.HOME) {
+                                         popUpTo(navController.graph.findStartDestination().id) {
+                                             saveState = true
+                                         }
+                                         launchSingleTop = true
+                                         restoreState = true
+                                     }
+                                 },
+                                 onDiscoverClick = {
+                                     navController.navigate(Destinations.SEARCH) {
+                                         popUpTo(navController.graph.findStartDestination().id) {
+                                             saveState = true
+                                         }
+                                         launchSingleTop = true
+                                         restoreState = true
+                                     }
+                                 },
+                                 onLibraryClick = {
+                                     navController.navigate(Destinations.LIBRARY) {
+                                         popUpTo(navController.graph.findStartDestination().id) {
+                                             saveState = true
+                                         }
+                                         launchSingleTop = true
+                                         restoreState = true
+                                     }
+                                 },
+                                 onSearchClick = {
+                                     navController.navigate(Destinations.SEARCH) {
+                                         popUpTo(navController.graph.findStartDestination().id) {
+                                             saveState = true
+                                         }
+                                         launchSingleTop = true
+                                         restoreState = true
+                                     }
+                                 },
+                             )
+                         }
 
                         Box(
                             modifier = Modifier

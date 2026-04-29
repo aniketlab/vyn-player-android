@@ -89,8 +89,7 @@ fun MiniPlayer(
                 scaleY = scale
                 shadowElevation = elevation.toPx()
             }
-            .fillMaxWidth()
-            .height(64.dp),
+            .fillMaxWidth(),
     ) {
         Row(
             modifier = Modifier
@@ -115,6 +114,7 @@ fun MiniPlayer(
                     indication = LocalIndication.current,
                 ) {
                     if (!isDragging) {
+                        onClick()
                         viewModel.expandPlayer()
                     }
                 }

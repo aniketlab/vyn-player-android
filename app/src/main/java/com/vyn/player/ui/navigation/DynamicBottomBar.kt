@@ -1,6 +1,5 @@
 package com.vyn.player.ui.navigation
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.BorderStroke
@@ -30,8 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.lerp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.screens.player.PlayerViewModel
@@ -56,35 +55,31 @@ fun DynamicBottomBar(
     val currentSong by playerViewModel.currentSong.collectAsStateWithLifecycle()
     if (isPlayerActive && currentSong == null) return
 
-    val bottomPadding by animateDpAsState(
-        targetValue = if (isMerged) 16.dp else 90.dp,
-        label = "miniPlayerBottomPadding",
+    val progress by animateFloatAsState(
+        targetValue = if (isMerged) 1f else 0f,
+        label = "miniPlayerMergeProgress",
     )
-    val cornerRadius by animateDpAsState(
-        targetValue = if (isMerged) 20.dp else 16.dp,
-        label = "miniPlayerCornerRadius",
-    )
-    val playerAlpha by animateFloatAsState(
-        targetValue = if (isPlayerActive) 1f else 0f,
-        label = "miniPlayerAlpha",
-    )
+    val bottomPadding = lerp(90.dp, 16.dp, progress)
+    val sidePadding = lerp(16.dp, 88.dp, progress)
+    val playerHeight = lerp(50.dp, 62.dp, progress)
+    val cornerRadius = lerp(16.dp, 20.dp, progress)
+    val centerPillAlpha = 1f - progress
+    val centerPillScale = 1f + ((0.8f - 1f) * progress)
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(164.dp)
-            .padding(horizontal = 16.dp),
+            .height(164.dp),
     ) {
-        if (!isMerged && isPlayerActive) {
+        if (isPlayerActive) {
             MiniPlayer(
                 viewModel = playerViewModel,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(horizontal = 0.dp)
                     .padding(bottom = bottomPadding)
-                    .graphicsLayer {
-                        alpha = playerAlpha
-                    },
+                    .padding(horizontal = sidePadding)
+                    .height(playerHeight)
+                    .clip(RoundedCornerShape(cornerRadius)),
                 cornerRadius = cornerRadius,
             )
         }
@@ -116,12 +111,10 @@ fun DynamicBottomBar(
                 )
 
                 CenterSlot(
-                    merged = isMerged,
-                    isPlayerActive = isPlayerActive,
-                    playerViewModel = playerViewModel,
                     onDiscoverClick = onDiscoverClick,
                     onLibraryClick = onLibraryClick,
-                    cornerRadius = cornerRadius,
+                    alpha = centerPillAlpha,
+                    scale = centerPillScale,
                     modifier = Modifier
                         .weight(1f)
                         .height(62.dp),
@@ -141,30 +134,22 @@ fun DynamicBottomBar(
 
 @Composable
 private fun CenterSlot(
-    merged: Boolean,
-    isPlayerActive: Boolean,
-    playerViewModel: PlayerViewModel,
     onDiscoverClick: () -> Unit,
     onLibraryClick: () -> Unit,
-    cornerRadius: Dp,
+    alpha: Float,
+    scale: Float,
     modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier.clip(RoundedCornerShape(20.dp)),
         contentAlignment = Alignment.Center,
     ) {
-        if (merged && isPlayerActive) {
-            MiniPlayer(
-                viewModel = playerViewModel,
-                modifier = Modifier.matchParentSize(),
-                cornerRadius = cornerRadius,
-            )
-        } else {
-            CenterPill(
-                onDiscoverClick = onDiscoverClick,
-                onLibraryClick = onLibraryClick,
-            )
-        }
+        CenterPill(
+            onDiscoverClick = onDiscoverClick,
+            onLibraryClick = onLibraryClick,
+            alpha = alpha,
+            scale = scale,
+        )
     }
 }
 
@@ -172,6 +157,8 @@ private fun CenterSlot(
 private fun CenterPill(
     onDiscoverClick: () -> Unit,
     onLibraryClick: () -> Unit,
+    alpha: Float,
+    scale: Float,
 ) {
     Surface(
         shape = RoundedCornerShape(20.dp),
@@ -179,7 +166,12 @@ private fun CenterPill(
         border = BorderStroke(1.dp, Border),
         modifier = Modifier
             .fillMaxWidth()
-            .height(62.dp),
+            .height(62.dp)
+            .graphicsLayer {
+                this.alpha = alpha
+                scaleX = scale
+                scaleY = scale
+            },
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),

@@ -1,6 +1,7 @@
 package com.vyn.player.ui.navigation
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
@@ -55,23 +57,6 @@ fun DynamicBottomBar(
             .padding(horizontal = 16.dp, vertical = 10.dp)
             .animateContentSize(),
     ) {
-        val miniPlayerAlpha by animateFloatAsState(
-            targetValue = if (isMerged && isPlayerActive) 1f else 0f,
-            label = "miniPlayerAlpha",
-        )
-        val miniPlayerScale by animateFloatAsState(
-            targetValue = if (isMerged && isPlayerActive) 1f else 0.9f,
-            label = "miniPlayerScale",
-        )
-        val centerPillAlpha by animateFloatAsState(
-            targetValue = if (isMerged) 0f else 1f,
-            label = "centerPillAlpha",
-        )
-        val centerPillScale by animateFloatAsState(
-            targetValue = if (isMerged) 0.8f else 1f,
-            label = "centerPillScale",
-        )
-
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
@@ -95,32 +80,16 @@ fun DynamicBottomBar(
                     modifier = Modifier.size(62.dp),
                 )
 
-                Box(
+                CenterSlot(
+                    merged = isMerged,
+                    playerViewModel = playerViewModel,
+                    onDiscoverClick = onDiscoverClick,
+                    onLibraryClick = onLibraryClick,
                     modifier = Modifier
                         .weight(1f)
                         .height(62.dp)
                         .animateContentSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    CenterPill(
-                        onDiscoverClick = onDiscoverClick,
-                        onLibraryClick = onLibraryClick,
-                        alpha = centerPillAlpha,
-                        scale = centerPillScale,
-                    )
-
-                    MiniPlayer(
-                        viewModel = playerViewModel,
-                        modifier = Modifier
-                            .matchParentSize()
-                            .clickable(enabled = isMerged && isPlayerActive) {}
-                            .graphicsLayer {
-                                alpha = miniPlayerAlpha
-                                scaleX = miniPlayerScale
-                                scaleY = miniPlayerScale
-                            },
-                    )
-                }
+                )
 
                 NavBarIconItem(
                     label = "Search",
@@ -130,6 +99,62 @@ fun DynamicBottomBar(
                     modifier = Modifier.size(62.dp),
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun CenterSlot(
+    merged: Boolean,
+    playerViewModel: PlayerViewModel,
+    onDiscoverClick: () -> Unit,
+    onLibraryClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier.clip(RoundedCornerShape(20.dp)),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (merged) {
+            val miniPlayerAlpha by animateFloatAsState(
+                targetValue = 1f,
+                animationSpec = tween(durationMillis = 180),
+                label = "miniPlayerAlpha",
+            )
+            val miniPlayerScale by animateFloatAsState(
+                targetValue = 1f,
+                animationSpec = tween(durationMillis = 180),
+                label = "miniPlayerScale",
+            )
+
+            MiniPlayer(
+                viewModel = playerViewModel,
+                modifier = Modifier
+                    .matchParentSize()
+                    .graphicsLayer {
+                        alpha = miniPlayerAlpha
+                        scaleX = miniPlayerScale
+                        scaleY = miniPlayerScale
+                    },
+            )
+        } else {
+            val centerPillAlpha by animateFloatAsState(
+                targetValue = 1f,
+                animationSpec = tween(durationMillis = 180),
+                label = "centerPillAlpha",
+            )
+            val centerPillScale by animateFloatAsState(
+                targetValue = 1f,
+                animationSpec = tween(durationMillis = 180),
+                label = "centerPillScale",
+            )
+
+            CenterPill(
+                onDiscoverClick = onDiscoverClick,
+                onLibraryClick = onLibraryClick,
+                alpha = centerPillAlpha,
+                scale = centerPillScale,
+            )
         }
     }
 }

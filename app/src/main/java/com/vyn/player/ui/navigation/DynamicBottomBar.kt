@@ -25,9 +25,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
@@ -99,8 +98,11 @@ fun DynamicBottomBar(
                     .matchParentSize()
                     .clip(RoundedCornerShape(cornerRadius))
                     .background(WarmSurface)
-                    .alpha(1f - progress)
-                    .scale(1f - (0.2f * progress)),
+                    .graphicsLayer {
+                        alpha = 1f - progress
+                        scaleX = 1f - (0.2f * progress)
+                        scaleY = 1f - (0.2f * progress)
+                    },
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -116,16 +118,21 @@ fun DynamicBottomBar(
                 )
             }
 
-            MiniPlayer(
-                viewModel = playerViewModel,
-                modifier = Modifier
-                    .matchParentSize()
-                    .alpha(progress)
-                    .scale(0.9f + (0.1f * progress))
-                    .clip(RoundedCornerShape(cornerRadius)),
-                cornerRadius = cornerRadius,
-                gesturesEnabled = isPlayerActive && progress > 0.5f,
-            )
+            if (progress > 0.02f) {
+                MiniPlayer(
+                    viewModel = playerViewModel,
+                    modifier = Modifier
+                        .matchParentSize()
+                        .graphicsLayer {
+                            alpha = progress
+                            scaleX = 0.9f + (0.1f * progress)
+                            scaleY = 0.9f + (0.1f * progress)
+                        }
+                        .clip(RoundedCornerShape(cornerRadius)),
+                    cornerRadius = cornerRadius,
+                    gesturesEnabled = isPlayerActive && progress > 0.5f,
+                )
+            }
         }
     }
 }

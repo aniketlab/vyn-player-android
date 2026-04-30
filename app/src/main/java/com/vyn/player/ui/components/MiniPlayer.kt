@@ -50,6 +50,7 @@ fun MiniPlayer(
     modifier: Modifier = Modifier,
     elevation: Dp = 6.dp,
     cornerRadius: Dp = 16.dp,
+    gesturesEnabled: Boolean = true,
 ) {
     val currentSong by viewModel.currentSong.collectAsStateWithLifecycle()
     val isPlaying by viewModel.isPlaying.collectAsStateWithLifecycle()
@@ -87,22 +88,25 @@ fun MiniPlayer(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .pointerInput(Unit) {
-                    detectVerticalDragGestures(
-                        onVerticalDrag = { _, dragAmount ->
-                            isDragging = true
-                            totalDrag += dragAmount
-                        },
-                        onDragEnd = {
-                            if (totalDrag < -100f) {
-                                viewModel.expandPlayer()
-                            }
-                            totalDrag = 0f
-                            isDragging = false
-                        },
-                    )
+                .pointerInput(gesturesEnabled) {
+                    if (gesturesEnabled) {
+                        detectVerticalDragGestures(
+                            onVerticalDrag = { _, dragAmount ->
+                                isDragging = true
+                                totalDrag += dragAmount
+                            },
+                            onDragEnd = {
+                                if (totalDrag < -100f) {
+                                    viewModel.expandPlayer()
+                                }
+                                totalDrag = 0f
+                                isDragging = false
+                            },
+                        )
+                    }
                 }
                 .clickable(
+                    enabled = gesturesEnabled,
                     interactionSource = interactionSource,
                     indication = LocalIndication.current,
                 ) {

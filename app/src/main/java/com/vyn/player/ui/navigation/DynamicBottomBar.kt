@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -57,82 +59,76 @@ fun DynamicBottomBar(
         targetValue = if (isMerged) 1f else 0f,
         label = "miniPlayerMergeProgress",
     )
-    val animatedBottom = lerp(90.dp, 16.dp, progress)
+    val animatedBottom = lerp(92.dp, 16.dp, progress)
     val animatedSide = lerp(16.dp, 88.dp, progress)
     val animatedHeight = lerp(50.dp, 62.dp, progress)
     val cornerRadius = lerp(16.dp, 20.dp, progress)
 
     Box(modifier = modifier.fillMaxSize()) {
-        FloatingNavButton(
-            label = "Home",
-            selected = currentRoute == Destinations.HOME,
-            onClick = onHomeClick,
-            icon = Icons.Filled.Home,
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = 16.dp, bottom = 16.dp)
-                .zIndex(1f),
-        )
-
-        FloatingNavButton(
-            label = "Search",
-            selected = currentRoute == Destinations.SEARCH,
-            onClick = onSearchClick,
-            icon = Icons.Filled.Search,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = 16.dp)
-                .zIndex(1f),
-        )
-
-        Box(
+        MiniPlayer(
+            viewModel = playerViewModel,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = animatedBottom)
                 .padding(horizontal = animatedSide)
+                .offset(y = -animatedBottom)
                 .height(animatedHeight)
-                .zIndex(2f),
+                .fillMaxWidth()
+                .zIndex(10f)
+                .clip(RoundedCornerShape(cornerRadius)),
+            cornerRadius = cornerRadius,
+            gesturesEnabled = isPlayerActive,
+        )
+
+        Row(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(16.dp)
+                .fillMaxWidth()
+                .zIndex(1f),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row(
+            FloatingNavButton(
+                label = "Home",
+                selected = currentRoute == Destinations.HOME,
+                onClick = onHomeClick,
+                icon = Icons.Filled.Home,
+            )
+
+            Box(
                 modifier = Modifier
-                    .matchParentSize()
-                    .clip(RoundedCornerShape(cornerRadius))
-                    .background(WarmSurface)
-                    .graphicsLayer {
-                        alpha = 1f - progress
-                        scaleX = 1f - (0.2f * progress)
-                        scaleY = 1f - (0.2f * progress)
-                    },
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically,
+                    .weight(1f)
+                    .height(62.dp),
+                contentAlignment = Alignment.Center,
             ) {
-                CenterActionButton(
-                    label = "Browser",
-                    icon = Icons.Filled.Star,
-                    onClick = onDiscoverClick,
-                )
-                CenterActionButton(
-                    label = "Library",
-                    icon = Icons.AutoMirrored.Filled.List,
-                    onClick = onLibraryClick,
-                )
+                Row(
+                    modifier = Modifier
+                        .graphicsLayer {
+                            alpha = 1f - progress
+                            scaleX = 1f - (0.2f * progress)
+                            scaleY = 1f - (0.2f * progress)
+                        },
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    CenterActionButton(
+                        label = "Browser",
+                        icon = Icons.Filled.Star,
+                        onClick = onDiscoverClick,
+                    )
+                    CenterActionButton(
+                        label = "Library",
+                        icon = Icons.AutoMirrored.Filled.List,
+                        onClick = onLibraryClick,
+                    )
+                }
             }
 
-            if (progress > 0.02f) {
-                MiniPlayer(
-                    viewModel = playerViewModel,
-                    modifier = Modifier
-                        .matchParentSize()
-                        .graphicsLayer {
-                            alpha = progress
-                            scaleX = 0.9f + (0.1f * progress)
-                            scaleY = 0.9f + (0.1f * progress)
-                        }
-                        .clip(RoundedCornerShape(cornerRadius)),
-                    cornerRadius = cornerRadius,
-                    gesturesEnabled = isPlayerActive && progress > 0.5f,
-                )
-            }
+            FloatingNavButton(
+                label = "Search",
+                selected = currentRoute == Destinations.SEARCH,
+                onClick = onSearchClick,
+                icon = Icons.Filled.Search,
+            )
         }
     }
 }

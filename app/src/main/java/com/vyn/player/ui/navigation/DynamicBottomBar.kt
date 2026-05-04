@@ -16,11 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.automirrored.rounded.QueueMusic
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Explore
-import androidx.compose.material.icons.rounded.QueueMusic
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -65,15 +64,16 @@ fun DynamicBottomBar(
         label = "miniPlayerMergeProgress",
     )
     val animatedBottom = lerp(92.dp, 16.dp, progress)
-    val animatedHeight = 62.dp
-    val cornerRadius = 28.dp
+    val animatedSide = lerp(16.dp, 88.dp, progress)
+    val animatedHeight = lerp(50.dp, 62.dp, progress)
+    val cornerRadius = lerp(16.dp, 28.dp, progress)
 
     Box(modifier = modifier.fillMaxSize()) {
         MiniPlayer(
             viewModel = playerViewModel,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = animatedSide)
                 .offset(y = -animatedBottom)
                 .height(animatedHeight)
                 .fillMaxWidth()
@@ -88,9 +88,6 @@ fun DynamicBottomBar(
                 .align(Alignment.BottomCenter)
                 .padding(16.dp)
                 .fillMaxWidth()
-                .graphicsLayer {
-                    alpha = 1f - progress
-                }
                 .zIndex(1f),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -132,7 +129,7 @@ fun DynamicBottomBar(
                     )
                     CenterActionButton(
                         label = "Library",
-                        icon = Icons.Rounded.QueueMusic,
+                        icon = Icons.AutoMirrored.Rounded.QueueMusic,
                         onClick = onLibraryClick,
                     )
                 }

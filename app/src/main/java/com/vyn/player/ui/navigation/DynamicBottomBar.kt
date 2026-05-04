@@ -2,6 +2,7 @@ package com.vyn.player.ui.navigation
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,7 +19,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.Explore
+import androidx.compose.material.icons.rounded.QueueMusic
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -39,6 +41,9 @@ import com.vyn.player.ui.screens.player.PlayerViewModel
 import com.vyn.player.ui.theme.Surface as WarmSurface
 import com.vyn.player.ui.theme.TextPrimary
 import com.vyn.player.ui.theme.TextSecondary
+
+private val FloatingBorderColor = androidx.compose.ui.graphics.Color(0x1FFFFFFF)
+private val FloatingSurfaceColor = androidx.compose.ui.graphics.Color(0x1AFFFFFF)
 
 @Composable
 fun DynamicBottomBar(
@@ -102,6 +107,14 @@ fun DynamicBottomBar(
             ) {
                 Row(
                     modifier = Modifier
+                        .clip(RoundedCornerShape(28.dp))
+                        .background(FloatingSurfaceColor)
+                        .border(
+                            width = 1.dp,
+                            color = FloatingBorderColor,
+                            shape = RoundedCornerShape(28.dp),
+                        )
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
                         .graphicsLayer {
                             alpha = 1f - progress
                             scaleX = 1f - (0.2f * progress)
@@ -112,12 +125,12 @@ fun DynamicBottomBar(
                 ) {
                     CenterActionButton(
                         label = "Browser",
-                        icon = Icons.Filled.Star,
+                        icon = Icons.Rounded.Explore,
                         onClick = onDiscoverClick,
                     )
                     CenterActionButton(
                         label = "Library",
-                        icon = Icons.AutoMirrored.Filled.List,
+                        icon = Icons.Rounded.QueueMusic,
                         onClick = onLibraryClick,
                     )
                 }
@@ -173,16 +186,22 @@ private fun FloatingNavButton(
         modifier = modifier
             .size(64.dp)
             .clip(RoundedCornerShape(20.dp))
+            .background(FloatingSurfaceColor)
+            .border(
+                width = 1.dp,
+                color = FloatingBorderColor,
+                shape = RoundedCornerShape(20.dp),
+            )
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(20.dp),
-        color = WarmSurface,
+        color = FloatingSurfaceColor,
         tonalElevation = 0.dp,
         shadowElevation = 12.dp,
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(WarmSurface)
+                .background(FloatingSurfaceColor)
                 .padding(horizontal = 8.dp, vertical = 7.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -190,12 +209,12 @@ private fun FloatingNavButton(
             Icon(
                 imageVector = icon,
                 contentDescription = label,
-                tint = if (selected) MaterialTheme.colorScheme.primary else TextSecondary,
+                tint = if (selected) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.White.copy(alpha = 0.6f),
             )
             Text(
                 text = label,
                 style = MaterialTheme.typography.bodySmall,
-                color = if (selected) TextPrimary else TextSecondary,
+                color = if (selected) TextPrimary else androidx.compose.ui.graphics.Color.White.copy(alpha = 0.6f),
             )
         }
     }

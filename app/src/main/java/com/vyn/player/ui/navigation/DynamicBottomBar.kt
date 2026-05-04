@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
@@ -30,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
@@ -66,7 +68,7 @@ fun DynamicBottomBar(
     val animatedBottom = lerp(92.dp, 16.dp, progress)
     val animatedSide = lerp(16.dp, 88.dp, progress)
     val animatedHeight = lerp(50.dp, 62.dp, progress)
-    val cornerRadius = lerp(16.dp, 28.dp, progress)
+    val cornerRadius = 32.dp
 
     Box(modifier = modifier.fillMaxSize()) {
         MiniPlayer(
@@ -114,6 +116,7 @@ fun DynamicBottomBar(
                             shape = RoundedCornerShape(28.dp),
                         )
                         .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .pointerInput(Unit) {}
                         .graphicsLayer {
                             alpha = 1f - progress
                             scaleX = 1f - (0.2f * progress)
@@ -154,9 +157,9 @@ private fun CenterActionButton(
 ) {
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(20.dp))
+            .clip(RoundedCornerShape(32.dp))
             .clickable(onClick = onClick)
-            .padding(horizontal = 14.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -183,33 +186,36 @@ private fun FloatingNavButton(
 ) {
     Surface(
         modifier = modifier
-            .size(64.dp)
-            .clip(RoundedCornerShape(20.dp))
+            .height(62.dp)
+            .widthIn(min = 62.dp)
+            .clip(RoundedCornerShape(32.dp))
             .background(FloatingSurfaceColor)
             .border(
                 width = 1.dp,
                 color = FloatingBorderColor,
-                shape = RoundedCornerShape(20.dp),
+                shape = RoundedCornerShape(32.dp),
             )
+            .padding(horizontal = 18.dp)
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(32.dp),
         color = FloatingSurfaceColor,
         tonalElevation = 0.dp,
         shadowElevation = 12.dp,
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxSize()
                 .background(FloatingSurfaceColor)
-                .padding(horizontal = 8.dp, vertical = 7.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+                .padding(horizontal = 4.dp, vertical = 7.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = label,
                 tint = if (selected) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.White.copy(alpha = 0.6f),
             )
+            androidx.compose.foundation.layout.Spacer(modifier = Modifier.size(6.dp))
             Text(
                 text = label,
                 style = MaterialTheme.typography.bodySmall,

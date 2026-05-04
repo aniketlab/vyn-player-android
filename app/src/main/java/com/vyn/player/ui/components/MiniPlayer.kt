@@ -72,8 +72,8 @@ fun MiniPlayer(
 
     Surface(
         shape = RoundedCornerShape(cornerRadius),
-        tonalElevation = elevation,
-        color = Surface2,
+        tonalElevation = 0.dp,
+        color = androidx.compose.ui.graphics.Color(0x1AFFFFFF),
         modifier = modifier
             .shadow(
                 elevation = 12.dp,

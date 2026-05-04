@@ -65,16 +65,15 @@ fun DynamicBottomBar(
         label = "miniPlayerMergeProgress",
     )
     val animatedBottom = lerp(92.dp, 16.dp, progress)
-    val animatedSide = lerp(16.dp, 88.dp, progress)
-    val animatedHeight = lerp(50.dp, 62.dp, progress)
-    val cornerRadius = lerp(16.dp, 20.dp, progress)
+    val animatedHeight = 62.dp
+    val cornerRadius = 28.dp
 
     Box(modifier = modifier.fillMaxSize()) {
         MiniPlayer(
             viewModel = playerViewModel,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(horizontal = animatedSide)
+                .padding(horizontal = 16.dp)
                 .offset(y = -animatedBottom)
                 .height(animatedHeight)
                 .fillMaxWidth()
@@ -89,6 +88,9 @@ fun DynamicBottomBar(
                 .align(Alignment.BottomCenter)
                 .padding(16.dp)
                 .fillMaxWidth()
+                .graphicsLayer {
+                    alpha = 1f - progress
+                }
                 .zIndex(1f),
             verticalAlignment = Alignment.CenterVertically,
         ) {

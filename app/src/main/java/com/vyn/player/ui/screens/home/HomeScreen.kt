@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -117,6 +118,7 @@ fun HomeScreen(
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState,
+            contentPadding = PaddingValues(bottom = 90.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             itemsIndexed(

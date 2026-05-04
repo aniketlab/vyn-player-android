@@ -11,9 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Explore
@@ -28,8 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -37,10 +36,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.screens.player.PlayerViewModel
 
-private val StableNavbarShape = RoundedCornerShape(20.dp)
-private val StableNavbarColor = Color(0xFF1C1A11)
-private val StableNavbarBorder = Color(0x1AF5EEDC)
-private val StableInactiveColor = Color(0x99F5EEDC)
+private val CenterSlotShape = RoundedCornerShape(20.dp)
+private val NavbarColor = Color(0xFF1C1A11)
+private val NavbarBorder = Color(0x1AF5EEDC)
+private val NavbarInactive = Color(0x99F5EEDC)
 
 @Composable
 fun DynamicBottomBar(
@@ -57,25 +56,53 @@ fun DynamicBottomBar(
     val currentSong by playerViewModel.currentSong.collectAsStateWithLifecycle()
     if (isPlayerActive && currentSong == null) return
 
-    val miniPlayerBottom by animateDpAsState(
-        targetValue = if (isMerged) 24.dp else 78.dp,
-        label = "miniPlayerBottom",
+    val floatingBottom by animateDpAsState(
+        targetValue = if (isMerged) 0.dp else 90.dp,
+        label = "floatingMiniPlayerBottom",
     )
-    val miniPlayerScale by animateFloatAsState(
-        targetValue = if (isMerged) 1f else 0.95f,
-        label = "miniPlayerScale",
+    val centerPillAlpha by animateFloatAsState(
+        targetValue = if (isMerged) 0f else 1f,
+        label = "centerPillAlpha",
+    )
+    val centerPillScale by animateFloatAsState(
+        targetValue = if (isMerged) 0.8f else 1f,
+        label = "centerPillScale",
+    )
+    val mergedMiniPlayerAlpha by animateFloatAsState(
+        targetValue = if (isMerged) 1f else 0f,
+        label = "mergedMiniPlayerAlpha",
+    )
+    val mergedMiniPlayerScale by animateFloatAsState(
+        targetValue = if (isMerged) 1f else 0.9f,
+        label = "mergedMiniPlayerScale",
     )
 
     Box(modifier = modifier.fillMaxSize()) {
+        if (isPlayerActive && !isMerged) {
+            MiniPlayer(
+                viewModel = playerViewModel,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = floatingBottom)
+                    .fillMaxWidth()
+                    .height(62.dp)
+                    .clip(CenterSlotShape),
+                elevation = 12.dp,
+                cornerRadius = 20.dp,
+                gesturesEnabled = true,
+            )
+        }
+
         Surface(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = 16.dp, vertical = 12.dp)
                 .fillMaxWidth()
                 .height(62.dp),
-            shape = StableNavbarShape,
-            color = StableNavbarColor,
-            border = androidx.compose.foundation.BorderStroke(1.dp, StableNavbarBorder),
+            shape = CenterSlotShape,
+            color = NavbarColor,
+            border = androidx.compose.foundation.BorderStroke(1.dp, NavbarBorder),
             tonalElevation = 0.dp,
             shadowElevation = 12.dp,
         ) {
@@ -86,32 +113,60 @@ fun DynamicBottomBar(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                StableNavItem(
+                NavBarItem(
                     label = "Home",
                     icon = Icons.Rounded.Home,
                     selected = currentRoute == Destinations.HOME,
                     onClick = onHomeClick,
                 )
 
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(62.dp),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    StableNavItem(
-                        label = "Browser",
-                        icon = Icons.Rounded.Explore,
-                        selected = false,
-                        onClick = onDiscoverClick,
-                    )
-                    StableNavItem(
-                        label = "Library",
-                        icon = Icons.Rounded.LibraryMusic,
-                        selected = currentRoute == Destinations.LIBRARY,
-                        onClick = onLibraryClick,
-                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(CenterSlotShape)
+                            .background(Color(0x1AFFFFFF))
+                            .border(1.dp, Color(0x1FFFFFFF), CenterSlotShape)
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .alpha(centerPillAlpha)
+                            .scale(centerPillScale),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        CenterSlotAction(
+                            label = "Discover",
+                            icon = Icons.Rounded.Explore,
+                            onClick = onDiscoverClick,
+                        )
+                        CenterSlotAction(
+                            label = "Library",
+                            icon = Icons.Rounded.LibraryMusic,
+                            onClick = onLibraryClick,
+                        )
+                    }
+
+                    if (isPlayerActive) {
+                        MiniPlayer(
+                            viewModel = playerViewModel,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(62.dp)
+                                .alpha(mergedMiniPlayerAlpha)
+                                .scale(mergedMiniPlayerScale)
+                                .clip(CenterSlotShape),
+                            elevation = 12.dp,
+                            cornerRadius = 20.dp,
+                            gesturesEnabled = isMerged,
+                        )
+                    }
                 }
 
-                StableNavItem(
+                NavBarItem(
                     label = "Search",
                     icon = Icons.Rounded.Search,
                     selected = currentRoute == Destinations.SEARCH,
@@ -119,31 +174,38 @@ fun DynamicBottomBar(
                 )
             }
         }
-
-        if (isPlayerActive) {
-            MiniPlayer(
-                viewModel = playerViewModel,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(horizontal = 16.dp)
-                    .offset(y = -miniPlayerBottom)
-                    .fillMaxWidth()
-                    .height(62.dp)
-                    .clip(StableNavbarShape)
-                    .graphicsLayer {
-                        scaleX = miniPlayerScale
-                        scaleY = miniPlayerScale
-                    },
-                elevation = 12.dp,
-                cornerRadius = 20.dp,
-                gesturesEnabled = true,
-            )
-        }
     }
 }
 
 @Composable
-private fun StableNavItem(
+private fun CenterSlotAction(
+    label: String,
+    icon: ImageVector,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .clip(RoundedCornerShape(16.dp))
+            .clickable(onClick = onClick)
+            .padding(horizontal = 8.dp, vertical = 6.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = label,
+            tint = Color(0xFFE8943A),
+        )
+        Text(
+            text = label,
+            color = Color(0xFFF5EEDC),
+            style = MaterialTheme.typography.bodySmall,
+        )
+    }
+}
+
+@Composable
+private fun NavBarItem(
     label: String,
     icon: ImageVector,
     selected: Boolean,
@@ -160,11 +222,11 @@ private fun StableNavItem(
         Icon(
             imageVector = icon,
             contentDescription = label,
-            tint = if (selected) Color(0xFFE8943A) else StableInactiveColor,
+            tint = if (selected) Color(0xFFE8943A) else NavbarInactive,
         )
         Text(
             text = label,
-            color = if (selected) Color(0xFFF5EEDC) else StableInactiveColor,
+            color = if (selected) Color(0xFFF5EEDC) else NavbarInactive,
             style = MaterialTheme.typography.bodySmall,
         )
     }

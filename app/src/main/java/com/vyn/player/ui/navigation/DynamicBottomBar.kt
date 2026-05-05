@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Explore
@@ -28,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -36,12 +34,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.screens.player.PlayerViewModel
-import com.vyn.player.ui.theme.Surface2
 
-private val FloatingCenterShape = RoundedCornerShape(24.dp)
-private val FloatingCenterColor = Color(0xFF252218)
-private val FloatingBorderColor = Color(0x1AF5EEDC)
-private val FloatingInactiveColor = Color(0x99F5EEDC)
+private val CenterSlotShape = RoundedCornerShape(20.dp)
+private val NavbarContainerColor = Color(0xFF1C1A11)
+private val NavbarContainerBorder = Color(0x1AF5EEDC)
+private val NavbarInactiveColor = Color(0x99F5EEDC)
 
 @Composable
 fun DynamicBottomBar(
@@ -59,7 +56,7 @@ fun DynamicBottomBar(
     if (isPlayerActive && currentSong == null) return
 
     val floatingBottom by animateDpAsState(
-        targetValue = if (isMerged) 16.dp else 90.dp,
+        targetValue = if (isMerged) 0.dp else 90.dp,
         label = "floatingMiniPlayerBottom",
     )
     val centerPillAlpha by animateFloatAsState(
@@ -67,63 +64,20 @@ fun DynamicBottomBar(
         label = "centerPillAlpha",
     )
     val centerPillScale by animateFloatAsState(
-        targetValue = if (isMerged) 0.85f else 1f,
+        targetValue = if (isMerged) 0.8f else 1f,
         label = "centerPillScale",
+    )
+    val mergedMiniPlayerAlpha by animateFloatAsState(
+        targetValue = if (isMerged) 1f else 0f,
+        label = "mergedMiniPlayerAlpha",
+    )
+    val mergedMiniPlayerScale by animateFloatAsState(
+        targetValue = if (isMerged) 1f else 0.9f,
+        label = "mergedMiniPlayerScale",
     )
 
     Box(modifier = modifier.fillMaxSize()) {
-        FloatingNavButton(
-            label = "Home",
-            icon = Icons.Rounded.Home,
-            selected = currentRoute == Destinations.HOME,
-            onClick = onHomeClick,
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = 16.dp, bottom = 16.dp),
-        )
-
-        FloatingNavButton(
-            label = "Search",
-            icon = Icons.Rounded.Search,
-            selected = currentRoute == Destinations.SEARCH,
-            onClick = onSearchClick,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = 16.dp),
-        )
-
-        Surface(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 16.dp),
-            shape = FloatingCenterShape,
-            color = FloatingCenterColor,
-            border = androidx.compose.foundation.BorderStroke(1.dp, FloatingBorderColor),
-            tonalElevation = 0.dp,
-            shadowElevation = 12.dp,
-        ) {
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .alpha(centerPillAlpha)
-                    .scale(centerPillScale),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                CenterAction(
-                    label = "Discover",
-                    icon = Icons.Rounded.Explore,
-                    onClick = onDiscoverClick,
-                )
-                CenterAction(
-                    label = "Library",
-                    icon = Icons.Rounded.LibraryMusic,
-                    onClick = onLibraryClick,
-                )
-            }
-        }
-
-        if (isPlayerActive) {
+        if (isPlayerActive && !isMerged) {
             MiniPlayer(
                 viewModel = playerViewModel,
                 modifier = Modifier
@@ -131,27 +85,104 @@ fun DynamicBottomBar(
                     .padding(horizontal = 16.dp)
                     .padding(bottom = floatingBottom)
                     .fillMaxWidth()
-                    .height(62.dp)
-                    .clip(RoundedCornerShape(20.dp)),
+                    .height(62.dp),
                 elevation = 12.dp,
                 cornerRadius = 20.dp,
                 gesturesEnabled = true,
             )
         }
+
+        Surface(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .fillMaxWidth()
+                .height(62.dp),
+            shape = CenterSlotShape,
+            color = NavbarContainerColor,
+            border = androidx.compose.foundation.BorderStroke(1.dp, NavbarContainerBorder),
+            tonalElevation = 0.dp,
+            shadowElevation = 12.dp,
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 14.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                NavBarItem(
+                    label = "Home",
+                    icon = Icons.Rounded.Home,
+                    selected = currentRoute == Destinations.HOME,
+                    onClick = onHomeClick,
+                )
+
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(62.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(0x1AFFFFFF), CenterSlotShape)
+                            .border(1.dp, Color(0x1FFFFFFF), CenterSlotShape)
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .alpha(centerPillAlpha)
+                            .scale(centerPillScale),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        CenterSlotItem(
+                            label = "Discover",
+                            icon = Icons.Rounded.Explore,
+                            onClick = onDiscoverClick,
+                        )
+                        CenterSlotItem(
+                            label = "Library",
+                            icon = Icons.Rounded.LibraryMusic,
+                            onClick = onLibraryClick,
+                        )
+                    }
+
+                    if (isPlayerActive) {
+                        MiniPlayer(
+                            viewModel = playerViewModel,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(62.dp)
+                                .alpha(mergedMiniPlayerAlpha)
+                                .scale(mergedMiniPlayerScale),
+                            elevation = 12.dp,
+                            cornerRadius = 20.dp,
+                            gesturesEnabled = isMerged,
+                        )
+                    }
+                }
+
+                NavBarItem(
+                    label = "Search",
+                    icon = Icons.Rounded.Search,
+                    selected = currentRoute == Destinations.SEARCH,
+                    onClick = onSearchClick,
+                )
+            }
+        }
     }
 }
 
 @Composable
-private fun CenterAction(
+private fun CenterSlotItem(
     label: String,
     icon: ImageVector,
     onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
-            .clip(RoundedCornerShape(16.dp))
             .clickable(onClick = onClick)
-            .padding(horizontal = 4.dp, vertical = 4.dp),
+            .padding(horizontal = 8.dp, vertical = 6.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -169,34 +200,28 @@ private fun CenterAction(
 }
 
 @Composable
-private fun FloatingNavButton(
+private fun NavBarItem(
     label: String,
     icon: ImageVector,
     selected: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
 ) {
-    Surface(
-        modifier = modifier
-            .clip(CircleShape)
-            .clickable(onClick = onClick),
-        shape = CircleShape,
-        color = Surface2,
-        border = androidx.compose.foundation.BorderStroke(1.dp, FloatingBorderColor),
-        tonalElevation = 0.dp,
-        shadowElevation = 10.dp,
+    Row(
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(horizontal = 8.dp, vertical = 6.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(
-            modifier = Modifier
-                .background(Surface2)
-                .padding(horizontal = 16.dp, vertical = 16.dp),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = label,
-                tint = if (selected) Color(0xFFE8943A) else FloatingInactiveColor,
-            )
-        }
+        Icon(
+            imageVector = icon,
+            contentDescription = label,
+            tint = if (selected) Color(0xFFE8943A) else NavbarInactiveColor,
+        )
+        Text(
+            text = label,
+            color = if (selected) Color(0xFFF5EEDC) else NavbarInactiveColor,
+            style = MaterialTheme.typography.bodySmall,
+        )
     }
 }

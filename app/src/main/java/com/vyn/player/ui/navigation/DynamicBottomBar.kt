@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Explore
@@ -26,11 +27,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.lerp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.screens.player.PlayerViewModel
@@ -55,39 +57,47 @@ fun DynamicBottomBar(
     val currentSong by playerViewModel.currentSong.collectAsStateWithLifecycle()
     if (isPlayerActive && currentSong == null) return
 
+    val progress by animateFloatAsState(
+        targetValue = if (isMerged) 1f else 0f,
+        label = "miniPlayerMergeProgress",
+    )
     val floatingBottom by animateDpAsState(
-        targetValue = if (isMerged) 0.dp else 90.dp,
+        targetValue = lerp(90.dp, 16.dp, progress),
         label = "floatingMiniPlayerBottom",
     )
+    val miniPlayerHeight by animateDpAsState(
+        targetValue = lerp(64.dp, 52.dp, progress),
+        label = "miniPlayerHeight",
+    )
+    val miniPlayerCorner by animateDpAsState(
+        targetValue = lerp(24.dp, 18.dp, progress),
+        label = "miniPlayerCorner",
+    )
+    val miniPlayerWidthFraction by animateFloatAsState(
+        targetValue = 1f + ((0.62f - 1f) * progress),
+        label = "miniPlayerWidthFraction",
+    )
     val centerPillAlpha by animateFloatAsState(
-        targetValue = if (isMerged) 0f else 1f,
+        targetValue = 1f - progress,
         label = "centerPillAlpha",
     )
     val centerPillScale by animateFloatAsState(
-        targetValue = if (isMerged) 0.8f else 1f,
+        targetValue = 1f - (0.15f * progress),
         label = "centerPillScale",
-    )
-    val mergedMiniPlayerAlpha by animateFloatAsState(
-        targetValue = if (isMerged) 1f else 0f,
-        label = "mergedMiniPlayerAlpha",
-    )
-    val mergedMiniPlayerScale by animateFloatAsState(
-        targetValue = if (isMerged) 1f else 0.9f,
-        label = "mergedMiniPlayerScale",
     )
 
     Box(modifier = modifier.fillMaxSize()) {
-        if (isPlayerActive && !isMerged) {
+        if (isPlayerActive) {
             MiniPlayer(
                 viewModel = playerViewModel,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(horizontal = 16.dp)
                     .padding(bottom = floatingBottom)
-                    .fillMaxWidth()
-                    .height(62.dp),
+                    .fillMaxWidth(miniPlayerWidthFraction)
+                    .height(miniPlayerHeight)
+                    .clip(RoundedCornerShape(miniPlayerCorner)),
                 elevation = 12.dp,
-                cornerRadius = 20.dp,
+                cornerRadius = miniPlayerCorner,
                 gesturesEnabled = true,
             )
         }
@@ -130,8 +140,11 @@ fun DynamicBottomBar(
                             .background(Color(0x1AFFFFFF), CenterSlotShape)
                             .border(1.dp, Color(0x1FFFFFFF), CenterSlotShape)
                             .padding(horizontal = 16.dp, vertical = 8.dp)
-                            .alpha(centerPillAlpha)
-                            .scale(centerPillScale),
+                            .graphicsLayer {
+                                alpha = centerPillAlpha
+                                scaleX = centerPillScale
+                                scaleY = centerPillScale
+                            },
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
@@ -147,19 +160,6 @@ fun DynamicBottomBar(
                         )
                     }
 
-                    if (isPlayerActive) {
-                        MiniPlayer(
-                            viewModel = playerViewModel,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(62.dp)
-                                .alpha(mergedMiniPlayerAlpha)
-                                .scale(mergedMiniPlayerScale),
-                            elevation = 12.dp,
-                            cornerRadius = 20.dp,
-                            gesturesEnabled = isMerged,
-                        )
-                    }
                 }
 
                 NavBarItem(
@@ -209,6 +209,7 @@ private fun NavBarItem(
     Row(
         modifier = Modifier
             .clickable(onClick = onClick)
+            .widthIn(min = 62.dp)
             .padding(horizontal = 8.dp, vertical = 6.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically,

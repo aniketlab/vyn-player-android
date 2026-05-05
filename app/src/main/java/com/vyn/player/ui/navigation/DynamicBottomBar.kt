@@ -134,6 +134,13 @@ fun DynamicBottomBar(
                         .height(62.dp),
                     contentAlignment = Alignment.Center,
                 ) {
+                    Text(
+                        text = "DEBUG_NAVBAR_V2",
+                        color = Color.Red,
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.align(Alignment.TopCenter),
+                    )
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()

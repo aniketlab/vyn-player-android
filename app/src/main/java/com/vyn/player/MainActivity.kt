@@ -12,9 +12,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -22,9 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.zIndex
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -40,7 +38,6 @@ import com.vyn.player.ui.navigation.DynamicBottomBar
 import com.vyn.player.ui.navigation.PillNavItem
 import com.vyn.player.ui.navigation.VynNavGraph
 import com.vyn.player.ui.onboarding.OnboardingViewModel
-import com.vyn.player.ui.player.PlayerHost
 import com.vyn.player.ui.screens.home.HomeViewModel
 import com.vyn.player.ui.screens.player.PlayerViewModel
 import com.vyn.player.ui.theme.VynPlayerTheme
@@ -180,64 +177,49 @@ class MainActivity : ComponentActivity() {
                         }
 
                         if (showBottomNavigation) {
-                              DynamicBottomBar(
-                                  modifier = Modifier
-                                      .fillMaxSize()
-                                      .zIndex(50f),
-                                  currentRoute = currentBottomRoute,
-                                  playerViewModel = playerViewModel,
-                                  isPlayerActive = isPlayerActive,
-                                  isMerged = isMerged,
-                                  onHomeClick = {
-                                     navController.navigate(Destinations.HOME) {
-                                         popUpTo(navController.graph.findStartDestination().id) {
-                                             saveState = true
-                                         }
-                                         launchSingleTop = true
-                                         restoreState = true
-                                     }
-                                 },
-                                 onDiscoverClick = {
-                                     navController.navigate(Destinations.SEARCH) {
-                                         popUpTo(navController.graph.findStartDestination().id) {
-                                             saveState = true
-                                         }
-                                         launchSingleTop = true
-                                         restoreState = true
-                                     }
-                                 },
-                                 onLibraryClick = {
-                                     navController.navigate(Destinations.LIBRARY) {
-                                         popUpTo(navController.graph.findStartDestination().id) {
-                                             saveState = true
-                                         }
-                                         launchSingleTop = true
-                                         restoreState = true
-                                     }
-                                 },
-                                 onSearchClick = {
-                                     navController.navigate(Destinations.SEARCH) {
-                                         popUpTo(navController.graph.findStartDestination().id) {
-                                             saveState = true
-                                         }
-                                         launchSingleTop = true
-                                         restoreState = true
-                                     }
-                                 },
-                             )
-                         }
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .zIndex(100f),
-                        ) {
-                            if (showBottomNavigation) {
-                                 PlayerHost(
-                                     playerViewModel = playerViewModel,
-                                     modifier = Modifier.align(Alignment.BottomCenter),
-                                 )
-                            }
+                            DynamicBottomBar(
+                                modifier = Modifier.fillMaxSize(),
+                                currentRoute = currentBottomRoute,
+                                playerViewModel = playerViewModel,
+                                isPlayerActive = isPlayerActive,
+                                isMerged = isMerged,
+                                onHomeClick = {
+                                    navController.navigate(Destinations.HOME) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                },
+                                onDiscoverClick = {
+                                    navController.navigate(Destinations.SEARCH) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                },
+                                onLibraryClick = {
+                                    navController.navigate(Destinations.LIBRARY) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                },
+                                onSearchClick = {
+                                    navController.navigate(Destinations.SEARCH) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                },
+                            )
                         }
                     }
                 }

@@ -28,9 +28,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.zIndex
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -86,7 +87,11 @@ fun DynamicBottomBar(
         label = "centerPillScale",
     )
 
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .zIndex(100f),
+    ) {
         if (isPlayerActive) {
             MiniPlayer(
                 viewModel = playerViewModel,
@@ -134,13 +139,6 @@ fun DynamicBottomBar(
                         .height(62.dp),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Text(
-                        text = "DEBUG_NAVBAR_V2",
-                        color = Color.Red,
-                        style = MaterialTheme.typography.labelSmall,
-                        modifier = Modifier.align(Alignment.TopCenter),
-                    )
-
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()

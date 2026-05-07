@@ -8,10 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -35,7 +31,6 @@ import com.vyn.player.data.local.MediaStoreDataSource
 import com.vyn.player.data.repository.SongRepository
 import com.vyn.player.ui.navigation.Destinations
 import com.vyn.player.ui.navigation.DynamicBottomBar
-import com.vyn.player.ui.navigation.PillNavItem
 import com.vyn.player.ui.navigation.VynNavGraph
 import com.vyn.player.ui.onboarding.OnboardingViewModel
 import com.vyn.player.ui.screens.home.HomeViewModel
@@ -111,26 +106,6 @@ class MainActivity : ComponentActivity() {
 
                     Log.d("ONBOARDING_FLOW", "Start destination=$startDestination")
 
-                    val bottomNavItems = remember {
-                        listOf(
-                            PillNavItem(
-                                route = Destinations.HOME,
-                                label = "Home",
-                                icon = Icons.Filled.Home,
-                            ),
-                            PillNavItem(
-                                route = Destinations.SEARCH,
-                                label = "Search",
-                                icon = Icons.Filled.Search,
-                            ),
-                            PillNavItem(
-                                route = Destinations.LIBRARY,
-                                label = "Library",
-                                icon = Icons.AutoMirrored.Filled.List,
-                            ),
-                        )
-                    }
-
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
                     val showBottomNavigation = currentDestination?.route != Destinations.ONBOARDING
@@ -140,11 +115,18 @@ class MainActivity : ComponentActivity() {
                     val isMerged by remember {
                         derivedStateOf { isPlayerActive && stableMergeRequest }
                     }
-                    val currentBottomRoute = bottomNavItems.firstOrNull { item ->
+                    val currentBottomRoute = when {
                         currentDestination
                             ?.hierarchy
-                            ?.any { destination -> destination.route == item.route } == true
-                    }?.route
+                            ?.any { destination -> destination.route == Destinations.HOME } == true -> Destinations.HOME
+                        currentDestination
+                            ?.hierarchy
+                            ?.any { destination -> destination.route == Destinations.SEARCH } == true -> Destinations.SEARCH
+                        currentDestination
+                            ?.hierarchy
+                            ?.any { destination -> destination.route == Destinations.LIBRARY } == true -> Destinations.LIBRARY
+                        else -> null
+                    }
 
                     LaunchedEffect(rawMergeRequest) {
                         kotlinx.coroutines.delay(120)

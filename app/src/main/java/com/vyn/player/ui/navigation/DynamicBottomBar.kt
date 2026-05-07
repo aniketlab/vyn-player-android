@@ -36,7 +36,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.zIndex
@@ -44,13 +43,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.screens.player.PlayerViewModel
 
-private val CapsuleShape = RoundedCornerShape(32.dp)
+private val CapsuleShape = RoundedCornerShape(30.dp)
 private val CenterPillShape = RoundedCornerShape(36.dp)
 private val MiniPlayerShape = RoundedCornerShape(34.dp)
 private val FloatingSurfaceColor = Color(0xFF1C1A11)
-private val FloatingSurfaceBorder = Color(0x1AF5EEDC)
-private val FloatingSurfaceOverlay = Color(0x1AFFFFFF)
-private val FloatingSurfaceOverlayBorder = Color(0x1FFFFFFF)
+private val FloatingSurfaceBorder = Color(0x12F5EEDC)
+private val FloatingSurfaceOverlay = Color(0x14FFFFFF)
+private val FloatingSurfaceOverlayBorder = Color(0x14FFFFFF)
 private val ActiveColor = Color(0xFFF5EEDC)
 private val ActiveIconColor = Color(0xFFE8943A)
 private val InactiveColor = Color(0x99F5EEDC)
@@ -75,19 +74,19 @@ fun DynamicBottomBar(
         label = "floatingMiniPlayerProgress",
     )
     val miniPlayerWidth by animateDpAsState(
-        targetValue = lerp(320.dp, 220.dp, progress),
+        targetValue = lerp(274.dp, 220.dp, progress),
         label = "floatingMiniPlayerWidth",
     )
     val miniPlayerHeight by animateDpAsState(
-        targetValue = lerp(68.dp, 58.dp, progress),
+        targetValue = lerp(56.dp, 54.dp, progress),
         label = "floatingMiniPlayerHeight",
     )
     val miniPlayerOffsetY by animateDpAsState(
-        targetValue = lerp((-82).dp, (-70).dp, progress),
+        targetValue = lerp((-78).dp, (-70).dp, progress),
         label = "floatingMiniPlayerOffsetY",
     )
     val miniPlayerCorner by animateDpAsState(
-        targetValue = lerp(34.dp, 28.dp, progress),
+        targetValue = lerp(30.dp, 26.dp, progress),
         label = "floatingMiniPlayerCorner",
     )
     val centerPillScale by animateFloatAsState(
@@ -103,14 +102,13 @@ fun DynamicBottomBar(
         FloatingCapsule(
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(start = 20.dp, bottom = 18.dp)
-                .width(110.dp)
-                .height(64.dp),
+                .padding(start = 24.dp, bottom = 16.dp)
+                .width(88.dp)
+                .height(54.dp),
             shape = CapsuleShape,
         ) {
             FloatingSingleNavItem(
                 label = "Home",
-                debugLabel = "HOME_FLOAT_ACTIVE",
                 icon = Icons.Rounded.Home,
                 selected = currentRoute == Destinations.HOME,
                 onClick = onHomeClick,
@@ -120,9 +118,9 @@ fun DynamicBottomBar(
         FloatingCapsule(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 18.dp)
-                .width(220.dp)
-                .height(72.dp)
+                .padding(bottom = 16.dp)
+                .width(178.dp)
+                .height(58.dp)
                 .graphicsLayer {
                     scaleX = centerPillScale
                     scaleY = centerPillScale
@@ -132,21 +130,13 @@ fun DynamicBottomBar(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                    .padding(horizontal = 8.dp, vertical = 5.dp),
                 verticalArrangement = Arrangement.Center,
             ) {
-                Text(
-                    text = "CENTER_FLOAT_ACTIVE",
-                    color = Color.Red,
-                    style = MaterialTheme.typography.labelSmall,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 4.dp),
+                        .padding(horizontal = 2.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -167,14 +157,13 @@ fun DynamicBottomBar(
         FloatingCapsule(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(end = 20.dp, bottom = 18.dp)
-                .width(110.dp)
-                .height(64.dp),
+                .padding(end = 24.dp, bottom = 16.dp)
+                .width(88.dp)
+                .height(54.dp),
             shape = CapsuleShape,
         ) {
             FloatingSingleNavItem(
                 label = "Search",
-                debugLabel = "SEARCH_FLOAT_ACTIVE",
                 icon = Icons.Rounded.Search,
                 selected = currentRoute == Destinations.SEARCH,
                 onClick = onSearchClick,
@@ -192,14 +181,14 @@ fun DynamicBottomBar(
                 shape = MiniPlayerShape,
                 color = Color.Transparent,
                 tonalElevation = 0.dp,
-                shadowElevation = 16.dp,
+                shadowElevation = 7.dp,
             ) {
                 MiniPlayer(
                     viewModel = playerViewModel,
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(miniPlayerCorner)),
-                    elevation = 12.dp,
+                    elevation = 6.dp,
                     cornerRadius = miniPlayerCorner,
                     gesturesEnabled = true,
                 )
@@ -220,14 +209,14 @@ private fun FloatingCapsule(
         color = FloatingSurfaceColor,
         border = BorderStroke(1.dp, FloatingSurfaceBorder),
         tonalElevation = 0.dp,
-        shadowElevation = 14.dp,
+        shadowElevation = 5.dp,
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(FloatingSurfaceOverlay)
                 .border(1.dp, FloatingSurfaceOverlayBorder, shape)
-                .padding(horizontal = 10.dp, vertical = 8.dp),
+                .padding(horizontal = 6.dp, vertical = 4.dp),
             contentAlignment = Alignment.Center,
         ) {
             content()
@@ -238,42 +227,31 @@ private fun FloatingCapsule(
 @Composable
 private fun FloatingSingleNavItem(
     label: String,
-    debugLabel: String,
     icon: ImageVector,
     selected: Boolean,
     onClick: () -> Unit,
 ) {
-    Column(
+    Row(
         modifier = Modifier
             .fillMaxSize()
-            .clickable(onClick = onClick),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .clickable(onClick = onClick)
+            .padding(horizontal = 2.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = debugLabel,
-            color = Color.Red,
-            style = MaterialTheme.typography.labelSmall,
-            textAlign = TextAlign.Center,
+        Icon(
+            imageVector = icon,
+            contentDescription = label,
+            tint = if (selected) ActiveIconColor else InactiveColor,
+            modifier = Modifier.size(16.dp),
         )
-        Row(
-            modifier = Modifier.padding(top = 2.dp),
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = label,
-                tint = if (selected) ActiveIconColor else InactiveColor,
-                modifier = Modifier.size(20.dp),
-            )
-            Text(
-                text = label,
-                color = if (selected) ActiveColor else InactiveColor,
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Medium,
-            )
-        }
+        Text(
+            text = label,
+            color = if (selected) ActiveColor else InactiveColor,
+            style = MaterialTheme.typography.bodySmall,
+            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Medium,
+            modifier = Modifier.padding(start = 4.dp),
+        )
     }
 }
 
@@ -286,15 +264,15 @@ private fun CenterFloatingNavItem(
     Row(
         modifier = Modifier
             .clickable(onClick = onClick)
-            .padding(horizontal = 8.dp, vertical = 6.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
+            .padding(horizontal = 5.dp, vertical = 3.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             imageVector = icon,
             contentDescription = label,
             tint = ActiveIconColor,
-            modifier = Modifier.size(20.dp),
+            modifier = Modifier.size(16.dp),
         )
         Text(
             text = label,

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Explore
@@ -35,7 +36,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.zIndex
@@ -43,13 +43,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vyn.player.ui.components.MiniPlayer
 import com.vyn.player.ui.screens.player.PlayerViewModel
 
-private val CapsuleShape = RoundedCornerShape(30.dp)
 private val CenterPillShape = RoundedCornerShape(36.dp)
 private val MiniPlayerShape = RoundedCornerShape(34.dp)
 private val FloatingSurfaceColor = Color(0xFF1C1A11)
-private val FloatingSurfaceBorder = Color(0x12F5EEDC)
-private val FloatingSurfaceOverlay = Color(0x14FFFFFF)
-private val FloatingSurfaceOverlayBorder = Color(0x14FFFFFF)
+private val FloatingSurfaceBorder = Color(0x10F5EEDC)
+private val FloatingSurfaceOverlay = Color(0x10FFFFFF)
+private val FloatingSurfaceOverlayBorder = Color(0x0EFFFFFF)
 private val ActiveColor = Color(0xFFF5EEDC)
 private val ActiveIconColor = Color(0xFFE8943A)
 private val InactiveColor = Color(0x99F5EEDC)
@@ -103,12 +102,10 @@ fun DynamicBottomBar(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(start = 24.dp, bottom = 16.dp)
-                .width(88.dp)
-                .height(54.dp),
-            shape = CapsuleShape,
+                .size(62.dp),
+            shape = CircleShape,
         ) {
             FloatingSingleNavItem(
-                label = "Home",
                 icon = Icons.Rounded.Home,
                 selected = currentRoute == Destinations.HOME,
                 onClick = onHomeClick,
@@ -119,8 +116,8 @@ fun DynamicBottomBar(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 16.dp)
-                .width(178.dp)
-                .height(58.dp)
+                .width(170.dp)
+                .height(56.dp)
                 .graphicsLayer {
                     scaleX = centerPillScale
                     scaleY = centerPillScale
@@ -158,12 +155,10 @@ fun DynamicBottomBar(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(end = 24.dp, bottom = 16.dp)
-                .width(88.dp)
-                .height(54.dp),
-            shape = CapsuleShape,
+                .size(62.dp),
+            shape = CircleShape,
         ) {
             FloatingSingleNavItem(
-                label = "Search",
                 icon = Icons.Rounded.Search,
                 selected = currentRoute == Destinations.SEARCH,
                 onClick = onSearchClick,
@@ -200,7 +195,7 @@ fun DynamicBottomBar(
 @Composable
 private fun FloatingCapsule(
     modifier: Modifier,
-    shape: RoundedCornerShape,
+    shape: androidx.compose.ui.graphics.Shape,
     content: @Composable () -> Unit,
 ) {
     Surface(
@@ -209,7 +204,7 @@ private fun FloatingCapsule(
         color = FloatingSurfaceColor,
         border = BorderStroke(1.dp, FloatingSurfaceBorder),
         tonalElevation = 0.dp,
-        shadowElevation = 5.dp,
+        shadowElevation = 4.dp,
     ) {
         Box(
             modifier = Modifier
@@ -226,31 +221,22 @@ private fun FloatingCapsule(
 
 @Composable
 private fun FloatingSingleNavItem(
-    label: String,
     icon: ImageVector,
     selected: Boolean,
     onClick: () -> Unit,
 ) {
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .clickable(onClick = onClick)
-            .padding(horizontal = 2.dp),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+            .padding(6.dp),
+        contentAlignment = Alignment.Center,
     ) {
         Icon(
             imageVector = icon,
-            contentDescription = label,
+            contentDescription = null,
             tint = if (selected) ActiveIconColor else InactiveColor,
-            modifier = Modifier.size(16.dp),
-        )
-        Text(
-            text = label,
-            color = if (selected) ActiveColor else InactiveColor,
-            style = MaterialTheme.typography.bodySmall,
-            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Medium,
-            modifier = Modifier.padding(start = 4.dp),
+            modifier = Modifier.size(22.dp),
         )
     }
 }
@@ -278,7 +264,6 @@ private fun CenterFloatingNavItem(
             text = label,
             color = ActiveColor,
             style = MaterialTheme.typography.bodySmall,
-            fontWeight = FontWeight.Medium,
         )
     }
 }
